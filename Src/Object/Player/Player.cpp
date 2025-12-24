@@ -27,6 +27,7 @@ Player::Player()
 	stateChangesMap_.emplace(STATE::PLAY, std::bind(&Player::ChangeStatePlay, this));
 	stateChangesMap_.emplace(STATE::ACTION, std::bind(&Player::ChangeStateAction, this));
 	stateChangesMap_.emplace(STATE::STAN, std::bind(&Player::ChangeStateStan, this));
+	stateChangesMap_.emplace(STATE::THROW, std::bind(&Player::ChangeStateThrow, this));
 }
 
 Player::~Player()
@@ -111,6 +112,12 @@ void Player::Stan()
 	stanTime_ = STAN_TIME;
 }
 
+void Player::Throw()
+{
+	// ó‘Ô•ÏX
+	ChangeState(STATE::THROW);
+}
+
 const Player::STATE Player::GetState() const
 {
 	return state_;
@@ -172,6 +179,13 @@ void Player::ChangeStateStan()
 	update_ = std::bind(&Player::UpdateStan, this);
 }
 
+void Player::ChangeStateThrow()
+{
+	update_ = std::bind(&Player::UpdateThrow, this);
+
+	keyBlade_->Throw();
+}
+
 void Player::UpdatePlay()
 {
 	// ˆÚ“®‘€ìˆ—
@@ -203,6 +217,14 @@ void Player::UpdateStan()
 	stanTime_ -= scnMng_.GetDeltaTime();
 
 	if (0.0f > stanTime_)
+	{
+		ChangeState(STATE::PLAY);
+	}
+}
+
+void Player::UpdateThrow()
+{
+	if (keyBlade_->GetState() == KeyBlade::STATE::FOLLOW)
 	{
 		ChangeState(STATE::PLAY);
 	}
@@ -274,6 +296,11 @@ void Player::ProcessAction()
 
 		// UŒ‚ó‘Ô‚Ìİ’è
 		actionState_ = ACTION_STATE::LEFT;
+	}
+	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_THROW))
+	{
+		// UŒ‚ó‘Ô‚Ìİ’è
+		//actionState_ = ACTION_STATE::THROW;
 	}
 }
 
