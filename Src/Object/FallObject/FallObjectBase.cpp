@@ -13,7 +13,8 @@ FallObjectBase::FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos):
 	playerActState_(Player::ACTION_STATE::NONE),
 	scoreMng_(ScoreManager::GetInstance()),
 	jumpCnt_(0.0f),
-	jumpPow_(0.0f)
+	jumpPow_(0.0f),
+	moveDeg_(0.0f)
 {
 }
 
@@ -37,6 +38,7 @@ void FallObjectBase::Init()
 void FallObjectBase::Update()
 {
 	updateState_();
+	transform_.Update();
 }
 
 void FallObjectBase::Draw()
@@ -72,6 +74,9 @@ void FallObjectBase::UpdateMove()
 {
 	VECTOR vec = VNorm(VSub(goalPos_, startPos_));
 	transform_.pos = VAdd(transform_.pos, VScale(vec, MOVE_SPD));
+	moveDeg_ += 30.0f;
+	transform_.quaRot=Quaternion::AngleAxis(UtilityCommon::Deg2RadF(moveDeg_), Utility3D::AXIS_X);
+
 	if (transform_.pos.z < -RADIUS)
 	{
 		//‰æ–ÊŠO‚ÌÀ•W‚É‹‚½‚ç

@@ -11,7 +11,7 @@ class FallObjectBase:public ActorBase
 public:
 
 	//球の半径
-	static constexpr float RADIUS = 45.0f;
+	static constexpr float RADIUS = 25.0f;
 
 	enum class FALL_OBJ_TYPE
 	{	
@@ -121,6 +121,9 @@ protected:
 	const VECTOR startPos_;
 	//終点座標
 	const VECTOR goalPos_;
+
+	//Move時の回転角度
+	float moveDeg_;
 
 	//スコアマネージャ
 	ScoreManager& scoreMng_;

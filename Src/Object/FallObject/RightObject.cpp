@@ -1,5 +1,6 @@
 #include "../Utility/UtilityCommon.h"
 #include "../Manager/Common/ScoreManager.h"
+#include "../Manager/Common/ResourceManager.h"
 #include "RightObject.h"
 
 RightObject::RightObject(const VECTOR _startPos, const VECTOR _goalPos):
@@ -15,11 +16,18 @@ void RightObject::Init()
 {
 	FallObjectBase::Init();
 	type_ = FALL_OBJ_TYPE::RIGHT_OBJ;
+
+	transform_.SetModel(resMng_.GetHandle("pumpkin"));
+	transform_.quaRotLocal =
+		Quaternion::Euler({ 0.0f, 0.0f, UtilityCommon::Deg2RadF(90.0f) });
+
+	transform_.Update();
 }
 
 void RightObject::Draw()
 {
-	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, true);
+	MV1DrawModel(transform_.modelId);
+	//DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, true);
 }
 
 void RightObject::AddScore(void)

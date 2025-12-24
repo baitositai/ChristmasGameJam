@@ -53,6 +53,19 @@
       "path": "Data/Model/Weapon/KeyBlade1.mv1"
     },
     {
+      "key": "pumpkin",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/FallObject/food_Pumpkin.mv1"
+    },
+    {
+      "key": "watermelon",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/FallObject/food_Watermelon.mv1"
+    },
+
+    {
       "key": "bgmTitle",
       "path": "Data/Sound/BGM/BgmTitle.mp3",
       "sceneId": 1,
