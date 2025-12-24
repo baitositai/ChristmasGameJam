@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Src\Object\Common\Capsule.cpp" />
     <ClCompile Include="Src\Object\Player\Player.cpp" />
+    <ClCompile Include="Src\Object\Pooh\Pooh.cpp" />
     <ClCompile Include="Src\Object\FallObject\LeftObject.cpp" />
     <ClCompile Include="Src\Object\FallObject\RightObject.cpp" />
     <ClCompile Include="Src\Manager\FallManager\FallObjectManager.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Src\Object\FallObject\FallObjectBase.h" />
     <ClInclude Include="Src\Object\Common\Capsule.h" />
     <ClInclude Include="Src\Object\Player\Player.h" />
+    <ClInclude Include="Src\Object\Pooh\Pooh.h" />
     <ClInclude Include="Src\Manager\Common\EffectType.h" />
     <ClInclude Include="Src\Manager\Common\EffectManager.h" />
     <ClInclude Include="Src\Core\Common\GlitchScreen.h" />

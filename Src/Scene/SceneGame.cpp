@@ -10,6 +10,7 @@
 #include "../Manager/FallManager/FallObjectManager.h"
 #include "../Utility/UtilityCommon.h"
 #include "../Object/Player/Player.h"
+#include"../Object/Pooh/Pooh.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -36,6 +37,11 @@ void SceneGame::Init()
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
 	player_->Init();
+	pooh_ = std::make_unique<Pooh>();
+	pooh_->Init();
+
+	// BGMの再生
+	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
 
 void SceneGame::NormalUpdate()
@@ -53,6 +59,8 @@ void SceneGame::NormalUpdate()
 	// プレイヤー
 	player_->Update();
 
+	pooh_->Update();
+
 #ifdef _DEBUG	
 
 	DebugUpdate();
@@ -69,6 +77,8 @@ void SceneGame::NormalDraw()
 #endif
 	player_->Draw();
 	FallObjectManager::GetInstance().Draw();
+
+	pooh_->Draw();
 }
 
 void SceneGame::ChangeNormal()
@@ -117,4 +127,6 @@ void SceneGame::DebugDraw()
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"プレイヤー位置：%2f,%2f,%2f", pPos.x, pPos.y, pPos.z);
 	posY += OFFSET_Y;
+
+	pooh_->DrawDebug();
 }
