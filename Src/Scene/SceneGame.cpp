@@ -13,9 +13,14 @@
 #include "../Object/Player/Player.h"
 #include "../Object/FallObject/FallObjectBase.h"
 #include "../Object/Pooh/Pooh.h"
+#include "../Object/Weapons/KeyBlade.h"
 #include "../Object/Common/Capsule.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
+
+namespace {
+	const int TIMER_MAX = 3;
+}
 
 SceneGame::SceneGame()
 {
@@ -48,6 +53,12 @@ void SceneGame::Init()
 	pooh_ = std::make_unique<Pooh>();
 	pooh_->Init();
 
+	isFinishStartDirec_ = false;
+	startTimer_ = TIMER_MAX;
+	counter_ = 0;
+
+	isStartEndDirec_ = false;
+
 	// BGMの再生
 	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
@@ -60,6 +71,17 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	//スタート演出
+	if (!isFinishStartDirec_) {
+		UpdateStartDirec();
+		return;
+	}
+
+	//終了演出
+	if (isStartEndDirec_) {
+		return;
+	}
 
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
@@ -87,6 +109,7 @@ void SceneGame::NormalUpdate()
 #endif 
 }
 
+
 void SceneGame::NormalDraw()
 {	
 #ifdef _DEBUG
@@ -104,6 +127,10 @@ void SceneGame::NormalDraw()
 	DrawFormatString(1000, 10, BLACK, L"LIFE　%d", scoreMng.GetLife());
 
 	pooh_->Draw();
+
+	if (!isFinishStartDirec_) {
+		DrawStartDirec();
+	}
 }
 
 void SceneGame::ChangeNormal()
@@ -120,9 +147,12 @@ void SceneGame::Collision()
 {
 	// 判定用情報
 	FallObjectManager& objMng = FallObjectManager::GetInstance();
+	constexpr float OFFSET_X = 30.0f;
+	const VECTOR poohPos = pooh_->GetTransform().pos;
 	const VECTOR playerCapTopPos = player_->GetCapsule().GetPosTop();
 	const VECTOR playerCapEndPos = player_->GetCapsule().GetPosDown();
 	const float playerCapRadius = player_->GetCapsule().GetRadius();
+	isThrowUi_ = false;
 
 	// オブジェクトリストを回す
 	for (auto& obj : objMng.GetFallObjectLists())
@@ -160,6 +190,43 @@ void SceneGame::Collision()
 			ScoreManager::GetInstance().Miss();
 			continue;
 		}
+
+		// プーのいる範囲にオブジェクトがくる場合
+		if (objPos.x + OFFSET_X > poohPos.x && objPos.x - OFFSET_X < poohPos.x)
+		{			
+			isThrowUi_ = true;
+			if (player_->GetAtctionState() == Player::ACTION_STATE::THROW)
+			{
+				player_->GetWeapon().SetTargetAttackObject(&obj->GetTransform());
+
+				player_->Throw();
+			}
+		}
+	}
+}
+
+void SceneGame::UpdateStartDirec()
+{
+	counter_++;
+
+	if (counter_ > Application::FPS_RATE) {
+		startTimer_--;
+		counter_ = 0;
+	}
+
+	//終わったら
+	if (startTimer_ < 0) {
+		isFinishStartDirec_ = true;
+	}
+}
+
+void SceneGame::DrawStartDirec()
+{
+	if (startTimer_ > 0) {
+		DrawFormatString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, UtilityCommon::GREEN, L"%d", startTimer_);
+	}
+	else {
+		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"START!!", UtilityCommon::GREEN);
 	}
 }
 
@@ -208,6 +275,9 @@ void SceneGame::DebugDraw()
 	// プレイヤー位置
 	VECTOR pPos = player_->GetTransform().pos;
 
+	// キーブレード位置
+	VECTOR kPos = player_->GetWeapon().GetTransform().pos;
+
 	// 描画
 	DrawFormatString(0, posY, UtilityCommon::RED, L"カメラ位置：%2f,%2f,%2f", cPos.x, cPos.y, cPos.z);
 	posY += OFFSET_Y;
@@ -217,6 +287,13 @@ void SceneGame::DebugDraw()
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"プレイヤー位置：%2f,%2f,%2f", pPos.x, pPos.y, pPos.z);
 	posY += OFFSET_Y;
+	DrawFormatString(0, posY, UtilityCommon::RED, L"キーブレード位置：%2f,%2f,%2f", kPos.x, kPos.y, kPos.z);
+	posY += OFFSET_Y;
+	if(isThrowUi_)
+	{
+		DrawFormatString(0, posY, UtilityCommon::RED, L"投げ攻撃");
+		posY += OFFSET_Y;
+	}
 
 	pooh_->DrawDebug();
 }

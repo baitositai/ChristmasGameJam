@@ -30,6 +30,9 @@ public:
 
 private:
 
+	// 投げUI表示判定
+	bool isThrowUi_;
+
 	//ポーズ画面
 	std::shared_ptr<ScenePause> ScenePause_;
 
@@ -38,6 +41,14 @@ private:
 
 	//プーさん枠
 	std::unique_ptr<Pooh> pooh_;
+
+	//スタートの演出が終了したか
+	bool isFinishStartDirec_;
+	int startTimer_;
+	int counter_;
+
+	//ゲーム終了の演出を開始したか
+	bool isStartEndDirec_;
 
 	// 更新関数
 	void NormalUpdate() override;
@@ -50,6 +61,10 @@ private:
 
 	// 衝突判定
 	void Collision();
+
+	//スタート演出
+	void UpdateStartDirec();
+	void DrawStartDirec();
 
 	//デバッグ処理
 	void DebugUpdate();
