@@ -5,6 +5,7 @@
 #include "../ActorBase.h"
 
 class Capsule;
+class KeyBlade;
 
 class Player : public ActorBase
 {
@@ -87,10 +88,13 @@ public:
 	/// <returns>カプセル情報</returns>
 	const Capsule& GetCapsule() const;
 
-private:
+	/// <summary>
+	/// 武器情報を返す
+	/// </summary>
+	/// <returns>武器情報</returns>
+	const KeyBlade& GetWeapon() const;
 
-	// ローカル回転のデフォルト値(度)
-	static constexpr float DEFAULT_LOCAL_QUAROT_Y_DEG = 180.0f;
+private:
 
 	// 回転完了までの時間
 	static constexpr float TIME_ROT = 1.0f;
@@ -119,8 +123,14 @@ private:
 	static constexpr VECTOR PL_CAP_UP_LOCAL_POS = { 0.0f, 110.0f, 0.0f };
 	static constexpr VECTOR PL_CAP_DOWN_LOCAL_POS = { 0.0f, 30.0f, 0.0f };
 
+	// 初期スケール
+	static constexpr VECTOR INIT_SCALE = { 0.7f, 0.7f, 0.7f };
+
 	// スタン時間
 	static constexpr float STAN_TIME = 1.5f;
+
+	//手のフレーム番号
+	static constexpr int HAND_FRAME_NO = 36;
 
 	// 攻撃時間
 	float attackTime_;
@@ -154,8 +164,11 @@ private:
 	// 攻撃状態
 	ACTION_STATE actionState_;
 
-	//カプセルの衝突判定
+	// カプセルの衝突判定
 	std::unique_ptr<Capsule> capsule_;
+
+	// 武器情報
+	std::unique_ptr<KeyBlade> keyBlade_;
 
 	// 状態遷移管理マップ
 	std::unordered_map<STATE, std::function<void()>> stateChangesMap_;

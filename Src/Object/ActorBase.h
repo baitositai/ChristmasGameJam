@@ -43,6 +43,9 @@ public:
 
 protected:
 
+	// ローカル回転のデフォルト値(度)
+	static constexpr float DEFAULT_LOCAL_QUAROT_Y_DEG = 180.0f;
+
 	// 管理クラスの参照
 	SceneManager& scnMng_;
 	ResourceManager& resMng_;

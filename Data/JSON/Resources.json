@@ -47,6 +47,12 @@
       "path": "Data/Model/Player/Player.mv1"
     },
     {
+      "key": "keyBlade",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Weapon/KeyBlade1.mv1"
+    },
+    {
       "key": "bgmTitle",
       "path": "Data/Sound/BGM/BgmTitle.mp3",
       "sceneId": 1,

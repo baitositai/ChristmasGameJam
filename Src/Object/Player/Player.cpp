@@ -6,10 +6,23 @@
 #include "../../Utility/UtilityCommon.h"
 #include "../../Scene/SceneGame.h"
 #include "../Common/Capsule.h"
+#include "../Weapons/KeyBlade.h"
 #include "Player.h"
 
 Player::Player()
 {
+	state_ = STATE::NONE;
+	actionState_ = ACTION_STATE::NONE;
+	attackPos_ = Utility3D::VECTOR_ZERO;
+	moveDir_ = Utility3D::VECTOR_ZERO;
+	movePow_ = Utility3D::VECTOR_ZERO;
+	movedPos_ = Utility3D::VECTOR_ZERO;
+	playerRotY_ = Quaternion();
+	stanTime_ = 0.0f;
+	stepRotTime_ = 0.0f;
+	moveSpeed_ = 0.0f;
+	attackTime_ = 0.0f;
+
 	stateChangesMap_.emplace(STATE::NONE, std::bind(&Player::ChangeStateNone, this));
 	stateChangesMap_.emplace(STATE::PLAY, std::bind(&Player::ChangeStatePlay, this));
 	stateChangesMap_.emplace(STATE::ACTION, std::bind(&Player::ChangeStateAction, this));
@@ -22,10 +35,13 @@ Player::~Player()
 
 void Player::Init()
 {
+	// モデル設定
+	transform_.SetModel(resMng_.GetHandle("player"));
 
-
+	// トランスフォーム初期化
 	InitTransform();
 
+	// アニメーション初期化
 	InitAnimation();
 
 	// カプセルコライダ
@@ -36,6 +52,11 @@ void Player::Init()
 
 	// 初期状態
 	ChangeState(STATE::PLAY);
+
+	// 武器
+	keyBlade_ = std::make_unique<KeyBlade>();
+	keyBlade_->SetTargetAndFrameNo(&transform_, HAND_FRAME_NO);
+	keyBlade_->Init();
 }
 
 void Player::Update()
@@ -54,12 +75,18 @@ void Player::Update()
 
 	// トランスフォーム更新
 	transform_.Update();
+
+	// 武器の更新
+	keyBlade_->Update();
 }
 
 void Player::Draw()
 {
 	// モデルの描画
-	//MV1DrawModel(transform_.modelId);
+	MV1DrawModel(transform_.modelId);
+
+	// 武器の描画
+	keyBlade_->Draw();
 
 	// カプセルの描画
 	capsule_->Draw();
@@ -102,6 +129,11 @@ const VECTOR& Player::GetAttackPos() const
 const Capsule& Player::GetCapsule() const
 {
 	return *capsule_;
+}
+
+const KeyBlade& Player::GetWeapon() const
+{
+	return *keyBlade_;
 }
 
 void Player::ChangeState(const STATE state)
@@ -178,7 +210,7 @@ void Player::UpdateStan()
 
 void Player::InitTransform()
 {
-	transform_.scl = Utility3D::VECTOR_ONE;
+	transform_.scl = INIT_SCALE;
 	transform_.pos = Utility3D::VECTOR_ZERO;
 	transform_.rot = Utility3D::VECTOR_ZERO;
 	transform_.quaRot = Quaternion();
