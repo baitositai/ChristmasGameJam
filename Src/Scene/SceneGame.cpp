@@ -8,6 +8,7 @@
 #include "../Manager/Common/SoundManager.h"
 #include "../Manager/Common/ScoreManager.h"
 #include "../Utility/UtilityCommon.h"
+#include"../Object/Pooh/Pooh.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -29,6 +30,9 @@ void SceneGame::Init()
 	// カメラ設定
 	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT); 
 
+	pooh_ = std::make_unique<Pooh>();
+	pooh_->Init();
+
 	// BGMの再生
 	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
@@ -41,6 +45,8 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	pooh_->Update();
 
 #ifdef _DEBUG	
 
@@ -56,6 +62,8 @@ void SceneGame::NormalDraw()
 	DebugDraw();
 
 #endif
+
+	pooh_->Draw();
 }
 
 void SceneGame::ChangeNormal()
@@ -99,4 +107,6 @@ void SceneGame::DebugDraw()
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"カメラ角度：%2f,%2f,%2f", cAngles.x, cAngles.y, cAngles.z);
 	posY += OFFSET_Y;
+
+	pooh_->DrawDebug();
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Pooh\Pooh.cpp" />
     <ClCompile Include="Src\Manager\Common\EffectType.cpp" />
     <ClCompile Include="Src\Manager\Common\EffectManager.cpp" />
     <ClCompile Include="Src\Core\Common\GlitchScreen.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="Src\Common\Image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Pooh\Pooh.h" />
     <ClInclude Include="Src\Manager\Common\EffectType.h" />
     <ClInclude Include="Src\Manager\Common\EffectManager.h" />
     <ClInclude Include="Src\Core\Common\GlitchScreen.h" />
