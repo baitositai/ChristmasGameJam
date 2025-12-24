@@ -64,8 +64,10 @@ void SceneGame::NormalUpdate()
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
 	//シーン遷移
-	if (scoreMng.IsClear()|| scoreMng.IsFailed()) {
+	if (scoreMng.IsClear()|| scoreMng.IsFailed()) 
+	{
 		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
+		return;
 	}
 
 	//落ちてくるオブジェクト

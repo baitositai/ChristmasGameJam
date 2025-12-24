@@ -205,6 +205,8 @@ void SceneManager::Release()
 
 void SceneManager::ChangeScene(const SCENE_ID nextId, const Fader::STATE fadeState)
 {
+	//シーン遷移中は処理を抜ける
+	if (isSceneChanging_)return;
 
 	// フェード処理が終わってからシーンを変える場合もあるため、
 	// 遷移先シーンをメンバ変数に保持
