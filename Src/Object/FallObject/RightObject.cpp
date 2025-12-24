@@ -26,10 +26,10 @@ void RightObject::AddScore(void)
 {
 	if (playerActState_ == Player::ACTION_STATE::RIGHT)
 	{
-		scoreMng_.AddScore(SCORE_POINT);
+		scoreMng_.AddScore();
 	}
 	else
 	{
-		scoreMng_.AddScore(-SCORE_POINT);
+		scoreMng_.Miss();
 	}
 }
