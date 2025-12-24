@@ -56,6 +56,14 @@ void FallObjectBase::UpdateMove()
 
 void FallObjectBase::UpdateJump()
 {
+	velocity_ -= GRAVITY;
+	jumpPow_ = velocity_;
+
+
+	VECTOR vec = transform_.GetRight();
+	transform_.pos = VAdd(transform_.pos, VScale(vec, JUMP_SIDE_SPD));
+	transform_.pos.y += jumpPow_;
+
 }
 
 void FallObjectBase::ChangeNone()
@@ -70,6 +78,8 @@ void FallObjectBase::ChangeMove()
 
 void FallObjectBase::ChangeJump()
 {
+	velocity_ = JUMP_POW;
+	jumpPow_ = velocity_;
 	updateState_ = [this]() {UpdateJump(); };
 }
 

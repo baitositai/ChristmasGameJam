@@ -35,6 +35,9 @@ void InputManager::Init()
 
 	// デバッグ操作
 	RegisterTrigger(TYPE::DEBUG_SCENE_CHANGE, { KEY_INPUT_RSHIFT }, { });
+	//オブジェクトのジャンプ(デバッグ)
+	RegisterTrigger(TYPE::DEBUG_OBJ_JUMP, { KEY_INPUT_J }, { });
+	
 }
 
 void InputManager::Update()

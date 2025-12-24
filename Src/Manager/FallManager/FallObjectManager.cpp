@@ -1,5 +1,6 @@
 #include<DxLib.h>
 #include "../Manager/Common/SceneManager.h"
+#include "../Manager/Common/InputManager.h"
 #include "../Object/FallObject/FallObjectBase.h"
 #include "../Object/FallObject/RightObject.h"
 #include "../Object/FallObject/LeftObject.h"
@@ -17,6 +18,7 @@ FallObjectManager::FallObjectManager()
 
 FallObjectManager::~FallObjectManager()
 {
+	fallObjs_.clear();
 }
 
 void FallObjectManager::Init()
@@ -41,6 +43,15 @@ void FallObjectManager::Update()
 	{
 		obj->Update();
 	}
+
+	if (InputManager::GetInstance().IsTrgDown(InputManager::TYPE::DEBUG_OBJ_JUMP))
+	{
+		for (auto& obj : fallObjs_)
+		{
+			obj->ChangeState(FallObjectBase::STATE::JUMP);
+		}
+	}
+	
 }
 
 void FallObjectManager::Draw()

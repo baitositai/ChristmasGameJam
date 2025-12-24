@@ -16,7 +16,8 @@ public:
 	{
 		NONE,
 		MOVE,
-		JUMP
+		JUMP,
+		DEATH
 	};
 
 	/// <summary>
@@ -61,6 +62,12 @@ protected:
 
 	//球の半径
 	static constexpr float RADIUS = 25.0f;
+	//ジャンプ時の重力
+	static constexpr float GRAVITY = 1.3f;
+
+	//ジャンプ力
+	static constexpr float JUMP_POW = 20.0f;
+	static constexpr float JUMP_SIDE_SPD = 20.0f;
 
 	//落ちるオブジェクトの種類
 	FALL_OBJ_TYPE type_;
@@ -74,6 +81,10 @@ protected:
 	const VECTOR startPos_;
 	//終点座標
 	const VECTOR goalPos_;
+	//ジャンプ力
+	float jumpPow_;
+	//ジャンプ加速度
+	float velocity_;
 
 	//更新系
 	void UpdateNone();		//None状態
