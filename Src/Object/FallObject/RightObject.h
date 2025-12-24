@@ -24,6 +24,12 @@ public:
     /// ï`âÊ
     /// </summary>
     void Draw();
+
+    /// <summary>
+    /// ÉXÉRÉAâ¡éZ
+    /// </summary>
+    /// <param name=""></param>
+    void AddScore()override;
 private:
 };
 

@@ -154,6 +154,7 @@ void SceneGame::Collision()
 		{
 			// Õ“ËŒãˆ—
 			pooh_->HitObject();
+			obj->HitPooh();
 			continue;
 		}
 	}
