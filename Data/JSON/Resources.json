@@ -1,0 +1,84 @@
+{
+  "resources": [
+    {
+      "key": "fontBokutachi",
+      "sceneId": 0,
+      "type": "font",
+      "path": "Data/Font/Bokutachi.otf",
+      "fontName": "ぼくたちのゴシック"
+    },
+    {
+      "key": "fontDot",
+      "sceneId": 0,
+      "type": "font",
+      "path": "Data/Font/Dot.otf",
+      "fontName": "ベストテンDOT"
+    },
+    {
+      "key": "fontHanazome",
+      "sceneId": 0,
+      "type": "font",
+      "path": "Data/Font/Hanazome.ttf",
+      "fontName": "はなぞめフォント"
+    },
+    {
+      "key": "fontKazuki",
+      "sceneId": 0,
+      "type": "font",
+      "path": "Data/Font/KazukiReiwa.ttf",
+      "fontName": "KazukiReiwa"
+    },
+    {
+      "key": "standardVs",
+      "sceneId": 0,
+      "type": "vertexShader",
+      "path": "Data/Shader/StandardModelVS.cso"
+    },
+    {
+      "key": "standardPs",
+      "sceneId": 0,
+      "type": "pixelShader",
+      "path": "Data/Shader/StandardModelPS.cso"
+    },
+    {
+      "key": "player",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Player.mv1"
+    },
+    {
+      "key": "bgmTitle",
+      "path": "Data/Sound/BGM/BgmTitle.mp3",
+      "sceneId": 1,
+      "soundType": "bgm",
+      "type": "sound"
+    },
+    {
+      "key": "bgmResult",
+      "path": "Data/Sound/BGM/BgmResult.mp3",
+      "sceneId": 3,
+      "soundType": "bgm",
+      "type": "sound"
+    },
+    {
+      "key": "seSelect",
+      "path": "Data/Sound/SE/SeSelect.mp3",
+      "sceneId": 1,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seGameStart",
+      "path": "Data/Sound/SE/SeGameStart.mp3",
+      "sceneId": 1,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "titleLogo",
+      "path": "Data/Image/TitleLogo.png",
+      "sceneId": 1,
+      "type": "texture"
+    }
+  ]
+}
