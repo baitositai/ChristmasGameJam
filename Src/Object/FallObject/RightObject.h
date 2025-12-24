@@ -8,12 +8,12 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    RightObject();
+    RightObject(const VECTOR _startPos, const VECTOR _goalPos);
 
     /// <summary>
     /// デストラクタ
     /// </summary>
-    ~RightObject();
+    ~RightObject()override;
 
     /// <summary>
     /// 初期化

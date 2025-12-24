@@ -1,7 +1,6 @@
 #pragma once
 #include "FallObjectBase.h"
 
-
 class LeftObject :
     public FallObjectBase
 {
@@ -10,7 +9,7 @@ public:
     /// <summary>
     /// コンストラクタ
     /// </summary>
-    LeftObject();
+    LeftObject(VECTOR _startPos, VECTOR _goalPos);
 
     /// <summary>
     /// デストラクタ

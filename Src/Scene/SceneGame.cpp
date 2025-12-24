@@ -7,6 +7,7 @@
 #include "../Manager/Common/FontManager.h"
 #include "../Manager/Common/SoundManager.h"
 #include "../Manager/Common/ScoreManager.h"
+#include "../Manager/FallManager/FallObjectManager.h"
 #include "../Utility/UtilityCommon.h"
 #include "../Object/Player/Player.h"
 #include "ScenePause.h"
@@ -30,6 +31,8 @@ void SceneGame::Init()
 	// カメラ設定
 	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT);
 
+	FallObjectManager::CreateInstance();
+	FallObjectManager::GetInstance().Init();
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
 	player_->Init();
@@ -43,6 +46,9 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	//落ちてくるオブジェクト
+	FallObjectManager::GetInstance().Update();
 
 	// プレイヤー
 	player_->Update();
@@ -61,8 +67,8 @@ void SceneGame::NormalDraw()
 	DebugDraw();
 
 #endif
-
 	player_->Draw();
+	FallObjectManager::GetInstance().Draw();
 }
 
 void SceneGame::ChangeNormal()

@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	FallObjectBase();
+	FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos);
 
 	/// <summary>
 	/// デストラクタ
@@ -59,6 +59,9 @@ public:
 	
 protected:
 
+	//球の半径
+	static constexpr float RADIUS = 25.0f;
+
 	//落ちるオブジェクトの種類
 	FALL_OBJ_TYPE type_;
 
@@ -66,6 +69,11 @@ protected:
 	STATE state_;
 	std::map<STATE, std::function<void(void)>>changeState_;
 	std::function<void(void)>updateState_;
+
+	//初期座標
+	const VECTOR startPos_;
+	//終点座標
+	const VECTOR goalPos_;
 
 	//更新系
 	void UpdateNone();		//None状態
