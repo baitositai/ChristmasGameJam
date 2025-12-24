@@ -22,6 +22,7 @@
     <ClCompile Include="Src\Manager\Common\EffectType.cpp" />
     <ClCompile Include="Src\Manager\Common\EffectManager.cpp" />
     <ClCompile Include="Src\Core\Common\GlitchScreen.cpp" />
+    <ClCompile Include="Src\Object\ActorBase.cpp" />
     <ClCompile Include="Src\Object\Common\Transform.cpp" />
     <ClCompile Include="Src\Render\BillboardRenderer.cpp" />
     <ClCompile Include="Src\Common\Loading.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="Src\Manager\Common\EffectType.h" />
     <ClInclude Include="Src\Manager\Common\EffectManager.h" />
     <ClInclude Include="Src\Core\Common\GlitchScreen.h" />
+    <ClInclude Include="Src\Object\ActorBase.h" />
     <ClInclude Include="Src\Object\Common\Transform.h" />
     <ClInclude Include="Src\Render\BillboardRenderer.h" />
     <ClInclude Include="Src\Common\Loading.h" />
