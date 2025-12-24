@@ -123,9 +123,13 @@ void SceneGame::Collision()
 				player_->Stan();
 				continue;
 			}
+		}
+		else if (player_->GetState() == Player::STATE::ACTION)
+		{
 			// UŒ‚‚Æ‚ÌÕ“Ë”»’è
-			else if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, player_->GetAttackPos()))
+			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, player_->GetAttackPos()))
 			{
+				obj->HitPlayerAttack(player_->GetAtctionState());
 				continue;
 			}
 		}

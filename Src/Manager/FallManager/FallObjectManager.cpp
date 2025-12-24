@@ -44,19 +44,16 @@ void FallObjectManager::Update()
 		obj->Update();
 	}
 
-	//デバッグようで吹っ飛ばし
-	if (InputManager::GetInstance().IsTrgDown(InputManager::TYPE::DEBUG_OBJ_JUMP))
-	{
-		for (auto& obj : fallObjs_)
-		{
-			obj->ChangeState(FallObjectBase::STATE::JUMP);
-		}
-	}
+	////デバッグようで吹っ飛ばし
+	//if (InputManager::GetInstance().IsTrgDown(InputManager::TYPE::DEBUG_OBJ_JUMP))
+	//{
+	//	for (auto& obj : fallObjs_)
+	//	{
+	//		obj->ChangeState(FallObjectBase::STATE::JUMP);
+	//	}
+	//}
 
 	//std::erase_if(fallObjs_.begin(),fallObjs_.end(),[this](auto& a){return a.})
-
-
-	
 }
 
 void FallObjectManager::Draw()
