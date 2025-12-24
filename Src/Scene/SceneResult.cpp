@@ -44,6 +44,10 @@ void SceneResult::NormalDraw()
 	// 背景
 	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, UtilityCommon::CYAN, true);
 	DrawFormatString(0, 0, UtilityCommon::RED, L"リザルト");
+
+	ScoreManager& scoreMng = ScoreManager::GetInstance();
+	DrawFormatString(100, 100, UtilityCommon::BLACK, L"スコア　:　%d", scoreMng.GetScore());
+	DrawFormatString(100, 140, UtilityCommon::BLACK, L"ライフ　:　%d", scoreMng.GetLife());
 }
 
 void SceneResult::ChangeNormal()

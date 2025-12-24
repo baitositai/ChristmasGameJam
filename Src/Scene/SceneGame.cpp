@@ -39,7 +39,6 @@ void SceneGame::Init()
 	FallObjectManager::CreateInstance();
 	FallObjectManager::GetInstance().Init();
 
-	ScoreManager::CreateInstance();
 	ScoreManager::GetInstance().Init();
 	
 	// プレイヤー生成
@@ -61,6 +60,13 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	ScoreManager& scoreMng = ScoreManager::GetInstance();
+
+	//シーン遷移
+	if (scoreMng.IsClear()|| scoreMng.IsFailed()) {
+		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
+	}
 
 	//落ちてくるオブジェクト
 	FallObjectManager::GetInstance().Update();
@@ -88,7 +94,12 @@ void SceneGame::NormalDraw()
 #endif
 	player_->Draw();
 	FallObjectManager::GetInstance().Draw();
-	ScoreManager::GetInstance().Draw();
+
+	ScoreManager& scoreMng = ScoreManager::GetInstance();
+
+	const int BLACK = 0x000000;
+	DrawFormatString(10, 10, BLACK, L"SCORE　%d　/　%d", scoreMng.GetScore(), ScoreManager::SCORE_MAX);
+	DrawFormatString(1000, 10, BLACK, L"LIFE　%d", scoreMng.GetLife());
 
 	pooh_->Draw();
 }
