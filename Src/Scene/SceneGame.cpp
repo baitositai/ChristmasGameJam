@@ -65,8 +65,10 @@ void SceneGame::NormalUpdate()
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
 	//シーン遷移
-	if (scoreMng.IsClear()|| scoreMng.IsFailed()) {
+	if (scoreMng.IsClear()|| scoreMng.IsFailed()) 
+	{
 		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
+		return;
 	}
 
 	//落ちてくるオブジェクト
@@ -154,11 +156,12 @@ void SceneGame::Collision()
 		}
 
 		// プーとの衝突判定
-		if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Pooh::RADIUS, poohPos))
+		if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Pooh::RADIUS, pooh_->GetTransform().pos))
 		{
 			// 衝突後処理
 			pooh_->HitObject();
 			obj->HitPooh();
+			ScoreManager::GetInstance().Miss();
 			continue;
 		}
 
@@ -200,6 +203,8 @@ void SceneGame::DebugUpdate()
 			break;
 		}
 	}
+
+
 }
 
 void SceneGame::DebugDraw()
