@@ -49,15 +49,26 @@ public:
 #endif // _DEBUG
 
 private:
-	//出現カウント
-	static constexpr float SPAWN_DIS = 5.0f;
 
-	//道幅
-	static constexpr float FAR_WIDTH = 100.0f;
-	static constexpr float NEAR_WIDTH = 300.0f;
+	struct START_GOAL_POS
+	{
+		VECTOR startPos = {};
+		VECTOR goalPos = {};
+	};
+
+	//出現カウント
+	static constexpr float SPAWN_DIS = 0.5f;
 
 	//オブジェクトが流れるレーン数
 	static constexpr int LANE_NUM = 3;
+	static constexpr VECTOR LIMIT_MIN = { -250.0f,0.0f,0.0f };
+	static constexpr VECTOR LIMIT_MAX = { 250.0f,0.0f,0.0f };
+	//道幅
+	static constexpr float LANE_WIDTH = LIMIT_MAX.x- LIMIT_MIN.x;
+	//一つの道幅
+	static constexpr float LANE_ONE_WIDTH = LANE_WIDTH / LANE_NUM;
+
+
 
 	//スタート座標
 	static constexpr VECTOR START_POS= { 0.0f ,300.0f,300.0f };
@@ -68,7 +79,7 @@ private:
 	void DesideObject();
 
 	//流れるレーンを決める
-	void DesideLane();
+	const START_GOAL_POS DesideLane();
 
 	//落ちてくるオブジェクト
 	std::list<std::unique_ptr<FallObjectBase>>fallObjs_;

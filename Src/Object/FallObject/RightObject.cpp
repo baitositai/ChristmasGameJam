@@ -18,5 +18,5 @@ void RightObject::Init()
 
 void RightObject::Draw()
 {
-	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::BLUE, UtilityCommon::RED, true);
+	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, true);
 }

@@ -22,25 +22,25 @@ FallObjectManager::~FallObjectManager()
 void FallObjectManager::Init()
 {
 	DesideObject();
-	for (auto& obj : fallObjs_)
-	{
-		obj->Init();
-	}
+	//for (auto& obj : fallObjs_)
+	//{
+	//	obj->Init();
+	//}
 }
 
 void FallObjectManager::Update()
 {
-	//spawnCnt_ += SceneManager::GetInstance().GetDeltaTime();
-	//if (spawnCnt_ > SPAWN_DIS)
-	//{
-	//	DesideObject();
-	//}
+	spawnCnt_ += SceneManager::GetInstance().GetDeltaTime();
+	if (spawnCnt_ > SPAWN_DIS)
+	{
+		DesideObject();
+		spawnCnt_ = 0.0f;
+	}
 
 	for (auto& obj : fallObjs_)
 	{
 		obj->Update();
 	}
-
 }
 
 void FallObjectManager::Draw()
@@ -61,11 +61,11 @@ void FallObjectManager::DrawDebug()
 	//レーンの描画
 	for (int i = 0; i < LANE_NUM+1; i++)
 	{
-		const float WIDTH = 500.0f / LANE_NUM;
+		const float WIDTH = LANE_WIDTH / LANE_NUM;
 
 		VECTOR start = START_POS;
 
-		VECTOR end = { -250.0f + WIDTH * i,0.0f,0.0f };
+		VECTOR end = { LIMIT_MIN.x + WIDTH * i,0.0f,0.0f };
 
 		DrawLine3D(end, start, UtilityCommon::RED);
 	}
@@ -75,28 +75,48 @@ void FallObjectManager::DrawDebug()
 
 void FallObjectManager::DesideObject()
 {
-
-
 	FALL_OBJ_TYPE type
-		= static_cast<FALL_OBJ_TYPE>(GetRand(static_cast<int>(FALL_OBJ_TYPE::LEFT_OBJ)));
-	VECTOR startPos = START_POS;
-	VECTOR goalPos = {};
+		= static_cast<FALL_OBJ_TYPE>(GetRand(static_cast<int>(FALL_OBJ_TYPE::LEFT_OBJ)));	
+	START_GOAL_POS startGoal = DesideLane();
 
 	if (type == FALL_OBJ_TYPE::LEFT_OBJ)
 	{
-		std::unique_ptr<FallObjectBase>fallobj = std::make_unique<LeftObject>(startPos, goalPos);
+		std::unique_ptr<FallObjectBase>fallobj = std::make_unique<LeftObject>(startGoal.startPos, startGoal.goalPos);
+		fallobj->Init();
 		fallObjs_.emplace_back(std::move(fallobj));
 	}
 	else
 	{
-		std::unique_ptr<FallObjectBase>fallobj = std::make_unique<RightObject>(startPos, goalPos);
+		std::unique_ptr<FallObjectBase>fallobj = std::make_unique<RightObject>(startGoal.startPos, startGoal.goalPos);
+		fallobj->Init();
 		fallObjs_.emplace_back(std::move(fallobj));
 	}
 
 }
 
-void FallObjectManager::DesideLane()
+const FallObjectManager::START_GOAL_POS FallObjectManager::DesideLane()
 {
-	
-	
+	START_GOAL_POS startGoal = {};
+	LANE_TYPE type = static_cast<LANE_TYPE>(GetRand(static_cast<int>(LANE_TYPE::MAX) - 1));
+
+	//いったん初期座標は固定
+	startGoal.startPos = START_POS;
+
+	//目的座標の指定
+	switch (type)
+	{
+	case FallObjectManager::LANE_TYPE::RIGHT_LANE:
+		startGoal.goalPos = { -LANE_ONE_WIDTH,0.0f,0.0f };
+		break;
+	case FallObjectManager::LANE_TYPE::CENTER_LANE:
+		startGoal.goalPos = Utility3D::VECTOR_ZERO;
+		break;
+	case FallObjectManager::LANE_TYPE::LEFT_LANE:
+		startGoal.goalPos = { LANE_ONE_WIDTH,0.0f,0.0f };
+		break;
+	case FallObjectManager::LANE_TYPE::MAX:
+		break;
+	}
+	return startGoal;
+
 }
