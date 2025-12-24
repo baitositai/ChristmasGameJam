@@ -70,6 +70,12 @@ public:
 	const STATE GetState() const;
 
 	/// <summary>
+	/// UŒ‚ó‘Ô‚ğ•Ô‚·
+	/// </summary>
+	/// <returns>UŒ‚ó‘Ô</returns>
+	const ACTION_STATE GetAtctionState() const;
+
+	/// <summary>
 	/// UŒ‚ˆÊ’u‚ğ•Ô‚·
 	/// </summary>
 	/// <returns>UŒ‚ˆÊ’u</returns>

@@ -22,6 +22,8 @@ Player::~Player()
 
 void Player::Init()
 {
+
+
 	InitTransform();
 
 	InitAnimation();
@@ -85,6 +87,11 @@ void Player::Stan()
 const Player::STATE Player::GetState() const
 {
 	return state_;
+}
+
+const Player::ACTION_STATE Player::GetAtctionState() const
+{
+	return actionState_;
 }
 
 const VECTOR& Player::GetAttackPos() const
