@@ -26,8 +26,6 @@ public:
 	/// </summary>
 	void Init();
 
-	void Draw();
-
 	/// <summary>
 	/// ゲームの終了状態を設定
 	/// </summary>
@@ -39,6 +37,12 @@ public:
 	/// </summary>
 	/// <returns>スコア</returns>
 	const int GetScore() const { return score_; }
+
+	/// <summary>
+	/// ライフを返す
+	/// </summary>
+	/// <returns>ライフ</returns>
+	const int GetLife()const { return life_; }
 
 	/// <summary>
 	/// 終了状態の設定
