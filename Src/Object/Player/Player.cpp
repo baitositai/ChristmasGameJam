@@ -73,9 +73,28 @@ void Player::Draw()
 	}
 }
 
+void Player::Stan()
+{
+	// ó‘Ô•ÏX
+	ChangeState(STATE::STAN);
+
+	// ƒXƒ^ƒ“ŽžŠÔ
+	stanTime_ = STAN_TIME;
+}
+
 const Player::STATE Player::GetState() const
 {
 	return state_;
+}
+
+const VECTOR& Player::GetAttackPos() const
+{
+	return attackPos_;
+}
+
+const Capsule& Player::GetCapsule() const
+{
+	return *capsule_;
 }
 
 void Player::ChangeState(const STATE state)
@@ -142,6 +161,12 @@ void Player::UpdateAction()
 
 void Player::UpdateStan()
 {
+	stanTime_ -= scnMng_.GetDeltaTime();
+
+	if (0.0f > stanTime_)
+	{
+		ChangeState(STATE::PLAY);
+	}
 }
 
 void Player::InitTransform()

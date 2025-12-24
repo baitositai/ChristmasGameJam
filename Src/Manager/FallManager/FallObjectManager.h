@@ -44,6 +44,12 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 落下オブジェクトのリストを返す
+	/// </summary>
+	/// <returns>落下オブジェクトリスト</returns>
+	const std::list<std::unique_ptr<FallObjectBase>>& GetFallObjectLists() const;
+
 #ifdef _DEBUG
 	void DrawDebug();
 #endif // _DEBUG

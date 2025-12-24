@@ -6,6 +6,10 @@
 class FallObjectBase:public ActorBase
 {
 public:
+
+	//‹…‚Ì”¼Œa
+	static constexpr float RADIUS = 25.0f;
+
 	enum class FALL_OBJ_TYPE
 	{	
 		RIGHT_OBJ,
@@ -67,8 +71,7 @@ public:
 	
 protected:
 
-	//‹…‚Ì”¼Œa
-	static constexpr float RADIUS = 25.0f;
+
 	//ƒWƒƒƒ“ƒv‚Ìd—Í
 	static constexpr float GRAVITY = 1.3f;
 

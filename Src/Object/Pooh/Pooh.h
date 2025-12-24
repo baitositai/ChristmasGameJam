@@ -16,6 +16,9 @@ public:
 
 	static constexpr int GOAL_POS_NUM = 6; //–Ú“I’n‚Ì”
 
+	// ”¼Œa
+	static constexpr float RADIUS = 10.0f;
+
     Pooh();
     ~Pooh()override;
 

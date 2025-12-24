@@ -396,3 +396,24 @@ bool Utility3D::CheckHitSphereToCapsule(const float sphrerRadius, const VECTOR& 
 
     return ret;
 }
+
+bool Utility3D::CheckHitSphereToSphere(const float sphrerRadius1, const VECTOR& spherePos1, const float sphrerRadius2, const VECTOR& spherePos2)
+{
+    // ‹…‘Ì“¯m‚ÌÕ“Ë”»’è
+    bool ret = false;
+
+    // ‚¨Œİ‚¢‚Ì”¼Œa‚Ì‡Œv
+    float radius = sphrerRadius1 + sphrerRadius2;
+
+    // À•W‚Ì·‚©‚ç‚¨Œİ‚¢‚Ì‹——£‚ğæ‚é
+    VECTOR diff = VSub(spherePos1, spherePos2);
+
+    // O•½•û‚Ì’è—‚Å”äŠr(SqrMagnitude‚Æ“¯‚¶)
+    float dis = (diff.x * diff.x) + (diff.y * diff.y) + (diff.z * diff.z);
+    if (dis < (radius * radius))
+    {
+        ret = true;
+    }
+
+    return ret;
+}

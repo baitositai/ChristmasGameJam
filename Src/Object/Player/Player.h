@@ -59,10 +59,27 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// スタンの設定
+	/// </summary>
+	void Stan();
+
+	/// <summary>
 	/// 状態を返す
 	/// </summary>
 	/// <returns>状態</returns>
 	const STATE GetState() const;
+
+	/// <summary>
+	/// 攻撃位置を返す
+	/// </summary>
+	/// <returns>攻撃位置</returns>
+	const VECTOR& GetAttackPos() const;
+
+	/// <summary>
+	/// カプセル情報を返す
+	/// </summary>
+	/// <returns>カプセル情報</returns>
+	const Capsule& GetCapsule() const;
 
 private:
 
@@ -96,6 +113,9 @@ private:
 	static constexpr VECTOR PL_CAP_UP_LOCAL_POS = { 0.0f, 110.0f, 0.0f };
 	static constexpr VECTOR PL_CAP_DOWN_LOCAL_POS = { 0.0f, 30.0f, 0.0f };
 
+	// スタン時間
+	static constexpr float STAN_TIME = 1.5f;
+
 	// 攻撃時間
 	float attackTime_;
 
@@ -118,6 +138,9 @@ private:
 	Quaternion playerRotY_;
 	Quaternion goalQuaRot_;
 	float stepRotTime_;
+
+	// スタン時間
+	float stanTime_;
 
 	// 状態
 	STATE state_;
