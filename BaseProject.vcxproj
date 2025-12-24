@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\FallObject\LeftObject.cpp" />
+    <ClCompile Include="Src\Object\FallObject\RightObject.cpp" />
+    <ClCompile Include="Src\Manager\FallManager\FallObjectManager.cpp" />
+    <ClCompile Include="Src\Object\FallObject\FallObjectBase.cpp" />
     <ClCompile Include="Src\Manager\Common\EffectType.cpp" />
     <ClCompile Include="Src\Manager\Common\EffectManager.cpp" />
     <ClCompile Include="Src\Core\Common\GlitchScreen.cpp" />
@@ -78,6 +82,10 @@
     <ClCompile Include="Src\Common\Image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\FallObject\LeftObject.h" />
+    <ClInclude Include="Src\Object\FallObject\RightObject.h" />
+    <ClInclude Include="Src\Manager\FallManager\FallObjectManager.h" />
+    <ClInclude Include="Src\Object\FallObject\FallObjectBase.h" />
     <ClInclude Include="Src\Manager\Common\EffectType.h" />
     <ClInclude Include="Src\Manager\Common\EffectManager.h" />
     <ClInclude Include="Src\Core\Common\GlitchScreen.h" />
