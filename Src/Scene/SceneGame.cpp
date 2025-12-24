@@ -17,6 +17,10 @@
 #include "ScenePause.h"
 #include "SceneGame.h"
 
+namespace {
+	const int TIMER_MAX = 3;
+}
+
 SceneGame::SceneGame()
 {
 	// 更新関数のセット
@@ -48,6 +52,12 @@ void SceneGame::Init()
 	pooh_ = std::make_unique<Pooh>();
 	pooh_->Init();
 
+	isFinishStartDirec_ = false;
+	startTimer_ = TIMER_MAX;
+	counter_ = 0;
+
+	isStartEndDirec_ = false;
+
 	// BGMの再生
 	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
@@ -60,6 +70,17 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	//スタート演出
+	if (!isFinishStartDirec_) {
+		UpdateStartDirec();
+		return;
+	}
+
+	//終了演出
+	if (isStartEndDirec_) {
+		return;
+	}
 
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
@@ -87,6 +108,7 @@ void SceneGame::NormalUpdate()
 #endif 
 }
 
+
 void SceneGame::NormalDraw()
 {	
 #ifdef _DEBUG
@@ -104,6 +126,10 @@ void SceneGame::NormalDraw()
 	DrawFormatString(1000, 10, BLACK, L"LIFE　%d", scoreMng.GetLife());
 
 	pooh_->Draw();
+
+	if (!isFinishStartDirec_) {
+		DrawStartDirec();
+	}
 }
 
 void SceneGame::ChangeNormal()
@@ -160,6 +186,31 @@ void SceneGame::Collision()
 			ScoreManager::GetInstance().Miss();
 			continue;
 		}
+	}
+}
+
+void SceneGame::UpdateStartDirec()
+{
+	counter_++;
+
+	if (counter_ > Application::FPS_RATE) {
+		startTimer_--;
+		counter_ = 0;
+	}
+
+	//終わったら
+	if (startTimer_ < 0) {
+		isFinishStartDirec_ = true;
+	}
+}
+
+void SceneGame::DrawStartDirec()
+{
+	if (startTimer_ > 0) {
+		DrawFormatString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, UtilityCommon::GREEN, L"%d", startTimer_);
+	}
+	else {
+		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"START!!", UtilityCommon::GREEN);
 	}
 }
 
