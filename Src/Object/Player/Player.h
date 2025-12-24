@@ -126,6 +126,9 @@ private:
 	//‘€ìˆ—
 	void ProcessMove();
 
+	// ˆÚ“®§ŒÀ
+	void MoveLimit();
+
 	// ‰ñ“]
 	void SetGoalRotate(double rotRad);
 	void Rotate();

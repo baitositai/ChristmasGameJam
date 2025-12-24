@@ -9,6 +9,9 @@ class SceneGame : public SceneBase
 {
 public:
 
+	// オブジェクトのX幅制限
+	static constexpr int MOVE_LIMIT_X = 225;
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>

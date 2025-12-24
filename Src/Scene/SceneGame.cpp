@@ -28,7 +28,7 @@ SceneGame::~SceneGame()
 void SceneGame::Init()
 {
 	// カメラ設定
-	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT); 
+	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT);
 
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
@@ -99,11 +99,16 @@ void SceneGame::DebugDraw()
 	VECTOR cTarget = mainCamera.GetTargetPos();
 	VECTOR cAngles = mainCamera.GetAngles();
 
+	// プレイヤー位置
+	VECTOR pPos = player_->GetTransform().pos;
+
 	// 描画
 	DrawFormatString(0, posY, UtilityCommon::RED, L"カメラ位置：%2f,%2f,%2f", cPos.x, cPos.y, cPos.z);
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"注視点位置：%2f,%2f,%2f", cTarget.x, cTarget.y, cTarget.z);
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"カメラ角度：%2f,%2f,%2f", cAngles.x, cAngles.y, cAngles.z);
+	posY += OFFSET_Y;
+	DrawFormatString(0, posY, UtilityCommon::RED, L"プレイヤー位置：%2f,%2f,%2f", pPos.x, pPos.y, pPos.z);
 	posY += OFFSET_Y;
 }

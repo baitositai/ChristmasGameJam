@@ -12,6 +12,11 @@ class Camera
 
 public:
 
+	// カメラの固定位置
+	static constexpr VECTOR FIXED_POS = {0.0f, 218.0f, -233.5f };
+	static constexpr VECTOR FIXED_TARGET = {0.0f, 168.0f, -40.0f };
+	static constexpr VECTOR FIXED_ANGLES = {0.2535f, 0.0f, 0.0f };
+
 	// カメラスピード(度)
 	static constexpr float SPEED = 1.0f;
 

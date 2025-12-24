@@ -4,6 +4,7 @@
 #include "../../Manager/Common/SceneManager.h"
 #include "../../Utility/Utility3D.h"
 #include "../../Utility/UtilityCommon.h"
+#include "../../Scene/SceneGame.h"
 #include "../Common/Capsule.h"
 #include "Player.h"
 
@@ -82,11 +83,11 @@ void Player::UpdatePlay()
 	//‘€ìˆ—
 	ProcessMove();
 
+	// ˆÚ“®§ŒÀ
+	MoveLimit();
+
 	// ˆÚ“®•ûŒü‚É‰ž‚¶‚½‰ñ“]
 	Rotate();
-
-	//ˆÚ“®Œã‚ÌÀ•W
-	movedPos_ = VAdd(transform_.pos, movePow_);
 
 	//ˆÚ“®ˆ—
 	transform_.pos = movedPos_;
@@ -151,6 +152,19 @@ void Player::ProcessMove()
 
 	// ˆÚ“®ŒãÀ•W‚ðÝ’è
 	movedPos_ = VAdd(transform_.pos, movePow_);
+}
+
+void Player::MoveLimit()
+{
+	// X•ûŒü‚ÌˆÚ“®§ŒÀ
+	if (movedPos_.x > SceneGame::MOVE_LIMIT_X)
+	{
+		movedPos_.x = SceneGame::MOVE_LIMIT_X;
+	}
+	else if (movedPos_.x < -SceneGame::MOVE_LIMIT_X)
+	{
+		movedPos_.x = -SceneGame::MOVE_LIMIT_X;
+	}
 }
 
 void Player::SetGoalRotate(double rotRad)
