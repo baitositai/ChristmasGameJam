@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <map>
+#include "../Object/Player/Player.h"
 #include "../ActorBase.h"
 
 class FallObjectBase:public ActorBase
@@ -8,7 +9,7 @@ class FallObjectBase:public ActorBase
 public:
 
 	//球の半径
-	static constexpr float RADIUS = 25.0f;
+	static constexpr float RADIUS = 45.0f;
 
 	enum class FALL_OBJ_TYPE
 	{	
@@ -48,12 +49,12 @@ public:
 	/// 描画
 	/// </summary>
 	virtual void Draw();
-
+	
 	/// <summary>
-	/// 状態遷移
+	/// プレイヤーの攻撃がヒットしたら
 	/// </summary>
-	/// <param name="_state">状態</param>
-	void ChangeState(const STATE& _state);
+	/// <param name="_actState">プレイヤーの攻撃方向</param>
+	void HitPlayerAttack(const Player::ACTION_STATE _actState);
 
 	/// <summary>
 	/// オブジェクトタイプの取得
@@ -79,6 +80,9 @@ protected:
 	static constexpr float JUMP_POW = 20.0f;
 	static constexpr float JUMP_SIDE_SPD = 20.0f;
 
+	//レーンに流れる速度
+	static constexpr float MOVE_SPD = 2.0f;
+
 	//移動中の画面外Z座標
 	static constexpr float MOVE_LIMIT_Z = -200.0f;
 
@@ -90,6 +94,9 @@ protected:
 	std::map<STATE, std::function<void(void)>>changeState_;
 	std::function<void(void)>updateState_;
 
+	//プレイヤーの攻撃方向
+	Player::ACTION_STATE playerActState_;
+
 	//初期座標
 	const VECTOR startPos_;
 	//終点座標
@@ -98,6 +105,13 @@ protected:
 	float jumpPow_;
 	//ジャンプ加速度
 	float velocity_;
+
+	/// <summary>
+	/// 状態遷移
+	/// </summary>
+	/// <param name="_state">状態</param>
+	void ChangeState(const STATE& _state);
+
 	//更新系
 	void UpdateNone();		//None状態
 	void UpdateMove();		//流れてくる状態

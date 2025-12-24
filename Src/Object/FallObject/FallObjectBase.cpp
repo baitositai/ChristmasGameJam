@@ -1,12 +1,14 @@
 #include "../Utility/Utility3D.h"
 #include "../Utility/UtilityCommon.h"
+#include "../Player/Player.h"
 #include "FallObjectBase.h"
 
 FallObjectBase::FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos):
 	startPos_(_startPos),
 	goalPos_(_goalPos),
 	type_(FALL_OBJ_TYPE::LEFT_OBJ),
-	state_(STATE::NONE)
+	state_(STATE::NONE),
+	playerActState_(Player::ACTION_STATE::NONE)
 {
 }
 
@@ -19,7 +21,8 @@ void FallObjectBase::Init()
 	transform_.pos = startPos_;
 
 	//デバッグの球の半径分上に動かす
-	transform_.pos.y += RADIUS;
+	//transform_.pos.y += RADIUS;
+	transform_.pos.y -= RADIUS;
 
 	AddState();
 	state_ = STATE::NONE;
@@ -34,6 +37,12 @@ void FallObjectBase::Update()
 void FallObjectBase::Draw()
 {
 
+}
+
+void FallObjectBase::HitPlayerAttack(const Player::ACTION_STATE _actState)
+{
+	playerActState_ = _actState;
+	ChangeState(STATE::JUMP);
 }
 
 void FallObjectBase::ChangeState(const STATE& _state)
@@ -51,7 +60,7 @@ void FallObjectBase::UpdateNone()
 void FallObjectBase::UpdateMove()
 {
 	VECTOR vec = VNorm(VSub(goalPos_, startPos_));
-	transform_.pos = VAdd(transform_.pos, VScale(vec, 5.0f));
+	transform_.pos = VAdd(transform_.pos, VScale(vec, MOVE_SPD));
 	if (transform_.pos.z < MOVE_LIMIT_Z)
 	{
 		//画面外の座標に居たら
@@ -65,7 +74,18 @@ void FallObjectBase::UpdateJump()
 	jumpPow_ = velocity_;
 
 
-	VECTOR vec = transform_.GetRight();
+	VECTOR vec = {};
+	if (playerActState_ == Player::ACTION_STATE::LEFT)
+	{
+		vec = transform_.GetLeft();
+	}
+	else if (playerActState_ == Player::ACTION_STATE::RIGHT)
+	{
+		vec = transform_.GetRight();
+	}
+
+
+	//モデルをプレイヤーの攻撃方向に飛ばす
 	transform_.pos = VAdd(transform_.pos, VScale(vec, JUMP_SIDE_SPD));
 	transform_.pos.y += jumpPow_;
 

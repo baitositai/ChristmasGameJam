@@ -1,6 +1,7 @@
 #pragma once
 #include <DxLib.h>
 #include "../Common/Vector2.h"
+#include "../Object/Common/Transform.h"
 
 class Utility3D
 {
@@ -114,4 +115,12 @@ public:
 	/// <param name="spherePos2">スフィア位置2</param>
 	/// <returns>判定結果</returns>
 	static bool CheckHitSphereToSphere(const float sphrerRadius1, const VECTOR& spherePos1, const float sphrerRadius2, const VECTOR& spherePos2);
+
+
+	// 対象フレームのワールド行列を大きさ・回転・位置に分解してを取得する
+	static void GetFrameWorldMatrix(int modelId, int frameIdx, VECTOR& scl, MATRIX& matRot, VECTOR& pos);
+
+	// 対象フレームの位置にtargetを配置し、対象フレームの回転に加え、指定した相対座標・回転を加える
+	static void SetFrameWorldMatrix(const Transform& follow, int followFrameIdx, Transform& target, VECTOR localPos, VECTOR localRot);
+
 };
