@@ -7,8 +7,10 @@
 #include "../Manager/Common/FontManager.h"
 #include "../Manager/Common/SoundManager.h"
 #include "../Manager/Common/ScoreManager.h"
+#include "../Manager/FallManager/FallObjectManager.h"
 #include "../Utility/UtilityCommon.h"
 #include "../Object/Player/Player.h"
+#include"../Object/Pooh/Pooh.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -30,9 +32,16 @@ void SceneGame::Init()
 	// カメラ設定
 	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT);
 
+	FallObjectManager::CreateInstance();
+	FallObjectManager::GetInstance().Init();
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
 	player_->Init();
+	pooh_ = std::make_unique<Pooh>();
+	pooh_->Init();
+
+	// BGMの再生
+	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
 
 void SceneGame::NormalUpdate()
@@ -44,8 +53,13 @@ void SceneGame::NormalUpdate()
 	//	return;
 	//}
 
+	//落ちてくるオブジェクト
+	FallObjectManager::GetInstance().Update();
+
 	// プレイヤー
 	player_->Update();
+
+	pooh_->Update();
 
 #ifdef _DEBUG	
 
@@ -61,8 +75,10 @@ void SceneGame::NormalDraw()
 	DebugDraw();
 
 #endif
-
 	player_->Draw();
+	FallObjectManager::GetInstance().Draw();
+
+	pooh_->Draw();
 }
 
 void SceneGame::ChangeNormal()
@@ -111,4 +127,6 @@ void SceneGame::DebugDraw()
 	posY += OFFSET_Y;
 	DrawFormatString(0, posY, UtilityCommon::RED, L"プレイヤー位置：%2f,%2f,%2f", pPos.x, pPos.y, pPos.z);
 	posY += OFFSET_Y;
+
+	pooh_->DrawDebug();
 }
