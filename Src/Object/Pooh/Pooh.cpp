@@ -13,6 +13,7 @@ namespace {
 	const float MOVE_SPEED = 2.0f;			//移動速度(散歩)
 	const float HIT_SPEED = 5.0f;			//移動速度(吹っ飛び)
 
+	//散歩ウェイポイント
 	const VECTOR GOAL_POSITIONS[Pooh::GOAL_POS_NUM] = {
 		{ -200.0f,-80.0f,0.0f },
 		{ -100.0f,0.0f,0.0f },
