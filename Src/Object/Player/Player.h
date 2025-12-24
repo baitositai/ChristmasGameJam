@@ -99,7 +99,7 @@ public:
 	/// •Šíî•ñ‚ğ•Ô‚·
 	/// </summary>
 	/// <returns>•Šíî•ñ</returns>
-	const KeyBlade& GetWeapon() const;
+	KeyBlade& GetWeapon() const;
 
 private:
 

@@ -116,6 +116,10 @@ void Player::Throw()
 {
 	// èÛë‘ïœçX
 	ChangeState(STATE::THROW);
+
+	keyBlade_->Throw();
+
+	actionState_ = ACTION_STATE::NONE;
 }
 
 const Player::STATE Player::GetState() const
@@ -138,7 +142,7 @@ const Capsule& Player::GetCapsule() const
 	return *capsule_;
 }
 
-const KeyBlade& Player::GetWeapon() const
+KeyBlade& Player::GetWeapon() const
 {
 	return *keyBlade_;
 }
@@ -182,8 +186,6 @@ void Player::ChangeStateStan()
 void Player::ChangeStateThrow()
 {
 	update_ = std::bind(&Player::UpdateThrow, this);
-
-	keyBlade_->Throw();
 }
 
 void Player::UpdatePlay()
@@ -300,7 +302,11 @@ void Player::ProcessAction()
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_THROW))
 	{
 		// çUåÇèÛë‘ÇÃê›íË
-		//actionState_ = ACTION_STATE::THROW;
+		actionState_ = ACTION_STATE::THROW;
+	}
+	else
+	{
+		actionState_ == ACTION_STATE::NONE;
 	}
 }
 
