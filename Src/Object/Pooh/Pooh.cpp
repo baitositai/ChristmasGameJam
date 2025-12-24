@@ -6,25 +6,26 @@
 namespace {
 	const int YELLOW = 0xffff00;				//黄色
 	const VECTOR INIT_SCL = { 1.0f,1.0f,1.0f };	//初期スケール
-	const VECTOR INIT_POS = { 300.0f,120.0f,0.0f };//初期位置
+	const VECTOR INIT_POS = { 200.0f,220.0f,180.0f };//初期位置
 	const VECTOR INIT_ROT = { 0.0f,0.0f,0.0f };	//初期回転
 
 	const int STAY_TIME = 80;				//立っている時間
-	const float MOVE_SPEED = 2.0f;			//移動速度(散歩)
+	const float MOVE_SPEED = 1.0f;			//移動速度(散歩)
 	const float HIT_SPEED = 5.0f;			//移動速度(吹っ飛び)
 
 	//散歩ウェイポイント
 	const VECTOR GOAL_POSITIONS[Pooh::GOAL_POS_NUM] = {
-		{ -200.0f,-80.0f,0.0f },
-		{ -100.0f,0.0f,0.0f },
-		{ 50.0f,0.0f,0.0f },
-		{ 150.0f,-80.0f,0.0f },
-		{ -100.0f,-150.0f,0.0f },
-		{ 50.0f,-150.0f,0.0f }
+		{ -110.0f,140.0f,140.0f },	//一番左
+		{ -50.0f,180.0f,180.0f },	//左上
+		{ 50.0f,180.0f,180.0f },	//右上
+
+		{ 110.0f,140.0f,140.0f },	//一番右
+		{ -50.0f,110.0f,110.0f },	//左下
+		{ 50.0f,110.0f,110.0f }		//右下
 	};
 
 	const float GOAL_TOLERANCE = 10.0f; //目的地到達許容範囲
-	const VECTOR AFTER_HIT_POS = { 200.0f,-100.0f,-600.0f };	//吹っ飛び後の位置
+	const VECTOR AFTER_HIT_POS = { 200.0f,50.0f,-100.0f };	//吹っ飛び後の位置
 }
 
 Pooh::Pooh()
@@ -47,7 +48,7 @@ void Pooh::Init()
 	transform_.rot = INIT_ROT;
 	transform_.quaRot = Quaternion::Euler(VECTOR{ INIT_ROT.x * DX_PI_F / 180.0f, INIT_ROT.y * DX_PI_F / 180.0f, INIT_ROT.z * DX_PI_F / 180.0f });
 
-	ChangeState(STATE::HIT);
+	ChangeState(STATE::STAND_UP);
 }
 
 void Pooh::Update()
@@ -62,10 +63,10 @@ void Pooh::Draw()
 
 void Pooh::DrawDebug()
 {
-	if (useGoalNum_ > 0)
-	{
-		DrawSphere3D(useGoalPositions_[currentGoalIndex_], RADIUS, 8, 0xff0000, 0xff0000, false);
-	}
+	//if (useGoalNum_ > 0)
+	//{
+	//	DrawSphere3D(useGoalPositions_[currentGoalIndex_], RADIUS, 8, 0xff0000, 0xff0000, false);
+	//}
 }
 
 void Pooh::StartWalk()
