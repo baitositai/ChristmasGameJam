@@ -22,10 +22,9 @@ public:
 
 		PLAYER_MOVE_RIGHT,		// 移動右
 		PLAYER_MOVE_LEFT,		// 移動左
-		PLAYER_MOVE_UP,			// 移動上
-		PLAYER_MOVE_DOWN,		// 移動下
-		PLAYER_JUMP,			// ジャンプ
-		PLAYER_DASH,			// ダッシュ
+		PLAYER_ACTION_RIGHT,	// 右攻撃
+		PLAYER_ACTION_LEFT,		// 左攻撃
+		PLAYER_ACTION_THROW,	// 投げ攻撃
 
 		CAMERA_MOVE_RIGHT,		// カメラ右移動
 		CAMERA_MOVE_LEFT,		// カメラ左移動
@@ -39,22 +38,9 @@ public:
 		SELECT_DECISION,		// 選択決定
 		SELECT_CANCEL,			// 選択キャンセル
 
-		PAUSE,					// ポーズ(開閉)
-
-		INPUT_EXPLANTION_OPEN,	// 操作説明を開く
-
-		ANOMARY_REPORT,			// 異変の報告
-
-		CAMERA_MODE_CHANGE,		// カメラモード切替
-
-		LIGHT_SWITCH,			// ライトのON/OFF
-
-		EXPLANTION_SKIP,		// 説明のスキップ
-
 		DEBUG_SCENE_CHANGE,		// デバッグシーン遷移
-		DEBUG_CAMERA_CHANGE,	// デバッグカメラビュー変更
-		CREATE_POSITION,		// 位置リストの生成
-		OPEN_FILE,				// ファイルを開く
+
+		PAUSE,					// ポーズ(開閉)
 	};
 
 	/// <summary>

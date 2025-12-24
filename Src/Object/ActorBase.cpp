@@ -32,3 +32,8 @@ void ActorBase::Draw()
 {
 
 }
+
+const Transform& ActorBase::GetTransform() const
+{
+	return transform_;
+}

@@ -35,6 +35,12 @@ public:
 	/// </summary>
 	virtual void Draw();
 
+	/// <summary>
+	/// トランスフォームを返す
+	/// </summary>
+	/// <returns>トランスフォーム</returns>
+	const Transform& GetTransform() const;
+
 protected:
 
 	// 管理クラスの参照

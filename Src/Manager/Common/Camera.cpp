@@ -371,6 +371,11 @@ void Camera::ChangeModeNone()
 void Camera::ChangeModeFixedPoint()
 {
 	beforeDrawFunc_ = std::bind(&Camera::SetBeforeDrawFixedPoint, this);
+
+	// å≈íËà íuÇÃê›íË
+	pos_ = FIXED_POS;
+	targetPos_ = FIXED_TARGET;
+	angles_ = FIXED_ANGLES;
 }
 
 void Camera::ChangeModeFollow()

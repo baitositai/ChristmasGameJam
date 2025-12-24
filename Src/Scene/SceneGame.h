@@ -3,10 +3,14 @@
 #include "SceneBase.h"
 
 class ScenePause;
+class Player;
 
 class SceneGame : public SceneBase
 {
 public:
+
+	// オブジェクトのX幅制限
+	static constexpr int MOVE_LIMIT_X = 225;
 
 	/// <summary>
 	/// コンストラクタ
@@ -27,6 +31,9 @@ private:
 
 	//ポーズ画面
 	std::shared_ptr<ScenePause> ScenePause_;
+
+	// プレイヤー
+	std::unique_ptr<Player> player_;
 
 	// 更新関数
 	void NormalUpdate() override;
