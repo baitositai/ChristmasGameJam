@@ -40,6 +40,17 @@ void Player::Update()
 {
 	update_();
 
+	// 移動方向に応じた回転
+	Rotate();
+
+	//移動処理
+	transform_.pos = movedPos_;
+
+	// 重力方向に沿って回転させる
+	transform_.quaRot = Quaternion();
+	transform_.quaRot = transform_.quaRot.Mult(playerRotY_);
+
+	// トランスフォーム更新
 	transform_.Update();
 }
 
@@ -48,7 +59,23 @@ void Player::Draw()
 	// モデルの描画
 	//MV1DrawModel(transform_.modelId);
 
+	// カプセルの描画
 	capsule_->Draw();
+
+	// 当たり判定の描画
+	if (state_ == STATE::ACTION)
+	{
+		// 色
+		int color = actionState_ == ACTION_STATE::RIGHT ? UtilityCommon::RED : UtilityCommon::BLUE;
+
+		// 判定の描画
+		DrawSphere3D(attackPos_, ATTACK_RADIUS, 30, color, color, true);
+	}
+}
+
+const Player::STATE Player::GetState() const
+{
+	return state_;
 }
 
 void Player::ChangeState(const STATE state)
@@ -71,6 +98,15 @@ void Player::ChangeStatePlay()
 void Player::ChangeStateAction()
 {
 	update_ = std::bind(&Player::UpdateAction, this);
+
+	// 攻撃位置を設定
+	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
+
+	// 目標角度の設定
+	SetGoalRotate(ROT_DEG_F);
+
+	// 攻撃時間の初期化
+	attackTime_ = 0.0f;
 }
 
 void Player::ChangeStateStan()
@@ -80,25 +116,28 @@ void Player::ChangeStateStan()
 
 void Player::UpdatePlay()
 {
-	//操作処理
+	// 移動操作処理
 	ProcessMove();
+
+	// 攻撃操作処理
+	ProcessAction();
 
 	// 移動制限
 	MoveLimit();
-
-	// 移動方向に応じた回転
-	Rotate();
-
-	//移動処理
-	transform_.pos = movedPos_;
-
-	// 重力方向に沿って回転させる
-	transform_.quaRot = Quaternion();
-	transform_.quaRot = transform_.quaRot.Mult(playerRotY_);
 }
 
 void Player::UpdateAction()
 {
+	// 時間更新
+	attackTime_ += scnMng_.GetDeltaTime();
+
+	// 攻撃位置を設定
+	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
+
+	if (2.0f < attackTime_)
+	{
+		ChangeState(STATE::PLAY);
+	}
 }
 
 void Player::UpdateStan()
@@ -152,6 +191,26 @@ void Player::ProcessMove()
 
 	// 移動後座標を設定
 	movedPos_ = VAdd(transform_.pos, movePow_);
+}
+
+void Player::ProcessAction()
+{
+	if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_RIGHT))
+	{
+		// 状態遷移
+		ChangeState(STATE::ACTION);
+
+		// 攻撃状態の設定
+		actionState_ = ACTION_STATE::RIGHT;
+	}
+	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_LEFT))
+	{	
+		// 状態遷移
+		ChangeState(STATE::ACTION);
+
+		// 攻撃状態の設定
+		actionState_ = ACTION_STATE::LEFT;
+	}
 }
 
 void Player::MoveLimit()
