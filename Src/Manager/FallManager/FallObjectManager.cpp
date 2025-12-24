@@ -67,6 +67,11 @@ void FallObjectManager::Draw()
 
 #ifdef _DEBUG
 
+const std::list<std::unique_ptr<FallObjectBase>>& FallObjectManager::GetFallObjectLists() const
+{
+	return fallObjs_;
+}
+
 void FallObjectManager::DrawDebug()
 {
 	//ƒŒ[ƒ“‚Ì•`‰æ

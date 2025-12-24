@@ -9,8 +9,11 @@
 #include "../Manager/Common/ScoreManager.h"
 #include "../Manager/FallManager/FallObjectManager.h"
 #include "../Utility/UtilityCommon.h"
+#include "../Utility/Utility3D.h"
 #include "../Object/Player/Player.h"
-#include"../Object/Pooh/Pooh.h"
+#include "../Object/FallObject/FallObjectBase.h"
+#include "../Object/Pooh/Pooh.h"
+#include "../Object/Common/Capsule.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -34,9 +37,11 @@ void SceneGame::Init()
 
 	FallObjectManager::CreateInstance();
 	FallObjectManager::GetInstance().Init();
+	
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
 	player_->Init();
+	
 	pooh_ = std::make_unique<Pooh>();
 	pooh_->Init();
 
@@ -60,6 +65,8 @@ void SceneGame::NormalUpdate()
 	player_->Update();
 
 	pooh_->Update();
+
+	Collision();
 
 #ifdef _DEBUG	
 
@@ -91,6 +98,47 @@ void SceneGame::ChangeNormal()
 	scnMng_.StartFadeIn();
 }
 
+void SceneGame::Collision()
+{
+	// 判定用情報
+	FallObjectManager& objMng = FallObjectManager::GetInstance();
+	const VECTOR playerCapTopPos = player_->GetCapsule().GetPosTop();
+	const VECTOR playerCapEndPos = player_->GetCapsule().GetPosDown();
+	const float playerCapRadius = player_->GetCapsule().GetRadius();
+
+	// オブジェクトリストを回す
+	for (auto& obj : objMng.GetFallObjectLists())
+	{
+		// オブジェクト情報
+		const VECTOR objPos = obj->GetTransform().pos;
+
+		// プレイヤー状態がPLAYの場合
+		if (player_->GetState() == Player::STATE::PLAY)
+		{
+			// プレイヤーとの衝突判定
+			if (Utility3D::CheckHitSphereToCapsule(FallObjectBase::RADIUS, objPos, playerCapTopPos, playerCapEndPos, playerCapRadius))
+			{
+				// スタン処理
+				player_->Stan();
+				continue;
+			}
+			// 攻撃との衝突判定
+			else if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, player_->GetAttackPos()))
+			{
+				continue;
+			}
+		}
+
+		// プーとの衝突判定
+		else if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Pooh::RADIUS, pooh_->GetTransform().pos))
+		{
+			// 衝突後処理
+			pooh_->HitObject();
+			continue;
+		}
+	}
+}
+
 void SceneGame::DebugUpdate()
 {
 	// シーン遷移
@@ -98,6 +146,22 @@ void SceneGame::DebugUpdate()
 	{
 		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
 		return;
+	}
+	if (inputMng_.IsTrgDown(InputManager::TYPE::DEBUG_CAMERA_CHANGE))
+	{
+		switch (mainCamera.GetMode())
+		{
+		case Camera::MODE::FIXED_POINT:
+			mainCamera.ChangeMode(Camera::MODE::FREE);
+			break;
+
+		case Camera::MODE::FREE:
+			mainCamera.ChangeMode(Camera::MODE::FIXED_POINT);
+			break;
+
+		default:
+			break;
+		}
 	}
 }
 

@@ -104,4 +104,14 @@ public:
 	/// <param name="capRadius">カプセル半径</param>
 	/// <returns></returns>
 	static bool CheckHitSphereToCapsule(const float sphrerRadius, const VECTOR& spherePos, const VECTOR& capTopPos, const VECTOR& capDownPos, const float capRadius);
+
+	/// <summary>
+	/// スフィアとスフィアの衝突判定
+	/// </summary>
+	/// <param name="sphrerRadius1">スフィア半径1</param>
+	/// <param name="spherePos1">スフィア位置1</param>
+	/// <param name="sphrerRadius2">スフィア半径2</param>
+	/// <param name="spherePos2">スフィア位置2</param>
+	/// <returns>判定結果</returns>
+	static bool CheckHitSphereToSphere(const float sphrerRadius1, const VECTOR& spherePos1, const float sphrerRadius2, const VECTOR& spherePos2);
 };

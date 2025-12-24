@@ -35,6 +35,7 @@ void InputManager::Init()
 
 	// デバッグ操作
 	RegisterTrigger(TYPE::DEBUG_SCENE_CHANGE, { KEY_INPUT_RSHIFT }, { });
+	RegisterTrigger(TYPE::DEBUG_CAMERA_CHANGE, { KEY_INPUT_TAB }, { });
 	//オブジェクトのジャンプ(デバッグ)
 	RegisterTrigger(TYPE::DEBUG_OBJ_JUMP, { KEY_INPUT_J }, { });
 	

@@ -39,6 +39,7 @@ public:
 		SELECT_CANCEL,			// 選択キャンセル
 
 		DEBUG_SCENE_CHANGE,		// デバッグシーン遷移
+		DEBUG_CAMERA_CHANGE,	// デバッグカメラ変更
 		DEBUG_OBJ_JUMP,			// アイテムのジャンプ
 		PAUSE,					// ポーズ(開閉)
 	};

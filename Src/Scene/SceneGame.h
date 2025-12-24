@@ -48,6 +48,9 @@ private:
 	// 処理の変更
 	void ChangeNormal() override;
 
+	// 衝突判定
+	void Collision();
+
 	//デバッグ処理
 	void DebugUpdate();
 	void DebugDraw();
