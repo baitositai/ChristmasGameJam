@@ -3,6 +3,7 @@
 #include "SceneBase.h"
 
 class ScenePause;
+class Player;
 
 class SceneGame : public SceneBase
 {
@@ -27,6 +28,9 @@ private:
 
 	//ポーズ画面
 	std::shared_ptr<ScenePause> ScenePause_;
+
+	// プレイヤー
+	std::unique_ptr<Player> player_;
 
 	// 更新関数
 	void NormalUpdate() override;

@@ -8,6 +8,7 @@
 #include "../Manager/Common/SoundManager.h"
 #include "../Manager/Common/ScoreManager.h"
 #include "../Utility/UtilityCommon.h"
+#include "../Object/Player/Player.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -29,8 +30,9 @@ void SceneGame::Init()
 	// カメラ設定
 	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT); 
 
-	// BGMの再生
-	//sndMng_.PlayBgm(SoundType::BGM::GAME);
+	// プレイヤー生成
+	player_ = std::make_unique<Player>();
+	player_->Init();
 }
 
 void SceneGame::NormalUpdate()
@@ -41,6 +43,9 @@ void SceneGame::NormalUpdate()
 	//	scnMng_.PushScene(ScenePause_);
 	//	return;
 	//}
+
+	// プレイヤー
+	player_->Update();
 
 #ifdef _DEBUG	
 
@@ -56,6 +61,8 @@ void SceneGame::NormalDraw()
 	DebugDraw();
 
 #endif
+
+	player_->Draw();
 }
 
 void SceneGame::ChangeNormal()
