@@ -1,4 +1,5 @@
 #include "../Utility/UtilityCommon.h"
+#include "../Manager/Common/ScoreManager.h"
 #include "LeftObject.h"
 
 LeftObject::LeftObject(const VECTOR _startPos, const VECTOR _goalPos):
@@ -19,5 +20,17 @@ void LeftObject::Init()
 void LeftObject::Draw()
 {
 	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::BLUE, UtilityCommon::BLUE, true);
+}
+
+void LeftObject::AddScore()
+{
+	if (playerActState_ == Player::ACTION_STATE::LEFT)
+	{
+		scoreMng_.AddScore(SCORE_POINT);
+	}
+	else
+	{
+		scoreMng_.AddScore(-SCORE_POINT);
+	}
 }
 

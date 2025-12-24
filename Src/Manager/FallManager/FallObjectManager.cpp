@@ -44,16 +44,11 @@ void FallObjectManager::Update()
 		obj->Update();
 	}
 
-	////デバッグようで吹っ飛ばし
-	//if (InputManager::GetInstance().IsTrgDown(InputManager::TYPE::DEBUG_OBJ_JUMP))
-	//{
-	//	for (auto& obj : fallObjs_)
-	//	{
-	//		obj->ChangeState(FallObjectBase::STATE::JUMP);
-	//	}
-	//}
-
-	//std::erase_if(fallObjs_.begin(),fallObjs_.end(),[this](auto& a){return a.})
+	//デス状態になったら配列削除
+	// 条件に合うものを削除
+	std::erase_if(fallObjs_, [](const auto& obj) {
+		return obj->GetState() == FallObjectBase::STATE::DEATH;
+		});
 }
 
 void FallObjectManager::Draw()
@@ -87,6 +82,9 @@ void FallObjectManager::DrawDebug()
 
 		DrawLine3D(end, start, UtilityCommon::RED);
 	}
+
+	int num = fallObjs_.size();
+	DrawFormatString(0, 400, UtilityCommon::BLACK, L"size(%d)", num);
 }
 
 #endif // _DEBUG

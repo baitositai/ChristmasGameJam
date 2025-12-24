@@ -4,6 +4,8 @@
 #include "../Object/Player/Player.h"
 #include "../ActorBase.h"
 
+class ScoreManager;
+
 class FallObjectBase:public ActorBase
 {
 public:
@@ -68,7 +70,13 @@ public:
 	/// </summary>
 	/// <param name=""></param>
 	/// <returns>状態</returns>
-	const STATE GetState(void) { return state_; }
+	const STATE GetState() { return state_; }
+
+	/// <summary>
+	/// スコア加算
+	/// </summary>
+	/// <param name=""></param>
+	virtual void AddScore() = 0;
 	
 protected:
 
@@ -86,13 +94,19 @@ protected:
 	//移動中の画面外Z座標
 	static constexpr float MOVE_LIMIT_Z = -200.0f;
 
+	//ジャンプ中配列削除するまでの時間
+	static constexpr float JUMP_ERASE_TIME = 2.0f;
+
+	//吹っ飛ばしによるスコアポイント
+	static constexpr int SCORE_POINT = 1;
+
 	//落ちるオブジェクトの種類
 	FALL_OBJ_TYPE type_;
 
 	//状態遷移
 	STATE state_;
-	std::map<STATE, std::function<void(void)>>changeState_;
-	std::function<void(void)>updateState_;
+	std::map<STATE, std::function<void()>>changeState_;
+	std::function<void()>updateState_;
 
 	//プレイヤーの攻撃方向
 	Player::ACTION_STATE playerActState_;
@@ -101,10 +115,16 @@ protected:
 	const VECTOR startPos_;
 	//終点座標
 	const VECTOR goalPos_;
+
+	//スコアマネージャ
+	ScoreManager& scoreMng_;
+
 	//ジャンプ力
 	float jumpPow_;
 	//ジャンプ加速度
 	float velocity_;
+	//ジャンプカウンタ(一定時間経ったら配列から削除)
+	float jumpCnt_;
 
 	/// <summary>
 	/// 状態遷移
