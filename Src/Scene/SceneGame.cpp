@@ -25,6 +25,7 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
+	FallObjectManager::GetInstance().Destroy();
 }
 
 void SceneGame::Init()

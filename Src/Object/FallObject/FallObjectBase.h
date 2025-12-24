@@ -57,6 +57,13 @@ public:
 	/// <param name=""></param>
 	/// <returns>右オブジェクトか左オブジェクトか</returns>
 	inline const FALL_OBJ_TYPE GetObjectType(void) { return type_; }
+
+	/// <summary>
+	/// 状態の取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>状態</returns>
+	const STATE GetState(void) { return state_; }
 	
 protected:
 
@@ -68,6 +75,9 @@ protected:
 	//ジャンプ力
 	static constexpr float JUMP_POW = 20.0f;
 	static constexpr float JUMP_SIDE_SPD = 20.0f;
+
+	//移動中の画面外Z座標
+	static constexpr float MOVE_LIMIT_Z = -200.0f;
 
 	//落ちるオブジェクトの種類
 	FALL_OBJ_TYPE type_;
@@ -85,16 +95,17 @@ protected:
 	float jumpPow_;
 	//ジャンプ加速度
 	float velocity_;
-
 	//更新系
 	void UpdateNone();		//None状態
 	void UpdateMove();		//流れてくる状態
 	void UpdateJump();		//吹っ飛び処理
+	void UpdateDeath();		//死亡処理
 
 	//遷移系
 	void ChangeNone();		//None状態
 	void ChangeMove();		//流れてくる状態
 	void ChangeJump();		//吹っ飛び処理
+	void ChangeDeath();		//死亡
 private:
 	
 	/// <summary>

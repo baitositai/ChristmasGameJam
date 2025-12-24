@@ -20,3 +20,4 @@ void LeftObject::Draw()
 {
 	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::BLUE, UtilityCommon::BLUE, true);
 }
+

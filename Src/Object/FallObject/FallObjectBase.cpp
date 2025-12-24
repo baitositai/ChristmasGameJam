@@ -52,6 +52,11 @@ void FallObjectBase::UpdateMove()
 {
 	VECTOR vec = VNorm(VSub(goalPos_, startPos_));
 	transform_.pos = VAdd(transform_.pos, VScale(vec, 5.0f));
+	if (transform_.pos.z < MOVE_LIMIT_Z)
+	{
+		//‰æ–ÊŠO‚ÌÀ•W‚É‹‚½‚ç
+		ChangeState(STATE::DEATH);
+	}
 }
 
 void FallObjectBase::UpdateJump()
@@ -64,6 +69,11 @@ void FallObjectBase::UpdateJump()
 	transform_.pos = VAdd(transform_.pos, VScale(vec, JUMP_SIDE_SPD));
 	transform_.pos.y += jumpPow_;
 
+}
+
+void FallObjectBase::UpdateDeath()
+{
+	//ó‘Ô‚Æ‚µ‚Ä‚ ‚é‚Ì‚Ý
 }
 
 void FallObjectBase::ChangeNone()
@@ -83,11 +93,17 @@ void FallObjectBase::ChangeJump()
 	updateState_ = [this]() {UpdateJump(); };
 }
 
+void FallObjectBase::ChangeDeath()
+{
+	updateState_ = [this]() {UpdateDeath(); };
+}
+
 void FallObjectBase::AddState()
 {
 	changeState_ = {
 		{STATE::NONE,[this]() {ChangeNone(); }},
 		{STATE::MOVE,[this]() {ChangeMove(); }},
-		{STATE::JUMP,[this]() {ChangeJump(); }}
+		{STATE::JUMP,[this]() {ChangeJump(); }},
+		{STATE::DEATH,[this]() {ChangeDeath(); }},
 	};
 }
