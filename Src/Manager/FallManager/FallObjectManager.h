@@ -63,7 +63,7 @@ private:
 	};
 
 	//出現カウント
-	static constexpr float SPAWN_DIS = 0.5f;
+	static constexpr float SPAWN_DIS = 5.0f;
 
 	//オブジェクトが流れるレーン数
 	static constexpr int LANE_NUM = 3;
