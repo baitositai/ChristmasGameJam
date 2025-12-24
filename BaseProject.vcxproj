@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Object\Weapons\KeyBlade.cpp" />
     <ClCompile Include="Src\Object\Common\Capsule.cpp" />
     <ClCompile Include="Src\Object\Player\Player.cpp" />
     <ClCompile Include="Src\Object\Pooh\Pooh.cpp" />
@@ -85,6 +86,7 @@
     <ClCompile Include="Src\Common\Image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Object\Weapons\KeyBlade.h" />
     <ClInclude Include="Src\Object\FallObject\LeftObject.h" />
     <ClInclude Include="Src\Object\FallObject\RightObject.h" />
     <ClInclude Include="Src\Manager\FallManager\FallObjectManager.h" />

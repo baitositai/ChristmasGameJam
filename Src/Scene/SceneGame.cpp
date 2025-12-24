@@ -38,6 +38,9 @@ void SceneGame::Init()
 
 	FallObjectManager::CreateInstance();
 	FallObjectManager::GetInstance().Init();
+
+	ScoreManager::CreateInstance();
+	ScoreManager::GetInstance().Init();
 	
 	// ƒvƒŒƒCƒ„[¶¬
 	player_ = std::make_unique<Player>();
@@ -85,6 +88,7 @@ void SceneGame::NormalDraw()
 #endif
 	player_->Draw();
 	FallObjectManager::GetInstance().Draw();
+	ScoreManager::GetInstance().Draw();
 
 	pooh_->Draw();
 }

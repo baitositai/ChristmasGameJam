@@ -18,10 +18,15 @@ public:
 		MAX
 	};
 
+	//スコア最大値
+	static constexpr int SCORE_MAX = 120;
+
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
 	void Init();
+
+	void Draw();
 
 	/// <summary>
 	/// ゲームの終了状態を設定
@@ -45,23 +50,31 @@ public:
 	/// スコアの追加
 	/// </summary>
 	/// <param name="score">スコア</param>
-	void AddScore(const int score);
+	void AddScore();
+
+	//ミス
+	void Miss() { life_--; }
 
 	/// <summary>
 	/// スコアを0にする
 	/// </summary>
 	void DeadScore() { score_ = 0; }
 
-private:
+	//判定
+	//クリア判定
+	const bool IsClear() const { return score_ > SCORE_MAX; }
+	//失敗判定
+	const bool IsFailed() const { return life_ <= 0; }
 
-	// 通常スコア
-	static constexpr int DEFAULT_SCORE = 10000;
+private:
 
 	// 終了状態
 	END_STATE state_;
 
 	// ゲームスコア
 	int score_;
+	//残機
+	int life_;
 
 	// コンストラクタ
 	ScoreManager();

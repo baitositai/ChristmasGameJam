@@ -44,6 +44,7 @@ private:
 	int useGoalNum_;						//使用するゴール位置数
 	int currentGoalIndex_;					//現在のゴール位置インデックス
 	bool isFinishMove_;						//移動完了フラグ
+	float speed_;							//速度
 
 
 	void UpdateSit();		//座る状態の更新
@@ -62,6 +63,8 @@ private:
 	void SetGoalPositionsForWalk();
 	//目的地の設定(初期位置)
 	void SetGoalPositionsForSit();
+	//目的地の設定(吹っ飛び)
+	void SetGoalPositionsForHit();
 
 	//疑似乱数
 	int GetRandMinMax(int _min, int _max);

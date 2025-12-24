@@ -1,25 +1,31 @@
 #include"../../Utility/Utility3D.h"
+#include"../../Manager/Common/Camera.h"
+#include"../../Manager/Common/SceneManager.h"
 #include "Pooh.h"
 
 namespace {
 	const int YELLOW = 0xffff00;				//黄色
 	const VECTOR INIT_SCL = { 1.0f,1.0f,1.0f };	//初期スケール
-	const VECTOR INIT_POS = { 300.0f,120.0f,0.0f };//初期位置
+	const VECTOR INIT_POS = { 200.0f,220.0f,180.0f };//初期位置
 	const VECTOR INIT_ROT = { 0.0f,0.0f,0.0f };	//初期回転
 
 	const int STAY_TIME = 80;				//立っている時間
-	const float MOVE_SPEED = 2.0f;			//移動速度
+	const float MOVE_SPEED = 1.0f;			//移動速度(散歩)
+	const float HIT_SPEED = 5.0f;			//移動速度(吹っ飛び)
 
+	//散歩ウェイポイント
 	const VECTOR GOAL_POSITIONS[Pooh::GOAL_POS_NUM] = {
-		{ -200.0f,-80.0f,0.0f },
-		{ -100.0f,0.0f,0.0f },
-		{ 50.0f,0.0f,0.0f },
-		{ 150.0f,-80.0f,0.0f },
-		{ -100.0f,-150.0f,0.0f },
-		{ 50.0f,-150.0f,0.0f }
+		{ -110.0f,140.0f,140.0f },	//一番左
+		{ -50.0f,180.0f,180.0f },	//左上
+		{ 50.0f,180.0f,180.0f },	//右上
+
+		{ 110.0f,140.0f,140.0f },	//一番右
+		{ -50.0f,110.0f,110.0f },	//左下
+		{ 50.0f,110.0f,110.0f }		//右下
 	};
 
 	const float GOAL_TOLERANCE = 10.0f; //目的地到達許容範囲
+	const VECTOR AFTER_HIT_POS = { 200.0f,50.0f,-100.0f };	//吹っ飛び後の位置
 }
 
 Pooh::Pooh()
@@ -57,10 +63,10 @@ void Pooh::Draw()
 
 void Pooh::DrawDebug()
 {
-	if (useGoalNum_ > 0)
-	{
-		DrawSphere3D(useGoalPositions_[currentGoalIndex_], RADIUS, 8, 0xff0000, 0xff0000, false);
-	}
+	//if (useGoalNum_ > 0)
+	//{
+	//	DrawSphere3D(useGoalPositions_[currentGoalIndex_], RADIUS, 8, 0xff0000, 0xff0000, false);
+	//}
 }
 
 void Pooh::StartWalk()
@@ -115,10 +121,13 @@ void Pooh::UpdateBack()
 void Pooh::UpdateHit()
 {
 	//カメラ側に吹っ飛ぶ
-
+	Move();
 	//吹っ飛び終えたら
 	// 画面右側へ強制移動→戻る
-	ChangeState(STATE::BACK);
+	if (isFinishMove_) {
+		transform_.pos = AFTER_HIT_POS;
+		ChangeState(STATE::BACK);
+	}
 }
 
 void Pooh::ChangeState(const STATE _next)
@@ -152,6 +161,8 @@ void Pooh::ChangeState(const STATE _next)
 		break;
 	case STATE::HIT:
 		updateFunc_ = &Pooh::UpdateHit;
+		SetGoalPositionsForHit();
+		SetMoveDir();
 		break;
 	default:
 		break;
@@ -161,7 +172,7 @@ void Pooh::ChangeState(const STATE _next)
 void Pooh::Move()
 {
 	//移動
-	transform_.pos = VAdd(transform_.pos, VScale(moveDir_, MOVE_SPEED));
+	transform_.pos = VAdd(transform_.pos, VScale(moveDir_, speed_));
 	const float diff = Utility3D::Length(transform_.pos, useGoalPositions_[currentGoalIndex_]);
 	//ゴールに一定距離近づいたら
 	if (diff < GOAL_TOLERANCE) {
@@ -185,6 +196,8 @@ void Pooh::SetMoveDir()
 
 void Pooh::SetGoalPositionsForWalk()
 {
+	speed_ = MOVE_SPEED;
+
 	//初期化
 	currentGoalIndex_ = 0;
 	
@@ -201,11 +214,24 @@ void Pooh::SetGoalPositionsForWalk()
 
 void Pooh::SetGoalPositionsForSit()
 {
+	speed_ = MOVE_SPEED;
+
 	currentGoalIndex_ = 0;
 	useGoalPositions_.clear();
 
 	useGoalNum_ = 1;
 	useGoalPositions_.push_back(INIT_POS);
+}
+
+void Pooh::SetGoalPositionsForHit()
+{
+	speed_ = HIT_SPEED;
+
+	currentGoalIndex_ = 0;
+	useGoalPositions_.clear();
+
+	useGoalNum_ = 1;
+	useGoalPositions_.push_back(mainCamera.GetPos());
 }
 
 int Pooh::GetRandMinMax(int _min, int _max)
