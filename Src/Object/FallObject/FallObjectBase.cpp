@@ -27,7 +27,7 @@ void FallObjectBase::Init()
 
 	//デバッグの球の半径分上に動かす
 	//transform_.pos.y += RADIUS;
-	transform_.pos.y -= RADIUS;
+	//transform_.pos.y -= RADIUS;
 
 	AddState();
 	state_ = STATE::NONE;
@@ -75,6 +75,7 @@ void FallObjectBase::UpdateMove()
 	if (transform_.pos.z < -RADIUS)
 	{
 		//画面外の座標に居たら
+		scoreMng_.Miss();		//見逃しでミス
 		ChangeState(STATE::DEATH);
 	}
 }

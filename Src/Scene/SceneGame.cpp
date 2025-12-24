@@ -139,11 +139,12 @@ void SceneGame::Collision()
 		}
 
 		// ƒv[‚Æ‚ÌÕ“Ë”»’è
-		else if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Pooh::RADIUS, pooh_->GetTransform().pos))
+		if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Pooh::RADIUS, pooh_->GetTransform().pos))
 		{
 			// Õ“ËŒãˆ—
 			pooh_->HitObject();
 			obj->HitPooh();
+			ScoreManager::GetInstance().Miss();
 			continue;
 		}
 	}
@@ -173,6 +174,8 @@ void SceneGame::DebugUpdate()
 			break;
 		}
 	}
+
+
 }
 
 void SceneGame::DebugDraw()
