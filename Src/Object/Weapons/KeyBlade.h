@@ -56,7 +56,7 @@ public:
 	/// 攻撃対象のトランスフォームを取得
 	/// </summary>
 	/// <param name="targetAttackObject">攻撃対象のトランスフォーム</param>
-	void SetTargetAttackObject(Transform* targetAttackObject);
+	void SetTargetAttackObject(const Transform* targetAttackObject);
 
 	/// <summary>
 	/// 状態を返す
@@ -94,7 +94,7 @@ private:
 	Transform* ownerTransform_;
 
 	// 武器の攻撃オブジェクト対象
-	Transform* attackObjectTransform_;
+	const Transform* attackObjectTransform_;
 
 	//追従するフレームの番号
 	int followFrameNo_;
@@ -112,6 +112,8 @@ private:
 	float throwStep_;
 
 	// 開始位置
+	VECTOR throwStartPos_;
+	VECTOR throwGoalPos_;
 	VECTOR backStartPos_;
 
 	// 状態

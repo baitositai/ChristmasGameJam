@@ -8,9 +8,11 @@ KeyBlade::KeyBlade()
 {
 	state_ = STATE::NONE;
 	followFrameNo_ = -1;
+	throwStep_ = 0.0f;
 	isDamage_ = false;
 	localPos_ = Utility3D::VECTOR_ZERO;
 	localRot_ = Utility3D::VECTOR_ZERO;
+	backStartPos_ = Utility3D::VECTOR_ZERO;
 	ownerTransform_ = nullptr;
 	attackObjectTransform_ = nullptr;
 
@@ -48,7 +50,7 @@ void KeyBlade::Init()
 void KeyBlade::Update()
 {
 	update_();
-	transform_.quaRot = Quaternion::GetRotation(transform_.matRot);
+
 	transform_.Update();
 }
 
@@ -68,7 +70,7 @@ void KeyBlade::SetTargetAndFrameNo(Transform* targetTransform, const int frameNo
 	followFrameNo_ = frameNo;
 }
 
-void KeyBlade::SetTargetAttackObject(Transform* targetAttackObject)
+void KeyBlade::SetTargetAttackObject(const Transform* targetAttackObject)
 {
 	attackObjectTransform_ = targetAttackObject;
 }
@@ -105,7 +107,10 @@ void KeyBlade::ChangeStateThrow()
 
 	update_ = std::bind(&KeyBlade::UpdateThrow, this);
 
-	throwStep_ = THROW_TIME;
+	throwStep_ = 0.0f;
+
+	throwStartPos_ = transform_.pos;
+	throwGoalPos_ = attackObjectTransform_->pos;
 }
 
 void KeyBlade::ChangeStateBack()
@@ -124,39 +129,71 @@ void KeyBlade::UpdateFollow()
 		transform_,
 		localPos_, localRot_
 	);
+
+	transform_.quaRot = Quaternion::GetRotation(transform_.matRot);
 }
 
 void KeyBlade::UpdateThrow()
 {
-	const VECTOR targetPos = attackObjectTransform_->pos;
-	const float GRAVITY = 0.05f; // 3D空間のスケールに合わせて調整
-
-	// 放物線の軌道を描きながらキーブレードを制御する
-	throwStep_ -= scnMng_.GetDeltaTime();
-
-	if (throwStep_ <= 0.0f)
+	// 目的値の更新
+	if (attackObjectTransform_)
 	{
-		transform_.pos = targetPos;
-		backStartPos_ = targetPos;
+		throwGoalPos_ = attackObjectTransform_->pos;
+	}
+	//const float CURVE_STRENGTH = 50.0f; // 横への膨らみの強さ
+
+	//throwStep_ += scnMng_.GetDeltaTime();
+	//float t = throwStep_ / THROW_TIME;
+
+	//if (t >= 1.0f) {
+	//	transform_.pos = targetPos;
+	//	backStartPos_ = targetPos;
+	//	attackObjectTransform_ = nullptr;
+	//	ChangeState(STATE::BACK);
+	//	throwStep_ = 0.0f;
+	//	return;
+	//}
+
+	//VECTOR basePos = UtilityCommon::Lerp(throwStartPos_, targetPos, t);
+
+	//VECTOR dir = VSub(targetPos, throwStartPos_);
+	//VECTOR sideDir = VCross(dir, VGet(0, 1.0f, 0));
+	//sideDir = VNorm(sideDir); // 長さを1にする
+	//float offsetSize = 4.0f * CURVE_STRENGTH * t * (1.0f - t);
+
+	//// D. ベースの位置に横方向のオフセットを加える
+	//transform_.pos = VAdd(basePos, VScale(sideDir, offsetSize));
+
+	// ステップ更新
+	throwStep_ += scnMng_.GetDeltaTime();
+
+	// 進行度の計算
+	float t = throwStep_ / THROW_TIME;
+
+	// 進行度が終了値を超えている場合
+	if (t >= 1.0f)
+	{
+		t = 1.0f;		// 値を固定
+		transform_.pos = throwGoalPos_;
+		backStartPos_ = throwGoalPos_;
 		attackObjectTransform_ = nullptr;
 		ChangeState(STATE::BACK);
+		throwStep_ = 0.0f;
 		return;
 	}
 
-	// 水平方向(X, Z)の速度を計算
-	// 残り距離を残り時間で割る
-	float vx = (targetPos.x - transform_.pos.x) / throwStep_;
-	float vz = (targetPos.z - transform_.pos.z) / throwStep_;
+	// 元の位置まで戻す
+	transform_.pos = UtilityCommon::Lerp(throwStartPos_, throwGoalPos_, throwStep_);
 
-	// 垂直方向(Y)の速度を計算
-	// 公式: v_y = (dist_y - 0.5 * G * t^2) / t
-	float dy = targetPos.y - transform_.pos.y;
-	float vy = (dy - 0.5f * GRAVITY * throwStep_ * throwStep_) / throwStep_;
+	Quaternion rotPow = Quaternion();
 
-	// 座標の更新
-	transform_.pos.x += vx;
-	transform_.pos.y += vy;
-	transform_.pos.z += vz;
+	rotPow = rotPow.Mult(
+		Quaternion::AngleAxis(
+			UtilityCommon::Deg2RadF(20.0f), Utility3D::AXIS_X
+		));
+
+	// 回転諒を加える(合成)
+	transform_.quaRot = transform_.quaRot.Mult(rotPow);
 }
 
 void KeyBlade::UpdateBack()
@@ -180,4 +217,14 @@ void KeyBlade::UpdateBack()
 
 	// 元の位置まで戻す
 	transform_.pos = UtilityCommon::Lerp(backStartPos_, goalPos, throwStep_);
+
+	Quaternion rotPow = Quaternion();
+
+	rotPow = rotPow.Mult(
+		Quaternion::AngleAxis(
+			UtilityCommon::Deg2RadF(20.0f), Utility3D::AXIS_X
+		));
+
+	// 回転諒を加える(合成)
+	transform_.quaRot = transform_.quaRot.Mult(rotPow);
 }

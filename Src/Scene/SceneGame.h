@@ -30,6 +30,9 @@ public:
 
 private:
 
+	// 投げUI表示判定
+	bool isThrowUi_;
+
 	//ポーズ画面
 	std::shared_ptr<ScenePause> ScenePause_;
 
