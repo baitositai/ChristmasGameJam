@@ -51,6 +51,11 @@ void FallObjectBase::HitPlayerAttack(const Player::ACTION_STATE _actState)
 	ChangeState(STATE::JUMP);
 }
 
+void FallObjectBase::HitPooh(void)
+{
+	ChangeState(STATE::DEATH);
+}
+
 void FallObjectBase::ChangeState(const STATE& _state)
 {
 	if (state_ == _state)return;

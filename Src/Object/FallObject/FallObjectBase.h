@@ -59,6 +59,12 @@ public:
 	void HitPlayerAttack(const Player::ACTION_STATE _actState);
 
 	/// <summary>
+	/// プーとヒットしたら
+	/// </summary>
+	/// <param name=""></param>
+	void HitPooh(void);
+
+	/// <summary>
 	/// オブジェクトタイプの取得
 	/// </summary>
 	/// <param name=""></param>
