@@ -23,6 +23,7 @@ public:
 		NONE,		
 		PLAY,		// プレイ
 		ACTION,		// 攻撃
+		THROW,		// 投げ
 		STAN,		// スタン
 	};
 
@@ -32,6 +33,7 @@ public:
 		NONE,
 		RIGHT,		// 右攻撃
 		LEFT,		// 左攻撃
+		THROW,		// 投げ
 	};
 
 	/// <summary>
@@ -63,6 +65,11 @@ public:
 	/// スタンの設定
 	/// </summary>
 	void Stan();
+
+	/// <summary>
+	/// 投げの設定
+	/// </summary>
+	void Throw();
 
 	/// <summary>
 	/// 状態を返す
@@ -182,12 +189,14 @@ private:
 	void ChangeStatePlay();
 	void ChangeStateAction();
 	void ChangeStateStan();
+	void ChangeStateThrow();
 
 	// 状態別更新処理
 	void UpdateNone() {};
 	void UpdatePlay();
 	void UpdateAction();
 	void UpdateStan();
+	void UpdateThrow();
 
 	// トランスフォーム初期化
 	void InitTransform();
