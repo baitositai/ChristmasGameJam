@@ -4,6 +4,7 @@
 
 class ScenePause;
 class Player;
+class Pooh;
 
 class SceneGame : public SceneBase
 {
@@ -34,6 +35,9 @@ private:
 
 	// プレイヤー
 	std::unique_ptr<Player> player_;
+
+	//プーさん枠
+	std::unique_ptr<Pooh> pooh_;
 
 	// 更新関数
 	void NormalUpdate() override;
