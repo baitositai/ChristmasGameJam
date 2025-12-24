@@ -57,14 +57,14 @@ void Pooh::Update()
 
 void Pooh::Draw()
 {
-	DrawSphere3D(transform_.pos, 10.0f, 16, YELLOW, YELLOW, false);
+	DrawSphere3D(transform_.pos, RADIUS, 16, YELLOW, YELLOW, false);
 }
 
 void Pooh::DrawDebug()
 {
 	if (useGoalNum_ > 0)
 	{
-		DrawSphere3D(useGoalPositions_[currentGoalIndex_], 10.0f, 8, 0xff0000, 0xff0000, false);
+		DrawSphere3D(useGoalPositions_[currentGoalIndex_], RADIUS, 8, 0xff0000, 0xff0000, false);
 	}
 }
 

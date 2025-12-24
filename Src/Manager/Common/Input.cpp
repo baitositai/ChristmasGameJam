@@ -28,6 +28,8 @@ Input::Input(void)
 	Add(KEY_INPUT_C);
 	Add(KEY_INPUT_V);
 	Add(KEY_INPUT_BACK);
+
+	Add(KEY_INPUT_J);
 }
 
 Input::~Input(void)

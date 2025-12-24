@@ -1,0 +1,287 @@
+#include "../../Manager/Common/InputManager.h"
+#include "../../Manager/Common/ResourceManager.h"
+#include "../../Manager/Common/Camera.h"
+#include "../../Manager/Common/SceneManager.h"
+#include "../../Utility/Utility3D.h"
+#include "../../Utility/UtilityCommon.h"
+#include "../../Scene/SceneGame.h"
+#include "../Common/Capsule.h"
+#include "Player.h"
+
+Player::Player()
+{
+	stateChangesMap_.emplace(STATE::NONE, std::bind(&Player::ChangeStateNone, this));
+	stateChangesMap_.emplace(STATE::PLAY, std::bind(&Player::ChangeStatePlay, this));
+	stateChangesMap_.emplace(STATE::ACTION, std::bind(&Player::ChangeStateAction, this));
+	stateChangesMap_.emplace(STATE::STAN, std::bind(&Player::ChangeStateStan, this));
+}
+
+Player::~Player()
+{
+}
+
+void Player::Init()
+{
+
+
+	InitTransform();
+
+	InitAnimation();
+
+	// カプセルコライダ
+	capsule_ = std::make_unique<Capsule>(transform_);
+	capsule_->SetLocalPosTop(PL_CAP_UP_LOCAL_POS);
+	capsule_->SetLocalPosDown(PL_CAP_DOWN_LOCAL_POS);
+	capsule_->SetRadius(RADIUS);
+
+	// 初期状態
+	ChangeState(STATE::PLAY);
+}
+
+void Player::Update()
+{
+	update_();
+
+	// 移動方向に応じた回転
+	Rotate();
+
+	//移動処理
+	transform_.pos = movedPos_;
+
+	// 重力方向に沿って回転させる
+	transform_.quaRot = Quaternion();
+	transform_.quaRot = transform_.quaRot.Mult(playerRotY_);
+
+	// トランスフォーム更新
+	transform_.Update();
+}
+
+void Player::Draw()
+{
+	// モデルの描画
+	//MV1DrawModel(transform_.modelId);
+
+	// カプセルの描画
+	capsule_->Draw();
+
+	// 当たり判定の描画
+	if (state_ == STATE::ACTION)
+	{
+		// 色
+		int color = actionState_ == ACTION_STATE::RIGHT ? UtilityCommon::RED : UtilityCommon::BLUE;
+
+		// 判定の描画
+		DrawSphere3D(attackPos_, ATTACK_RADIUS, 30, color, color, true);
+	}
+}
+
+void Player::Stan()
+{
+	// 状態変更
+	ChangeState(STATE::STAN);
+
+	// スタン時間
+	stanTime_ = STAN_TIME;
+}
+
+const Player::STATE Player::GetState() const
+{
+	return state_;
+}
+
+const Player::ACTION_STATE Player::GetAtctionState() const
+{
+	return actionState_;
+}
+
+const VECTOR& Player::GetAttackPos() const
+{
+	return attackPos_;
+}
+
+const Capsule& Player::GetCapsule() const
+{
+	return *capsule_;
+}
+
+void Player::ChangeState(const STATE state)
+{
+	state_ = state;
+
+	stateChangesMap_[state_]();
+}
+
+void Player::ChangeStateNone()
+{
+	update_ = std::bind(&Player::UpdateNone, this);
+}
+
+void Player::ChangeStatePlay()
+{
+	update_ = std::bind(&Player::UpdatePlay, this);
+}
+
+void Player::ChangeStateAction()
+{
+	update_ = std::bind(&Player::UpdateAction, this);
+
+	// 攻撃位置を設定
+	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
+
+	// 目標角度の設定
+	SetGoalRotate(ROT_DEG_F);
+
+	// 攻撃時間の初期化
+	attackTime_ = 0.0f;
+}
+
+void Player::ChangeStateStan()
+{
+	update_ = std::bind(&Player::UpdateStan, this);
+}
+
+void Player::UpdatePlay()
+{
+	// 移動操作処理
+	ProcessMove();
+
+	// 攻撃操作処理
+	ProcessAction();
+
+	// 移動制限
+	MoveLimit();
+}
+
+void Player::UpdateAction()
+{
+	// 時間更新
+	attackTime_ += scnMng_.GetDeltaTime();
+
+	// 攻撃位置を設定
+	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
+
+	if (2.0f < attackTime_)
+	{
+		ChangeState(STATE::PLAY);
+	}
+}
+
+void Player::UpdateStan()
+{
+	stanTime_ -= scnMng_.GetDeltaTime();
+
+	if (0.0f > stanTime_)
+	{
+		ChangeState(STATE::PLAY);
+	}
+}
+
+void Player::InitTransform()
+{
+	transform_.scl = Utility3D::VECTOR_ONE;
+	transform_.pos = Utility3D::VECTOR_ZERO;
+	transform_.rot = Utility3D::VECTOR_ZERO;
+	transform_.quaRot = Quaternion();
+	transform_.quaRotLocal = Quaternion::Euler({ 0.0f,UtilityCommon::Deg2RadF(DEFAULT_LOCAL_QUAROT_Y_DEG), 0.0f });
+	transform_.Update();
+}
+
+void Player::InitAnimation()
+{
+}
+
+void Player::ProcessMove()
+{
+	movePow_ = Utility3D::VECTOR_ZERO;			//移動量
+	VECTOR dir = Utility3D::VECTOR_ZERO;		//方向
+	Quaternion cameraRot = mainCamera.GetQuaRotOutX();
+	double rotRad = 0.0f;
+
+	//操作
+	if (inputMng_.IsNew(InputManager::TYPE::PLAYER_MOVE_RIGHT)) { dir = cameraRot.GetRight(); rotRad = UtilityCommon::Deg2RadD(ROT_DEG_R); }
+	else if (inputMng_.IsNew(InputManager::TYPE::PLAYER_MOVE_LEFT)) { dir = cameraRot.GetLeft(); rotRad = UtilityCommon::Deg2RadD(ROT_DEG_L); }
+
+	// 移動量がある場合
+	if (!Utility3D::EqualsVZero(dir))
+	{
+		// 移動処理
+		moveSpeed_ = SPEED_MOVE;
+		moveDir_ = dir;						//移動方向
+		movePow_ = VScale(dir, moveSpeed_);	//移動量
+
+		// 回転処理
+		SetGoalRotate(rotRad);
+
+		// アニメーション処理
+		//anim_->Play((int)ANIM_TYPE::WALK);
+	}
+	else
+	{
+		// アニメーション処理
+		//anim_->Play((int)ANIM_TYPE::IDLE);
+	}
+
+	// 移動後座標を設定
+	movedPos_ = VAdd(transform_.pos, movePow_);
+}
+
+void Player::ProcessAction()
+{
+	if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_RIGHT))
+	{
+		// 状態遷移
+		ChangeState(STATE::ACTION);
+
+		// 攻撃状態の設定
+		actionState_ = ACTION_STATE::RIGHT;
+	}
+	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_LEFT))
+	{	
+		// 状態遷移
+		ChangeState(STATE::ACTION);
+
+		// 攻撃状態の設定
+		actionState_ = ACTION_STATE::LEFT;
+	}
+}
+
+void Player::MoveLimit()
+{
+	// X方向の移動制限
+	if (movedPos_.x > SceneGame::MOVE_LIMIT_X)
+	{
+		movedPos_.x = SceneGame::MOVE_LIMIT_X;
+	}
+	else if (movedPos_.x < -SceneGame::MOVE_LIMIT_X)
+	{
+		movedPos_.x = -SceneGame::MOVE_LIMIT_X;
+	}
+}
+
+void Player::SetGoalRotate(double rotRad)
+{
+	VECTOR cameraRot = mainCamera.GetAngles();
+	Quaternion axis =
+		Quaternion::AngleAxis(
+			(double)cameraRot.y + rotRad, Utility3D::AXIS_Y);
+
+	// 現在設定されている回転との角度差を取る
+	double angleDiff = Quaternion::Angle(axis, goalQuaRot_);
+
+	// しきい値
+	if (angleDiff > 0.1)
+	{
+		stepRotTime_ = TIME_ROT;
+	}
+	goalQuaRot_ = axis;
+}
+
+void Player::Rotate()
+{
+	stepRotTime_ -= scnMng_.GetDeltaTime();
+
+	// 回転の球面補間
+	playerRotY_ = Quaternion::Slerp(
+		playerRotY_, goalQuaRot_,
+		(TIME_ROT - stepRotTime_) / TIME_ROT);
+}
