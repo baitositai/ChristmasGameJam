@@ -30,6 +30,7 @@ public:
 		HIT_OBJECT,		//キーブレードとオブジェクトのヒットSE
 		HIT_SUCCESS,	//仕分け成功
 		HIT_MISS,		//仕分け失敗
+		HIT_POOH,		//プー吹っ飛び
 		MAX
 	};
 

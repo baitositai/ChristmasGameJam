@@ -120,6 +120,13 @@
       "type": "sound"
     },
     {
+      "key": "seHitPooh",
+      "path": "Data/Sound/SE/SeHitPooh.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
       "key": "titleLogo",
       "path": "Data/Image/TitleLogo.png",
       "sceneId": 1,
