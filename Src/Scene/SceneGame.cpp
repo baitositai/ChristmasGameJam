@@ -160,9 +160,9 @@ void SceneGame::NormalDraw()
 
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
-	const int BLACK = 0x000000;
-	DrawFormatString(10, 10, BLACK, L"SCORE　%d　/　%d", scoreMng.GetScore(), ScoreManager::SCORE_MAX);
-	DrawFormatString(1000, 10, BLACK, L"LIFE　%d", scoreMng.GetLife());
+	//const int BLACK = 0x000000;
+	//DrawFormatString(10, 10, BLACK, L"SCORE　%d　/　%d", scoreMng.GetScore(), ScoreManager::SCORE_MAX);
+	//DrawFormatString(1000, 10, BLACK, L"LIFE　%d", scoreMng.GetLife());
 
 	pooh_->Draw();
 
