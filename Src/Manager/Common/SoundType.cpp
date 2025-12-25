@@ -10,5 +10,8 @@ const std::map<std::string, SoundType::BGM> SoundType::KEY_BGM_MAP =
 const std::map<std::string, SoundType::SE> SoundType::KEY_SE_MAP =
 {
     {"seGameStart", SoundType::SE::GAME_START},
-	{"seSelect", SoundType::SE::SELECT}
+	{"seSelect", SoundType::SE::SELECT},
+	{"seHitObject",SoundType::SE::HIT_OBJECT},
+	{"seHitSuccess",SoundType::SE::HIT_SUCCESS},
+	{"seHitMiss",SoundType::SE::HIT_MISS}
 };

@@ -27,6 +27,9 @@ public:
 	{
 		GAME_START,
 		SELECT,
+		HIT_OBJECT,		//キーブレードとオブジェクトのヒットSE
+		HIT_SUCCESS,	//仕分け成功
+		HIT_MISS,		//仕分け失敗
 		MAX
 	};
 

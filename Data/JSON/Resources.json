@@ -59,6 +59,18 @@
       "path": "Data/Model/Pooh/Chicken.mv1"
     },
     {
+      "key": "pumpkin",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/FallObject/food_Pumpkin.mv1"
+    },
+    {
+      "key": "watermelon",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/FallObject/food_Watermelon.mv1"
+    },
+    {
       "key": "bgmTitle",
       "path": "Data/Sound/BGM/BgmTitle.mp3",
       "sceneId": 1,
@@ -83,6 +95,27 @@
       "key": "seGameStart",
       "path": "Data/Sound/SE/SeGameStart.mp3",
       "sceneId": 1,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seHitObject",
+      "path": "Data/Sound/SE/SeHitObject.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seHitSuccess",
+      "path": "Data/Sound/SE/SeHitSuccess.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seHitMiss",
+      "path": "Data/Sound/SE/SeHitMiss.mp3",
+      "sceneId": 2,
       "soundType": "se",
       "type": "sound"
     },

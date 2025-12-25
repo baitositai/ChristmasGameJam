@@ -42,8 +42,8 @@ void SceneGame::Init()
 	mainCamera.ChangeMode(Camera::MODE::FIXED_POINT);
 
 	FallObjectManager::CreateInstance();
+	//オブジェクトを出現させる
 	FallObjectManager::GetInstance().Init();
-
 	ScoreManager::GetInstance().Init();
 	
 	// プレイヤー生成
@@ -118,7 +118,13 @@ void SceneGame::NormalDraw()
 
 #endif
 	player_->Draw();
-	FallObjectManager::GetInstance().Draw();
+
+	//スタートカウント中はオブジェクトを描画しない
+	if (isFinishStartDirec_)
+	{
+		FallObjectManager::GetInstance().Draw();
+	}
+
 
 	ScoreManager& scoreMng = ScoreManager::GetInstance();
 
@@ -176,6 +182,7 @@ void SceneGame::Collision()
 			// 攻撃との衝突判定
 			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, player_->GetAttackPos()))
 			{
+				sndMng_.PlaySe(SoundType::SE::HIT_OBJECT);
 				obj->HitPlayerAttack(player_->GetAtctionState());
 				continue;
 			}
