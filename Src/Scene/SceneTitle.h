@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "../../Common/Image.h"
+#include "../Common/Vector2.h"
 #include "SceneBase.h"
 
 class SceneTitle : public SceneBase
