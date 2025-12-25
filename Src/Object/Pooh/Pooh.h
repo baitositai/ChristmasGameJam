@@ -1,6 +1,9 @@
 #pragma once
 #include "../ActorBase.h"
 #include<vector>
+#include<memory>
+
+class AnimationController;
 
 class Pooh :
     public ActorBase 
@@ -32,6 +35,7 @@ public:
 
 private:
 	STATE state_;	//プーの状態
+	std::unique_ptr<AnimationController> animCtrl_; //アニメーションコントローラー
 
 	using Update_f = void(Pooh::*)(); //状態更新関数の型定義
 	Update_f updateFunc_; //状態更新関数ポインタ
@@ -46,6 +50,12 @@ private:
 	bool isFinishMove_;						//移動完了フラグ
 	float speed_;							//速度
 
+	//回転
+	Quaternion charaRotY_;
+	Quaternion goalQuaRot_;
+	float stepRotTime_;
+
+	void InitAnimation();	//アニメーション初期化
 
 	void UpdateSit();		//座る状態の更新
 	void UpdateStandUp();	//立つ状態の更新
@@ -70,5 +80,10 @@ private:
 	int GetRandMinMax(int _min, int _max);
 	//目的地位置のシャッフル
 	void ShuffleGoalPositions();
+
+	//回転目標
+	void SetGoalRot(const float _rad);
+	//回転
+	void Rotate();
 };
 
