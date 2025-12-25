@@ -12,7 +12,9 @@ namespace {
 	using FALL_OBJ_TYPE = FallObjectBase::FALL_OBJ_TYPE;
 }
 
-FallObjectManager::FallObjectManager()
+FallObjectManager::FallObjectManager():
+	spawnCnt_(0.0f),
+	spawnDisCnt_(0.0f)
 {
 }
 
