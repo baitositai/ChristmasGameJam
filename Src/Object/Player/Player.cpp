@@ -5,6 +5,7 @@
 #include "../../Utility/Utility3D.h"
 #include "../../Utility/UtilityCommon.h"
 #include "../../Scene/SceneGame.h"
+#include "../Common/ControllerAnimation.h"
 #include "../Common/Capsule.h"
 #include "../Weapons/KeyBlade.h"
 #include "Player.h"
@@ -77,6 +78,9 @@ void Player::Update()
 	// トランスフォーム更新
 	transform_.Update();
 
+	// アニメーション更新
+	animation_->Update();
+
 	// 武器の更新
 	keyBlade_->Update();
 }
@@ -110,6 +114,8 @@ void Player::Stan()
 
 	// スタン時間
 	stanTime_ = STAN_TIME;
+
+	animation_->Play("FallingDown", false);
 }
 
 void Player::Throw()
@@ -117,9 +123,12 @@ void Player::Throw()
 	// 状態変更
 	ChangeState(STATE::THROW);
 
+	// 目標角度の設定
+	SetGoalRotate(ROT_DEG_F);
+
 	keyBlade_->Throw();
 
-	actionState_ = ACTION_STATE::NONE;
+	animation_->Play("Throw", false, 53.0f);
 }
 
 const Player::STATE Player::GetState() const
@@ -208,8 +217,9 @@ void Player::UpdateAction()
 	// 攻撃位置を設定
 	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
 
-	if (2.0f < attackTime_)
+	if (animation_->IsEnd())
 	{
+		animation_->Play("Idle");
 		ChangeState(STATE::PLAY);
 	}
 }
@@ -229,6 +239,8 @@ void Player::UpdateThrow()
 	if (keyBlade_->GetState() == KeyBlade::STATE::FOLLOW)
 	{
 		ChangeState(STATE::PLAY);
+
+		actionState_ = ACTION_STATE::NONE;
 	}
 }
 
@@ -244,6 +256,22 @@ void Player::InitTransform()
 
 void Player::InitAnimation()
 {
+	// アニメーションクラスの生成
+	animation_ = std::make_unique<ControllerAnimation>(transform_.modelId);
+
+	// アニメーションの登録
+	animation_->Add("Idle", resMng_.GetHandle("playerAnimIdle"), 40.0f);
+	animation_->Add("Run", resMng_.GetHandle("playerAnimRun"), 40.0f);
+	animation_->Add("RightAttack", resMng_.GetHandle("playerAnimRightAttack"), 60.0f);
+	animation_->Add("LeftAttack", resMng_.GetHandle("playerAnimLeftAttack"), 60.0f);
+	animation_->Add("Throw", resMng_.GetHandle("playerAnimThrow"), 40.0f);
+	animation_->Add("FallingDown", resMng_.GetHandle("playerAnimFallingDown"), 40.0f);
+
+	// 初期アニメーション設定
+	animation_->Play("Idle");
+
+	// 初期更新
+	animation_->Update();
 }
 
 void Player::ProcessMove()
@@ -269,12 +297,12 @@ void Player::ProcessMove()
 		SetGoalRotate(rotRad);
 
 		// アニメーション処理
-		//anim_->Play((int)ANIM_TYPE::WALK);
+		animation_->Play("Run");
 	}
 	else
 	{
 		// アニメーション処理
-		//anim_->Play((int)ANIM_TYPE::IDLE);
+		animation_->Play("Idle");
 	}
 
 	// 移動後座標を設定
@@ -290,6 +318,9 @@ void Player::ProcessAction()
 
 		// 攻撃状態の設定
 		actionState_ = ACTION_STATE::RIGHT;
+
+		// アニメーション開始
+		animation_->Play("RightAttack", false);
 	}
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_LEFT))
 	{	
@@ -298,6 +329,9 @@ void Player::ProcessAction()
 
 		// 攻撃状態の設定
 		actionState_ = ACTION_STATE::LEFT;
+
+		// アニメーション開始
+		animation_->Play("LeftAttack", false);
 	}
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_THROW))
 	{

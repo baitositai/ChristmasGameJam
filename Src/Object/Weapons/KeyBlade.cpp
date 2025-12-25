@@ -14,7 +14,6 @@ KeyBlade::KeyBlade()
 	localRot_ = Utility3D::VECTOR_ZERO;
 	backStartPos_ = Utility3D::VECTOR_ZERO;
 	ownerTransform_ = nullptr;
-	attackObjectTransform_ = nullptr;
 
 	stateChangesMap_.emplace(STATE::NONE, std::bind(&KeyBlade::ChangeStateNone, this));
 	stateChangesMap_.emplace(STATE::FOLLOW, std::bind(&KeyBlade::ChangeStateFollow, this));
@@ -57,6 +56,8 @@ void KeyBlade::Update()
 void KeyBlade::Draw()
 {
 	MV1DrawModel(transform_.modelId);
+
+	DrawSphere3D(transform_.pos, RADIUS, 30, UtilityCommon::RED, UtilityCommon::RED, true);
 }
 
 void KeyBlade::Throw()
@@ -70,9 +71,9 @@ void KeyBlade::SetTargetAndFrameNo(Transform* targetTransform, const int frameNo
 	followFrameNo_ = frameNo;
 }
 
-void KeyBlade::SetTargetAttackObject(const Transform* targetAttackObject)
+void KeyBlade::SetGoalTargetPos(const VECTOR& goalPos)
 {
-	attackObjectTransform_ = targetAttackObject;
+	throwGoalPos_ = goalPos;
 }
 
 const KeyBlade::STATE KeyBlade::GetState() const
@@ -99,18 +100,11 @@ void KeyBlade::ChangeStateFollow()
 
 void KeyBlade::ChangeStateThrow()
 {
-	if (attackObjectTransform_ == nullptr)
-	{
-		ChangeState(STATE::FOLLOW);
-		return;
-	}
-
 	update_ = std::bind(&KeyBlade::UpdateThrow, this);
 
 	throwStep_ = 0.0f;
 
 	throwStartPos_ = transform_.pos;
-	throwGoalPos_ = attackObjectTransform_->pos;
 }
 
 void KeyBlade::ChangeStateBack()
@@ -135,35 +129,6 @@ void KeyBlade::UpdateFollow()
 
 void KeyBlade::UpdateThrow()
 {
-	// 目的値の更新
-	if (attackObjectTransform_)
-	{
-		throwGoalPos_ = attackObjectTransform_->pos;
-	}
-	//const float CURVE_STRENGTH = 50.0f; // 横への膨らみの強さ
-
-	//throwStep_ += scnMng_.GetDeltaTime();
-	//float t = throwStep_ / THROW_TIME;
-
-	//if (t >= 1.0f) {
-	//	transform_.pos = targetPos;
-	//	backStartPos_ = targetPos;
-	//	attackObjectTransform_ = nullptr;
-	//	ChangeState(STATE::BACK);
-	//	throwStep_ = 0.0f;
-	//	return;
-	//}
-
-	//VECTOR basePos = UtilityCommon::Lerp(throwStartPos_, targetPos, t);
-
-	//VECTOR dir = VSub(targetPos, throwStartPos_);
-	//VECTOR sideDir = VCross(dir, VGet(0, 1.0f, 0));
-	//sideDir = VNorm(sideDir); // 長さを1にする
-	//float offsetSize = 4.0f * CURVE_STRENGTH * t * (1.0f - t);
-
-	//// D. ベースの位置に横方向のオフセットを加える
-	//transform_.pos = VAdd(basePos, VScale(sideDir, offsetSize));
-
 	// ステップ更新
 	throwStep_ += scnMng_.GetDeltaTime();
 
@@ -176,7 +141,6 @@ void KeyBlade::UpdateThrow()
 		t = 1.0f;		// 値を固定
 		transform_.pos = throwGoalPos_;
 		backStartPos_ = throwGoalPos_;
-		attackObjectTransform_ = nullptr;
 		ChangeState(STATE::BACK);
 		throwStep_ = 0.0f;
 		return;
@@ -189,7 +153,7 @@ void KeyBlade::UpdateThrow()
 
 	rotPow = rotPow.Mult(
 		Quaternion::AngleAxis(
-			UtilityCommon::Deg2RadF(20.0f), Utility3D::AXIS_X
+			UtilityCommon::Deg2RadF(ROT_DEG), Utility3D::AXIS_X
 		));
 
 	// 回転諒を加える(合成)
@@ -198,8 +162,6 @@ void KeyBlade::UpdateThrow()
 
 void KeyBlade::UpdateBack()
 {
-	const VECTOR goalPos = MV1GetFramePosition(transform_.modelId, followFrameNo_);
-
 	// ステップ更新
 	throwStep_ += scnMng_.GetDeltaTime();
 
@@ -211,18 +173,18 @@ void KeyBlade::UpdateBack()
 	{
 		t = 1.0f;		// 値を固定
 		ChangeState(STATE::FOLLOW);
-		transform_.pos = goalPos;
+		transform_.pos = throwStartPos_;
 		return;
 	}
 
 	// 元の位置まで戻す
-	transform_.pos = UtilityCommon::Lerp(backStartPos_, goalPos, throwStep_);
+	transform_.pos = UtilityCommon::Lerp(backStartPos_, throwStartPos_, throwStep_);
 
 	Quaternion rotPow = Quaternion();
 
 	rotPow = rotPow.Mult(
 		Quaternion::AngleAxis(
-			UtilityCommon::Deg2RadF(20.0f), Utility3D::AXIS_X
+			UtilityCommon::Deg2RadF(ROT_DEG), Utility3D::AXIS_X
 		));
 
 	// 回転諒を加える(合成)

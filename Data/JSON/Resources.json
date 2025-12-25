@@ -85,6 +85,42 @@
       "path": "Data/Image/TitleLogo.png",
       "sceneId": 1,
       "type": "texture"
+    },
+    {
+      "key": "playerAnimIdle",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/Idle.mv1"
+    },
+    {
+      "key": "playerAnimRun",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/Run.mv1"
+    },
+    {
+      "key": "playerAnimThrow",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/Throw.mv1"
+    },
+    {
+      "key": "playerAnimRightAttack",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/RightAttack.mv1"
+    },
+    {
+      "key": "playerAnimLeftAttack",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/LeftAttack.mv1"
+    },
+    {
+      "key": "playerAnimFallingDown",
+      "sceneId": 2,
+      "type": "model",
+      "path": "Data/Model/Player/Animation/FallingDown.mv1"
     }
   ]
 }

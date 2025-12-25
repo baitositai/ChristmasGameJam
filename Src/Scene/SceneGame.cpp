@@ -191,15 +191,35 @@ void SceneGame::Collision()
 			continue;
 		}
 
-		// プーのいる範囲にオブジェクトがくる場合
-		if (objPos.x + OFFSET_X > poohPos.x && objPos.x - OFFSET_X < poohPos.x)
-		{			
-			isThrowUi_ = true;
-			if (player_->GetAtctionState() == Player::ACTION_STATE::THROW)
-			{
-				player_->GetWeapon().SetTargetAttackObject(&obj->GetTransform());
+		// 武器情報の取得
+		auto& weapon = player_->GetWeapon();
 
-				player_->Throw();
+		//投げた武器とオブジェクトの衝突判定
+		if (weapon.GetState() == KeyBlade::STATE::THROW)
+		{
+			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, KeyBlade::RADIUS, player_->GetWeapon().GetTransform().pos))
+			{
+				// 吹っ飛び方向を決定
+				Player::ACTION_STATE state = obj->GetObjectType() == FallObjectBase::FALL_OBJ_TYPE::LEFT_OBJ ? Player::ACTION_STATE::LEFT : Player::ACTION_STATE::RIGHT;
+
+				// オブジェクトの吹っ飛び処理
+				obj->HitPlayerAttack(state);
+			}
+		}
+		else if (weapon.GetState() == KeyBlade::STATE::FOLLOW)
+		{
+			// プーのいる範囲かつプーより奥にオブジェクトがある場合
+			if (objPos.x + OFFSET_X > poohPos.x && objPos.x - OFFSET_X < poohPos.x && poohPos.z < objPos.z)
+			{
+				isThrowUi_ = true;
+				if (player_->GetAtctionState() == Player::ACTION_STATE::THROW)
+				{
+					// 武器目的地の設定
+					weapon.SetGoalTargetPos(obj->GetTransform().pos);
+
+					// 投げ処理
+					player_->Throw();
+				}
 			}
 		}
 	}

@@ -6,6 +6,7 @@
 
 class Capsule;
 class KeyBlade;
+class ControllerAnimation;
 
 class Player : public ActorBase
 {
@@ -176,6 +177,9 @@ private:
 
 	// 武器情報
 	std::unique_ptr<KeyBlade> keyBlade_;
+
+	// アニメーション
+	std::unique_ptr<ControllerAnimation> animation_;
 
 	// 状態遷移管理マップ
 	std::unordered_map<STATE, std::function<void()>> stateChangesMap_;

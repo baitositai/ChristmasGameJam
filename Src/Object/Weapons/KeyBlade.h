@@ -7,6 +7,8 @@ class KeyBlade : public ActorBase
 {
 public:
 
+	static constexpr float RADIUS = 30.0f;
+
 	enum class STATE
 	{
 		NONE,	// なし
@@ -53,10 +55,10 @@ public:
 	void SetTargetAndFrameNo(Transform* targetTransform, const int frameNo);
 
 	/// <summary>
-	/// 攻撃対象のトランスフォームを取得
+	/// ゴール位置の設定
 	/// </summary>
-	/// <param name="targetAttackObject">攻撃対象のトランスフォーム</param>
-	void SetTargetAttackObject(const Transform* targetAttackObject);
+	/// <param name="goalPos">ゴール位置</param>
+	void SetGoalTargetPos(const VECTOR& goalPos);
 
 	/// <summary>
 	/// 状態を返す
@@ -85,16 +87,16 @@ private:
 	static constexpr float CAPSULE_COL_HEIGHT = (MAX_VERTEX_POS.y - MIN_VERTEX_POS.y) * WEAPON_SCL;
 
 	// 投げ時間
-	static constexpr float THROW_TIME = 1.0f;
+	static constexpr float THROW_TIME = 0.5f;
 
 	// 戻り時間
-	static constexpr float BACK_TIME = 1.0f;
+	static constexpr float BACK_TIME = 0.5f;
+
+	// 回転角度
+	static constexpr float ROT_DEG = 30.0f;
 
 	//武器の所有者対象
 	Transform* ownerTransform_;
-
-	// 武器の攻撃オブジェクト対象
-	const Transform* attackObjectTransform_;
 
 	//追従するフレームの番号
 	int followFrameNo_;
