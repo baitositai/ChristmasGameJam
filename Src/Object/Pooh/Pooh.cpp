@@ -219,6 +219,7 @@ void Pooh::ChangeState(const STATE _next)
 		//ƒ‚ƒfƒ‹—§‚½‚¹‚é
 		animCtrl_->Play(AnimationController::ANIM_NAME::STAND_UP, ANIM_SPEED);
 		animCtrl_->AddNextAnim({ AnimationController::ANIM_NAME::IDLE });
+		sndMng_.PlaySe(SoundType::SE::HIT_POOH);
 		break;
 	case STATE::WALK:
 		updateFunc_ = &Pooh::UpdateWalk;
