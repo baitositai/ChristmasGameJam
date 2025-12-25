@@ -30,6 +30,10 @@ public:
 		HIT_OBJECT,		//キーブレードとオブジェクトのヒットSE
 		HIT_SUCCESS,	//仕分け成功
 		HIT_MISS,		//仕分け失敗
+		STAN,			// スタン
+		ATTACK,			// 攻撃
+		CATCH,			// キャッチ
+		BLADE_ROTA,		// 武器の回転	
 		MAX
 	};
 

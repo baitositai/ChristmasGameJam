@@ -13,5 +13,9 @@ const std::map<std::string, SoundType::SE> SoundType::KEY_SE_MAP =
 	{"seSelect", SoundType::SE::SELECT},
 	{"seHitObject",SoundType::SE::HIT_OBJECT},
 	{"seHitSuccess",SoundType::SE::HIT_SUCCESS},
-	{"seHitMiss",SoundType::SE::HIT_MISS}
+	{"seHitMiss",SoundType::SE::HIT_MISS},
+	{"seAttack",SoundType::SE::ATTACK},
+	{"seBladeRota",SoundType::SE::BLADE_ROTA},
+	{"seStan",SoundType::SE::STAN},
+	{"seCatch",SoundType::SE::CATCH}
 };

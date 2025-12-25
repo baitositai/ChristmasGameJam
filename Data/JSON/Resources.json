@@ -120,6 +120,34 @@
       "type": "sound"
     },
     {
+      "key": "seAttack",
+      "path": "Data/Sound/SE/SeAttack.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seBladeRota",
+      "path": "Data/Sound/SE/SeBladeRota.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seCatch",
+      "path": "Data/Sound/SE/SeCatch.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seStan",
+      "path": "Data/Sound/SE/SeStan.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
       "key": "titleLogo",
       "path": "Data/Image/TitleLogo.png",
       "sceneId": 1,

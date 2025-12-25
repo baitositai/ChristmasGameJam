@@ -2,6 +2,7 @@
 #include "../../Manager/Common/ResourceManager.h"
 #include "../../Manager/Common/Camera.h"
 #include "../../Manager/Common/SceneManager.h"
+#include "../../Manager/Common/SoundManager.h"
 #include "../../Utility/Utility3D.h"
 #include "../../Utility/UtilityCommon.h"
 #include "../../Scene/SceneGame.h"
@@ -116,6 +117,8 @@ void Player::Stan()
 	stanTime_ = STAN_TIME;
 
 	animation_->Play("FallingDown", false);
+
+	sndMng_.PlaySe(SoundType::SE::STAN);
 }
 
 void Player::Throw()
@@ -129,6 +132,8 @@ void Player::Throw()
 	keyBlade_->Throw();
 
 	animation_->Play("Throw", false, 53.0f);
+
+	sndMng_.PlaySe(SoundType::SE::BLADE_ROTA);
 }
 
 const Player::STATE Player::GetState() const
@@ -185,6 +190,8 @@ void Player::ChangeStateAction()
 
 	// çUåÇéûä‘ÇÃèâä˙âª
 	attackTime_ = 0.0f;
+
+	sndMng_.PlaySe(SoundType::SE::ATTACK);
 }
 
 void Player::ChangeStateStan()
@@ -243,6 +250,9 @@ void Player::UpdateThrow()
 		ChangeState(STATE::PLAY);
 
 		actionState_ = ACTION_STATE::NONE;
+
+		sndMng_.StopSe(SoundType::SE::BLADE_ROTA);
+		sndMng_.PlaySe(SoundType::SE::CATCH);
 	}
 }
 
