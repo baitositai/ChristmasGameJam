@@ -48,6 +48,10 @@ void SceneTitle::NormalUpdate()
 
 void SceneTitle::NormalDraw()
 {
+	//タイトルpush座標のオフセット
+	const Vector2 PUSH_SPACE_POS_OFFSET = { -200,100 };
+	Vector2 pushSpacePos = { Application::SCREEN_HALF_X + PUSH_SPACE_POS_OFFSET.x, Application::SCREEN_HALF_Y + PUSH_SPACE_POS_OFFSET.y };
+
 	titleLogo_.DrawExtend();
 	DrawString(0, 0, L"RSHIFTでシーン遷移", 0xffffff);
 	//座標位置を設定
@@ -55,7 +59,7 @@ void SceneTitle::NormalDraw()
 	//int posY = Application::SCREEN_HALF_Y - OFFSET_Y + TEXT_MARGINT * i;
 
 	//文字列を描画
-	DrawFormatStringToHandle(Application::SCREEN_HALF_X-200, Application::SCREEN_HALF_Y+100, UtilityCommon::WHITE, titleFont_, L"PUSH SPACE");
+	DrawFormatStringToHandle(pushSpacePos.x, pushSpacePos.y, UtilityCommon::WHITE, titleFont_, L"PUSH SPACE");
 }
 
 void SceneTitle::ChangeNormal()
