@@ -21,6 +21,8 @@ namespace {
 	const VECTOR INIT_ROT = { 0.0f,0.0f,0.0f };	//‰Šú‰ñ“]
 	const VECTOR INIT_DEG = { 0.0f,45.0f,0.0f };	//‰Šú‰ñ“](“x)
 
+	const int SIT_TIME_MIN = 5 * 60;			//À‚èŽžŠÔ(Å’áŒÀ)
+	const int SIT_TIME_MAX = 8 * 60;			//À‚èŽžŠÔ(Å‘å)
 	const int STAY_TIME = 80;				//—§‚Á‚Ä‚¢‚éŽžŠÔ
 	const float MOVE_SPEED = 1.0f;			//ˆÚ“®‘¬“x(ŽU•à)
 	const float HIT_SPEED = 5.0f;			//ˆÚ“®‘¬“x(‚Á”ò‚Ñ)
@@ -54,6 +56,8 @@ Pooh::Pooh()
 	, speed_(0.0f)
 	, charaRotY_(Quaternion())
 	, goalQuaRot_(Quaternion())
+	, sitCounter_(0)
+	, sitlimit_(0)
 {
 }
 
@@ -73,7 +77,7 @@ void Pooh::Init()
 
 	InitAnimation();
 
-	ChangeState(STATE::STAND_UP);
+	ChangeState(STATE::SIT);
 }
 
 void Pooh::Update()
@@ -136,6 +140,11 @@ void Pooh::InitAnimation()
 void Pooh::UpdateSit()
 {
 	//‰½‚à‚µ‚È‚¢
+	sitCounter_++;
+	//ˆê’èŽžŠÔÀ‚Á‚½‚ç•à‚«Žn‚ß‰Lr
+	if (sitCounter_ > sitlimit_) {
+		StartWalk();
+	}
 }
 
 void Pooh::UpdateStandUp()
@@ -188,6 +197,7 @@ void Pooh::ChangeState(const STATE _next)
 	useGoalNum_ = -1;
 	goalQuaRot_ = Quaternion();
 	charaRotY_ = Quaternion();
+	sitCounter_ = 0;
 
 	//XVó‘Ô‚ÌØ‚è‘Ö‚¦
 	switch (_next)
@@ -199,6 +209,8 @@ void Pooh::ChangeState(const STATE _next)
 		VECTOR toCamera = VSub(transform_.pos, mainCamera.GetPos());
 		SetGoalRot(atan2f(toCamera.x, toCamera.z));
 
+		sitlimit_ = GetRandMinMax(SIT_TIME_MIN, SIT_TIME_MAX);
+
 		break;
 	case STATE::STAND_UP:
 		updateFunc_ = &Pooh::UpdateStandUp;
@@ -207,6 +219,7 @@ void Pooh::ChangeState(const STATE _next)
 		//ƒ‚ƒfƒ‹—§‚½‚¹‚é
 		animCtrl_->Play(AnimationController::ANIM_NAME::STAND_UP, ANIM_SPEED);
 		animCtrl_->AddNextAnim({ AnimationController::ANIM_NAME::IDLE });
+		sndMng_.PlaySe(SoundType::SE::HIT_POOH);
 		break;
 	case STATE::WALK:
 		updateFunc_ = &Pooh::UpdateWalk;
