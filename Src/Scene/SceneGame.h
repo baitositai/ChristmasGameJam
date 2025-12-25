@@ -3,6 +3,7 @@
 #include "../../Common/Image.h"
 #include "SceneBase.h"
 
+class EffectManager;
 class ScenePause;
 class Player;
 class Pooh;
@@ -32,6 +33,9 @@ public:
 
 private:
 
+	//ヒットエフェクトの大きさ
+	static constexpr float HIT_EFF_SCL = 10.0f;
+
 	// 投げUI表示判定
 	bool isThrowUi_;
 
@@ -57,6 +61,8 @@ private:
 
 	//ステージ画像
 	Image stageImg_;
+
+	EffectManager& effMng_;
 
 	// 更新関数
 	void NormalUpdate() override;

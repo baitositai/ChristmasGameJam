@@ -1,5 +1,6 @@
 #include "../../Manager/Common/SceneManager.h"
 #include "../../Manager/Common/ResourceManager.h"
+#include "../../Manager/Common/EffectManager.h"
 #include "../../Utility/UtilityCommon.h"
 #include "../../Utility/Utility3D.h"
 #include "KeyBlade.h"
@@ -102,6 +103,8 @@ void KeyBlade::ChangeStateThrow()
 {
 	update_ = std::bind(&KeyBlade::UpdateThrow, this);
 
+	effMng_.Play(EffectType::TYPE::FOLLOW_BLADE, transform_.pos, { FOLLOW_BLADE_EFF_SCL,FOLLOW_BLADE_EFF_SCL, FOLLOW_BLADE_EFF_SCL }, transform_.quaRot);
+
 	throwStep_ = 0.0f;
 
 	throwStartPos_ = transform_.pos;
@@ -134,6 +137,8 @@ void KeyBlade::UpdateThrow()
 
 	// 進行度の計算
 	float t = throwStep_ / THROW_TIME;
+
+	effMng_.Sync(EffectType::TYPE::FOLLOW_BLADE, transform_.pos, { FOLLOW_BLADE_EFF_SCL,FOLLOW_BLADE_EFF_SCL, FOLLOW_BLADE_EFF_SCL }, transform_.quaRot);
 
 	// 進行度が終了値を超えている場合
 	if (t >= 1.0f)
@@ -168,12 +173,15 @@ void KeyBlade::UpdateBack()
 	// 進行度の計算
 	float t = throwStep_ / BACK_TIME;
 
+	effMng_.Sync(EffectType::TYPE::FOLLOW_BLADE, transform_.pos, { FOLLOW_BLADE_EFF_SCL,FOLLOW_BLADE_EFF_SCL, FOLLOW_BLADE_EFF_SCL }, transform_.quaRot);
+
 	// 進行度が終了値を超えている場合
 	if (t >= 1.0f)
 	{
 		t = 1.0f;		// 値を固定
 		ChangeState(STATE::FOLLOW);
 		transform_.pos = throwStartPos_;
+		effMng_.Stop(EffectType::TYPE::FOLLOW_BLADE);
 		return;
 	}
 

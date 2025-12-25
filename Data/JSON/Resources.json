@@ -254,6 +254,18 @@
       "sceneId": 2,
       "type": "texture",
       "path": "Data/Image/UiDir.png"
+    },
+    {
+      "key": "hitStar",
+      "sceneId": 0,
+      "type": "effect",
+      "path": "Data/Effect/ExpandStar/ExpandStar.efkefc"
+    },
+    {
+      "key": "followBlade",
+      "sceneId": 0,
+      "type": "effect",
+      "path": "Data/Effect/FollowThrowBlade/WarpOrbit.efkefc"
     }
   ]
 }

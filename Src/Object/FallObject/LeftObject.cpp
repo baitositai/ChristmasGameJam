@@ -16,7 +16,7 @@ LeftObject::~LeftObject()
 void LeftObject::Init()
 {
 	FallObjectBase::Init();
-	type_ = FALL_OBJ_TYPE::RIGHT_OBJ;
+	type_ = FALL_OBJ_TYPE::LEFT_OBJ;
 	transform_.SetModel(resMng_.GetHandle("watermelon"));
 	transform_.quaRotLocal =
 		Quaternion::Euler({ 0.0f, 0.0f, UtilityCommon::Deg2RadF(90.0f) });
@@ -33,7 +33,7 @@ void LeftObject::Draw()
 
 void LeftObject::AddScore()
 {
-	if (playerActState_ == Player::ACTION_STATE::LEFT)
+	if (playerActState_ == Player::ACTION_STATE::LEFT||playerActState_==Player::ACTION_STATE::THROW)
 	{
 		sndMng_.PlaySe(SoundType::SE::HIT_SUCCESS);
 		scoreMng_.AddScore();

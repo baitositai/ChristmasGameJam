@@ -5,6 +5,7 @@ class SceneManager;
 class ResourceManager;
 class SoundManager;
 class InputManager;
+class EffectManager;
 
 class ActorBase
 {
@@ -51,6 +52,7 @@ protected:
 	ResourceManager& resMng_;
 	SoundManager& sndMng_;
 	InputManager& inputMng_;
+	EffectManager& effMng_;
 
 	// トランスフォーム
 	Transform transform_;
