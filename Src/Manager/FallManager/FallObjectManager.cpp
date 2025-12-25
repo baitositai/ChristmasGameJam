@@ -95,8 +95,6 @@ void FallObjectManager::DesideObject()
 		= static_cast<FALL_OBJ_TYPE>(GetRand(static_cast<int>(FALL_OBJ_TYPE::LEFT_OBJ)));	
 	START_GOAL_POS startGoal = DesideLane();
 
-	type = FallObjectBase::FALL_OBJ_TYPE::LEFT_OBJ;
-
 	if (type == FALL_OBJ_TYPE::LEFT_OBJ)
 	{
 		std::unique_ptr<FallObjectBase>fallobj = std::make_unique<LeftObject>(startGoal.startPos, startGoal.goalPos);

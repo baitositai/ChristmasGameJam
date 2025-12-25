@@ -189,7 +189,7 @@ void SceneGame::Collision()
 			// UŒ‚‚Æ‚ÌÕ“Ë”»’è
 			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, pAtkPos))
 			{
-				effMng_.Play(EffectType::TYPE::HIT_STAR, pAtkPos, { HIT_EFF_SCL,HIT_EFF_SCL, HIT_EFF_SCL }, {});
+				effMng_.Play(EffectType::TYPE::HIT_STAR, objPos, { HIT_EFF_SCL,HIT_EFF_SCL, HIT_EFF_SCL }, {});
 				sndMng_.PlaySe(SoundType::SE::HIT_OBJECT);
 				obj->HitPlayerAttack(player_->GetAtctionState());
 				continue;

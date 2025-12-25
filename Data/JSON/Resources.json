@@ -169,9 +169,16 @@
     },
     {
       "key": "hitStar",
-      "sceneId": 2,
+      "sceneId": 0,
       "type": "effect",
       "path": "Data/Effect/ExpandStar/ExpandStar.efkefc"
+    },
+    {
+      "key": "followBlade",
+      "sceneId": 0,
+      "type": "effect",
+      "path": "Data/Effect/FollowThrowBlade/WarpOrbit.efkefc"
     }
+
   ]
 }

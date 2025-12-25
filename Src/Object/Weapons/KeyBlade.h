@@ -95,6 +95,9 @@ private:
 	// 回転角度
 	static constexpr float ROT_DEG = 30.0f;
 
+	//キーブレードエフェクトの大きさ
+	static constexpr float FOLLOW_BLADE_EFF_SCL = 10.0f;
+
 	//武器の所有者対象
 	Transform* ownerTransform_;
 
