@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Object\Common\ControllerAnimation.cpp" />
+    <ClCompile Include="Src\Object\Pooh\AnimationController.cpp" />
     <ClCompile Include="Src\Object\Weapons\KeyBlade.cpp" />
     <ClCompile Include="Src\Object\Common\Capsule.cpp" />
     <ClCompile Include="Src\Object\Player\Player.cpp" />
@@ -88,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Common\ControllerAnimation.h" />
+    <ClInclude Include="Src\Object\Pooh\AnimationController.h" />
     <ClInclude Include="Src\Object\Weapons\KeyBlade.h" />
     <ClInclude Include="Src\Object\FallObject\LeftObject.h" />
     <ClInclude Include="Src\Object\FallObject\RightObject.h" />
