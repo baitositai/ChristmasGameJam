@@ -90,6 +90,8 @@
     <ClCompile Include="Src\Core\Game\UiDir.cpp" />
     <ClCompile Include="Src\Core\Game\UiLeft.cpp" />
     <ClCompile Include="Src\Core\Game\UiRight.cpp" />
+    <ClCompile Include="Src\Core\Game\UiLife.cpp" />
+    <ClCompile Include="Src\Core\Game\UiScore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Common\ControllerAnimation.h" />
@@ -210,6 +212,8 @@
     <ClInclude Include="Src\Core\Game\UiDir.h" />
     <ClInclude Include="Src\Core\Game\UiLeft.h" />
     <ClInclude Include="Src\Core\Game\UiRight.h" />
+    <ClInclude Include="Src\Core\Game\UiLife.h" />
+    <ClInclude Include="Src\Core\Game\UiScore.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -3,6 +3,9 @@
 #include "../../Common/Image.h"
 #include "../CoreBase.h"
 
+class ScoreManager;
+class FontManager;
+
 class UiBase : public CoreBase
 {
 public:
@@ -16,7 +19,15 @@ public:
 
 protected:
 
+	static constexpr int FONT_SIZE = 38;
+	static constexpr int FONT_THICK = 3;
+
+	ScoreManager& scoreMng_;
+
+	FontManager& fontMng_;
+
 	Image image_;
 
+	CharacterString text_;
 };
 

@@ -18,6 +18,8 @@
 #include "../Core/Game/UiDir.h"
 #include "../Core/Game/UiLeft.h"
 #include "../Core/Game/UiRight.h"
+#include "../Core/Game/UiLife.h"
+#include "../Core/Game/UiScore.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -70,6 +72,8 @@ void SceneGame::Init()
 	uiList_.push_back(std::make_unique<UiDir>());
 	uiList_.push_back(std::make_unique<UiRight>());
 	uiList_.push_back(std::make_unique<UiLeft>());
+	uiList_.push_back(std::make_unique<UiScore>());
+	uiList_.push_back(std::make_unique<UiLife>());
 
 	for (auto& ui : uiList_)
 	{

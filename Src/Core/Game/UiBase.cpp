@@ -1,6 +1,10 @@
+#include "../Manager/Common/ScoreManager.h"
+#include "../Manager/Common/FontManager.h"
 #include "UiBase.h"
 
-UiBase::UiBase()
+UiBase::UiBase() :
+	 fontMng_(FontManager::GetInstance()),
+	 scoreMng_(ScoreManager::GetInstance())
 {
 }
 
