@@ -70,6 +70,10 @@ private:
 	void UpdateStartDirec();
 	void DrawStartDirec();
 
+	//エンド演出
+	void UpdateEndDirec();
+	void DrawEndDirec();
+
 	//デバッグ処理
 	void DebugUpdate();
 	void DebugDraw();

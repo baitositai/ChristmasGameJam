@@ -148,10 +148,45 @@
       "type": "sound"
     },
     {
+      "key": "seCountOne",
+      "path": "Data/Sound/SE/SeCountOne.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seCountTwo",
+      "path": "Data/Sound/SE/SeCountTwo.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seCountThree",
+      "path": "Data/Sound/SE/SeCountThree.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seCountStart",
+      "path": "Data/Sound/SE/SeStart.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
       "key": "seHitPooh",
       "path": "Data/Sound/SE/SeHitPooh.mp3",
       "sceneId": 2,
       "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "bgmGame",
+      "path": "Data/Sound/BGM/BgmGame.mp3",
+      "sceneId": 2,
+      "soundType": "bgm",
       "type": "sound"
     },
     {

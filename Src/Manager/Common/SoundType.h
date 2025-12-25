@@ -18,6 +18,7 @@ public:
 	enum class BGM
 	{
 		TITLE,
+		GAME,
 		RESULT,
 		MAX
 	};
@@ -35,6 +36,10 @@ public:
 		CATCH,			// キャッチ
 		BLADE_ROTA,		// 武器の回転	
 		HIT_POOH,		//プー吹っ飛び
+		COUNT_THREE,	//カウント3
+		COUNT_TWO,		//カウント2
+		COUNT_ONE,		//カウント1
+		COUNT_START,	//カウントスタート
 		MAX
 	};
 

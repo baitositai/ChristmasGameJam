@@ -20,6 +20,7 @@
 
 namespace {
 	const int TIMER_MAX = 3;
+	const int END_DIREC_TIME = 120;
 }
 
 SceneGame::SceneGame()
@@ -63,7 +64,9 @@ void SceneGame::Init()
 	isStartEndDirec_ = false;
 
 	// BGMの再生
-	//sndMng_.PlayBgm(SoundType::BGM::GAME);
+	sndMng_.PlayBgm(SoundType::BGM::GAME);
+	//カウント最初
+	sndMng_.PlaySe(SoundType::SE::COUNT_THREE);
 }
 
 void SceneGame::NormalUpdate()
@@ -83,6 +86,7 @@ void SceneGame::NormalUpdate()
 
 	//終了演出
 	if (isStartEndDirec_) {
+		UpdateEndDirec();
 		return;
 	}
 
@@ -91,8 +95,8 @@ void SceneGame::NormalUpdate()
 	//シーン遷移
 	if (scoreMng.IsClear()|| scoreMng.IsFailed()) 
 	{
-		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
-		return;
+		isStartEndDirec_ = true;
+		counter_ = 0;
 	}
 
 	//落ちてくるオブジェクト
@@ -140,6 +144,9 @@ void SceneGame::NormalDraw()
 
 	if (!isFinishStartDirec_) {
 		DrawStartDirec();
+	}
+	if (isStartEndDirec_) {
+		DrawEndDirec();
 	}
 }
 
@@ -240,9 +247,22 @@ void SceneGame::UpdateStartDirec()
 {
 	counter_++;
 
+	//ゴミコードエリア
 	if (counter_ > Application::FPS_RATE) {
 		startTimer_--;
 		counter_ = 0;
+
+		SoundType::SE playSe = SoundType::SE::COUNT_TWO;
+
+		if (startTimer_ == 1) {
+			playSe = SoundType::SE::COUNT_ONE;
+		}
+		else if (startTimer_ == 0) {
+			playSe = SoundType::SE::COUNT_START;
+		}
+
+		//カウント
+		if(startTimer_>=0)sndMng_.PlaySe(playSe);
 	}
 
 	//終わったら
@@ -258,6 +278,25 @@ void SceneGame::DrawStartDirec()
 	}
 	else {
 		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"START!!", UtilityCommon::GREEN);
+	}
+}
+
+void SceneGame::UpdateEndDirec()
+{
+	counter_++;
+	if (counter_ > END_DIREC_TIME) {
+		scnMng_.ChangeScene(SceneManager::SCENE_ID::RESULT);
+		return;
+	}
+}
+
+void SceneGame::DrawEndDirec()
+{
+	if (ScoreManager::GetInstance().IsClear()) {
+		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"CLEAR!!", UtilityCommon::GREEN);
+	}
+	else {
+		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"FAILED!!", UtilityCommon::GREEN);
 	}
 }
 
