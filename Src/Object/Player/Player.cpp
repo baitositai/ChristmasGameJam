@@ -217,10 +217,12 @@ void Player::UpdateAction()
 	// 攻撃位置を設定
 	attackPos_ = VAdd(transform_.pos, VScale(transform_.GetForward(), ATTACK_DISTANCE));
 
-	if (animation_->IsEnd())
+	if (attackTime_ > 1.0f)
 	{
-		animation_->Play("Idle");
+		//animation_->Play("Idle");
+		actionState_ = ACTION_STATE::NONE;
 		ChangeState(STATE::PLAY);
+		attackTime_ = 0.0f;
 	}
 }
 
@@ -331,7 +333,7 @@ void Player::ProcessAction()
 		actionState_ = ACTION_STATE::LEFT;
 
 		// アニメーション開始
-		animation_->Play("LeftAttack", false);
+		animation_->Play("LeftAttack");
 	}
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_THROW))
 	{
