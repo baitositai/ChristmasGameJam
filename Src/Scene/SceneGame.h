@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "../../Common/Image.h"
 #include "SceneBase.h"
 
 class ScenePause;
@@ -49,6 +50,9 @@ private:
 
 	//ゲーム終了の演出を開始したか
 	bool isStartEndDirec_;
+
+	//ステージ画像
+	Image stageImg_;
 
 	// 更新関数
 	void NormalUpdate() override;

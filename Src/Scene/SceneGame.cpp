@@ -53,6 +53,9 @@ void SceneGame::Init()
 	pooh_ = std::make_unique<Pooh>();
 	pooh_->Init();
 
+	stageImg_.handleId = resMng_.GetHandle("stageImg");
+	stageImg_.size= { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y };
+
 	isFinishStartDirec_ = false;
 	startTimer_ = TIMER_MAX;
 	counter_ = 0;
@@ -117,6 +120,7 @@ void SceneGame::NormalDraw()
 	DebugDraw();
 
 #endif
+	stageImg_.DrawExtend();
 	player_->Draw();
 
 	//スタートカウント中はオブジェクトを描画しない

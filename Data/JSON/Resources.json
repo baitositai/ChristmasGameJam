@@ -126,6 +126,12 @@
       "type": "texture"
     },
     {
+      "key": "stageImg",
+      "path": "Data/Image/StageImg.png",
+      "sceneId": 2,
+      "type": "texture"
+    },
+    {
       "key": "playerAnimIdle",
       "sceneId": 2,
       "type": "model",
