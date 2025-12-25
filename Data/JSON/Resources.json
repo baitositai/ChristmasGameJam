@@ -29,6 +29,13 @@
       "fontName": "KazukiReiwa"
     },
     {
+      "key": "fontApril",
+      "sceneId": 0,
+      "type": "font",
+      "path": "Data/Font/AprilGothicOne-R.ttf",
+      "fontName": "April Gothic one Regular"
+    },
+    {
       "key": "standardVs",
       "sceneId": 0,
       "type": "vertexShader",
@@ -191,7 +198,7 @@
     },
     {
       "key": "titleLogo",
-      "path": "Data/Image/TitleLogo.png",
+      "path": "Data/Image/TitleImg.png",
       "sceneId": 1,
       "type": "texture"
     },

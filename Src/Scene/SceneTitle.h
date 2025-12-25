@@ -22,6 +22,9 @@ private:
 	// タイトルロゴ
 	Image titleLogo_;
 
+	//フォントの生成
+	int titleFont_;
+
 	// 更新関数
 	void NormalUpdate() override;
 

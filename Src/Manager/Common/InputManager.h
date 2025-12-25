@@ -40,6 +40,8 @@ public:
 
 		RESULT_SCENE_CHANGE,
 
+		TITLE_SCENE_CHANGE,		//タイトルからゲームシーンへ
+
 		DEBUG_SCENE_CHANGE,		// デバッグシーン遷移
 		DEBUG_CAMERA_CHANGE,	// デバッグカメラ変更
 		DEBUG_OBJ_JUMP,			// アイテムのジャンプ
