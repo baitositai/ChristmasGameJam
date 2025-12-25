@@ -25,8 +25,12 @@
 #include "SceneGame.h"
 
 namespace {
-	const int TIMER_MAX = 3;
-	const int END_DIREC_TIME = 120;
+	const int TIMER_MAX = 3;		//タイマーカウント
+	const int END_DIREC_TIME = 120;	//エンド演出時間
+	const int START_IMG_SIZE_X = 200;	//スタート横サイズ
+	const int START_IMG_SIZE_Y = 100;	//スタート縦サイズ
+	const int COUNT_IMG_SIZE_X = 150;	//カウント横サイズ
+	const int COUNT_IMG_SIZE_Y = 150;	//カウント縦サイズ
 }
 
 SceneGame::SceneGame():
@@ -64,9 +68,27 @@ void SceneGame::Init()
 	stageImg_.handleId = resMng_.GetHandle("stageImg");
 	stageImg_.size= { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y };
 
+	startImg_.handleId = resMng_.GetHandle("startImg");
+	startImg_.size = { START_IMG_SIZE_X,START_IMG_SIZE_Y };
+	startImg_.pos = { Application::SCREEN_HALF_X,Application::SCREEN_HALF_Y };
+
 	isFinishStartDirec_ = false;
 	startTimer_ = TIMER_MAX;
 	counter_ = 0;
+
+	clearImg_= resMng_.GetHandle("clearImg");
+	failedImg_= resMng_.GetHandle("failedImg");
+
+	resultImg_.size = { START_IMG_SIZE_X,START_IMG_SIZE_Y };
+	resultImg_.pos = { Application::SCREEN_HALF_X,Application::SCREEN_HALF_Y };
+
+	countNumbers_.handleIds = resMng_.GetHandles("numbersImg");
+	countNumbers_.div = { 5,2 };
+	countNumbers_.index = startTimer_ ;
+	countNumbers_.scale = 2.0f;
+	//countNumbers_.size = { COUNT_IMG_SIZE_X ,COUNT_IMG_SIZE_Y };
+	countNumbers_.pos = { Application::SCREEN_HALF_X,Application::SCREEN_HALF_Y };
+
 
 	isStartEndDirec_ = false;
 
@@ -114,8 +136,18 @@ void SceneGame::NormalUpdate()
 	//シーン遷移
 	if (scoreMng.IsClear()|| scoreMng.IsFailed()) 
 	{
+		sndMng_.StopBgm(SoundType::BGM::GAME);
 		isStartEndDirec_ = true;
 		counter_ = 0;
+
+		SoundType::SE se = SoundType::SE::FAILED;
+		resultImg_.handleId = failedImg_;
+
+		if (scoreMng.IsClear()) {
+			resultImg_.handleId = clearImg_;
+			se = SoundType::SE::CLEAR;
+		}
+		sndMng_.PlaySe(se);
 	}
 
 	//落ちてくるオブジェクト
@@ -284,6 +316,7 @@ void SceneGame::UpdateStartDirec()
 	//ゴミコードエリア
 	if (counter_ > Application::FPS_RATE) {
 		startTimer_--;
+		countNumbers_.index = startTimer_ ;
 		counter_ = 0;
 
 		SoundType::SE playSe = SoundType::SE::COUNT_TWO;
@@ -308,11 +341,19 @@ void SceneGame::UpdateStartDirec()
 void SceneGame::DrawStartDirec()
 {
 	if (startTimer_ > 0) {
+		countNumbers_.DrawRota();
+
+	}
+	else {
+		startImg_.DrawRota();
+	}
+
+	/*if (startTimer_ > 0) {
 		DrawFormatString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, UtilityCommon::GREEN, L"%d", startTimer_);
 	}
 	else {
 		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"START!!", UtilityCommon::GREEN);
-	}
+	}*/
 }
 
 void SceneGame::UpdateEndDirec()
@@ -326,12 +367,14 @@ void SceneGame::UpdateEndDirec()
 
 void SceneGame::DrawEndDirec()
 {
-	if (ScoreManager::GetInstance().IsClear()) {
+
+	resultImg_.DrawRota();
+	/*if (ScoreManager::GetInstance().IsClear()) {
 		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"CLEAR!!", UtilityCommon::GREEN);
 	}
 	else {
 		DrawString(Application::SCREEN_HALF_X, Application::SCREEN_HALF_Y, L"FAILED!!", UtilityCommon::GREEN);
-	}
+	}*/
 }
 
 void SceneGame::DebugUpdate()

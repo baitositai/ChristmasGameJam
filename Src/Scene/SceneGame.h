@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "../../Common/Image.h"
+#include "../../Common/Sprite.h"
 #include "SceneBase.h"
 
 class EffectManager;
@@ -63,6 +64,15 @@ private:
 	Image stageImg_;
 
 	EffectManager& effMng_;
+
+	//カウント画像
+	Sprite countNumbers_;
+	Image startImg_;	
+
+	//クリア失敗画像
+	int clearImg_;
+	int failedImg_;
+	Image resultImg_;
 
 	// 更新関数
 	void NormalUpdate() override;

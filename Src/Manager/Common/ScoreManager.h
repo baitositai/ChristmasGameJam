@@ -66,7 +66,7 @@ public:
 
 	//”»’è
 	//ƒNƒŠƒA”»’è
-	const bool IsClear() const { return score_ > SCORE_MAX; }
+	const bool IsClear() const { return score_ >= SCORE_MAX; }
 	//Ž¸”s”»’è
 	const bool IsFailed() const { return life_ <= 0; }
 
