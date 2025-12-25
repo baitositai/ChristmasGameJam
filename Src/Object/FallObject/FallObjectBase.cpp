@@ -15,7 +15,8 @@ FallObjectBase::FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos):
 	jumpCnt_(0.0f),
 	jumpPow_(0.0f),
 	moveDeg_(0.0f),
-	throwVec_({})
+	throwVec_({}),
+	velocity_(0.0f)
 {
 }
 

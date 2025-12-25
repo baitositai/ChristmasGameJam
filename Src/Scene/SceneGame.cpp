@@ -7,6 +7,7 @@
 #include "../Manager/Common/FontManager.h"
 #include "../Manager/Common/SoundManager.h"
 #include "../Manager/Common/ScoreManager.h"
+#include "../Manager/Common/EffectManager.h"
 #include "../Manager/FallManager/FallObjectManager.h"
 #include "../Utility/UtilityCommon.h"
 #include "../Utility/Utility3D.h"
@@ -22,7 +23,8 @@ namespace {
 	const int TIMER_MAX = 3;
 }
 
-SceneGame::SceneGame()
+SceneGame::SceneGame():
+	effMng_(EffectManager::GetInstance().GetInstance())
 {
 	// 更新関数のセット
 	updataFunc_ = std::bind(&SceneGame::LoadingUpdate, this);
@@ -45,7 +47,7 @@ void SceneGame::Init()
 	//オブジェクトを出現させる
 	FallObjectManager::GetInstance().Init();
 	ScoreManager::GetInstance().Init();
-	
+
 	// プレイヤー生成
 	player_ = std::make_unique<Player>();
 	player_->Init();
@@ -183,9 +185,11 @@ void SceneGame::Collision()
 		}
 		else if (player_->GetState() == Player::STATE::ACTION)
 		{
+			const VECTOR pAtkPos = player_->GetAttackPos();
 			// 攻撃との衝突判定
-			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, player_->GetAttackPos()))
+			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, Player::ATTACK_RADIUS, pAtkPos))
 			{
+				effMng_.Play(EffectType::TYPE::HIT_STAR, pAtkPos, { HIT_EFF_SCL,HIT_EFF_SCL, HIT_EFF_SCL }, {});
 				sndMng_.PlaySe(SoundType::SE::HIT_OBJECT);
 				obj->HitPlayerAttack(player_->GetAtctionState());
 				continue;
@@ -211,7 +215,8 @@ void SceneGame::Collision()
 			if (Utility3D::CheckHitSphereToSphere(FallObjectBase::RADIUS, objPos, KeyBlade::RADIUS, player_->GetWeapon().GetTransform().pos))
 			{
 				// 吹っ飛び方向を決定
-				Player::ACTION_STATE state = obj->GetObjectType() == FallObjectBase::FALL_OBJ_TYPE::LEFT_OBJ ? Player::ACTION_STATE::LEFT : Player::ACTION_STATE::RIGHT;
+				FallObjectBase::FALL_OBJ_TYPE type = obj->GetObjectType();
+				Player::ACTION_STATE state = type == FallObjectBase::FALL_OBJ_TYPE::LEFT_OBJ ? Player::ACTION_STATE::LEFT : Player::ACTION_STATE::RIGHT;
 
 				// オブジェクトの吹っ飛び処理
 				obj->HitPlayerAttack(state);
@@ -286,7 +291,10 @@ void SceneGame::DebugUpdate()
 		}
 	}
 
-
+	if (inputMng_.IsTrgDown(InputManager::TYPE::DEBUG_OBJ_JUMP))
+	{
+		pooh_->StartWalk();
+	}
 }
 
 void SceneGame::DebugDraw()

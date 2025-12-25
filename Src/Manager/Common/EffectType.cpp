@@ -4,4 +4,6 @@
 const std::map<std::string, EffectType::TYPE> EffectType::KEY_MAP =
 {
 	{"petalFall",EffectType::TYPE::PETAL_FALL},
+	{"hitStar",EffectType::TYPE::HIT_STAR},
+	{"followBlade",EffectType::TYPE::FOLLOW_BLADE},
 };

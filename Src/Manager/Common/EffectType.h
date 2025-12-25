@@ -10,6 +10,8 @@ public:
 	enum class TYPE
 	{
 		PETAL_FALL,
+		HIT_STAR,
+		FOLLOW_BLADE,
 		MAX
 	};
 

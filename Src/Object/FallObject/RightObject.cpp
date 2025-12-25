@@ -39,7 +39,7 @@ void RightObject::Draw()
 
 void RightObject::AddScore(void)
 {
-	if (playerActState_ == Player::ACTION_STATE::RIGHT)
+	if (playerActState_ == Player::ACTION_STATE::RIGHT || playerActState_ == Player::ACTION_STATE::THROW)
 	{
 		sndMng_.PlaySe(SoundType::SE::HIT_SUCCESS);
 		scoreMng_.AddScore();

@@ -166,6 +166,12 @@
       "sceneId": 2,
       "type": "model",
       "path": "Data/Model/Player/Animation/FallingDown.mv1"
+    },
+    {
+      "key": "hitStar",
+      "sceneId": 2,
+      "type": "effect",
+      "path": "Data/Effect/ExpandStar/ExpandStar.efkefc"
     }
   ]
 }
