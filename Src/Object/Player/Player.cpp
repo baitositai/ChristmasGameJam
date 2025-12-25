@@ -219,7 +219,7 @@ void Player::UpdateAction()
 
 	if (attackTime_ > 1.0f)
 	{
-		//animation_->Play("Idle");
+		animation_->Play("Idle", false, 0.0f, -1.0f, 0.1f, false, true);
 		actionState_ = ACTION_STATE::NONE;
 		ChangeState(STATE::PLAY);
 		attackTime_ = 0.0f;
@@ -322,7 +322,7 @@ void Player::ProcessAction()
 		actionState_ = ACTION_STATE::RIGHT;
 
 		// アニメーション開始
-		animation_->Play("RightAttack", false);
+		animation_->Play("RightAttack", false, 0.0f, -1.0f, 0.5f, false, true);
 	}
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_LEFT))
 	{	
@@ -333,7 +333,7 @@ void Player::ProcessAction()
 		actionState_ = ACTION_STATE::LEFT;
 
 		// アニメーション開始
-		animation_->Play("LeftAttack");
+		animation_->Play("LeftAttack", false, 0.0f, -1.0f, 0.5f, false, true);
 	}
 	else if (inputMng_.IsTrgDown(InputManager::TYPE::PLAYER_ACTION_THROW))
 	{

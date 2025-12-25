@@ -7,7 +7,7 @@ class KeyBlade : public ActorBase
 {
 public:
 
-	static constexpr float RADIUS = 30.0f;
+	static constexpr float RADIUS = 80.0f;
 
 	enum class STATE
 	{
