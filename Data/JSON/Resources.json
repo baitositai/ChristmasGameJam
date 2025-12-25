@@ -266,6 +266,12 @@
       "sceneId": 0,
       "type": "effect",
       "path": "Data/Effect/FollowThrowBlade/WarpOrbit.efkefc"
+    },
+    {
+      "key": "resultLogo",
+      "sceneId": 3,
+      "type": "texture",
+      "path": "Data/Image/ResultLogo.png"
     }
   ]
 }

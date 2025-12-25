@@ -33,6 +33,8 @@ void InputManager::Init()
 	RegisterTrigger(TYPE::SELECT_CANCEL, { KEY_INPUT_BACK }, { BTN::RB_DOWN });
 	RegisterTrigger(TYPE::PAUSE, { KEY_INPUT_BACK }, { BTN::SELECT });
 
+	RegisterTrigger(TYPE::RESULT_SCENE_CHANGE, { KEY_INPUT_SPACE }, { BTN::RB_RIGHT });
+
 	// デバッグ操作
 	RegisterTrigger(TYPE::DEBUG_SCENE_CHANGE, { KEY_INPUT_RSHIFT }, { });
 	RegisterTrigger(TYPE::DEBUG_CAMERA_CHANGE, { KEY_INPUT_TAB }, { });

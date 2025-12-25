@@ -9,6 +9,7 @@
 #include "../Render/PixelMaterial.h"
 #include "../Render/PixelRenderer.h"
 #include "../Utility/UtilityCommon.h"
+#include "../Common/Image.h"
 #include "SceneResult.h"
 
 SceneResult::SceneResult()
@@ -25,13 +26,15 @@ SceneResult::~SceneResult()
 
 void SceneResult::Init()
 {
+	logo_.handleId = resMng_.GetHandle("resultLogo");
+	logo_.size = { Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y };
 	sndMng_.PlayBgm(SoundType::BGM::RESULT);
 }
 
 void SceneResult::NormalUpdate()
 {
 	// ÉVÅ[ÉìëJà⁄
-	if (inputMng_.IsTrgDown(InputManager::TYPE::DEBUG_SCENE_CHANGE))
+	if (inputMng_.IsTrgDown(InputManager::TYPE::RESULT_SCENE_CHANGE))
 	{
 		scnMng_.ChangeScene(SceneManager::SCENE_ID::TITLE);
 		sndMng_.StopBgm(SoundType::BGM::RESULT);
@@ -42,7 +45,7 @@ void SceneResult::NormalUpdate()
 void SceneResult::NormalDraw()
 {
 	// îwåi
-	DrawBox(0, 0, Application::SCREEN_SIZE_X, Application::SCREEN_SIZE_Y, UtilityCommon::CYAN, true);
+	logo_.DrawExtend();
 	DrawFormatString(0, 0, UtilityCommon::RED, L"ÉäÉUÉãÉg");
 
 	ScoreManager& scoreMng = ScoreManager::GetInstance();

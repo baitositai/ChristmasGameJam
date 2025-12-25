@@ -22,6 +22,8 @@ public:
 
 private:
 
+	Image logo_;
+
 	// XVŠÖ”
 	void NormalUpdate() override;
 
