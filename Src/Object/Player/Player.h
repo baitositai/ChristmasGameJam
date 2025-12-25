@@ -23,6 +23,7 @@ public:
 		NONE,		
 		PLAY,		// プレイ
 		ACTION,		// 攻撃
+		THROW,		// 投げ
 		STAN,		// スタン
 	};
 
@@ -32,6 +33,7 @@ public:
 		NONE,
 		RIGHT,		// 右攻撃
 		LEFT,		// 左攻撃
+		THROW,		// 投げ
 	};
 
 	/// <summary>
@@ -65,6 +67,11 @@ public:
 	void Stan();
 
 	/// <summary>
+	/// 投げの設定
+	/// </summary>
+	void Throw();
+
+	/// <summary>
 	/// 状態を返す
 	/// </summary>
 	/// <returns>状態</returns>
@@ -92,7 +99,7 @@ public:
 	/// 武器情報を返す
 	/// </summary>
 	/// <returns>武器情報</returns>
-	const KeyBlade& GetWeapon() const;
+	KeyBlade& GetWeapon() const;
 
 private:
 
@@ -182,12 +189,14 @@ private:
 	void ChangeStatePlay();
 	void ChangeStateAction();
 	void ChangeStateStan();
+	void ChangeStateThrow();
 
 	// 状態別更新処理
 	void UpdateNone() {};
 	void UpdatePlay();
 	void UpdateAction();
 	void UpdateStan();
+	void UpdateThrow();
 
 	// トランスフォーム初期化
 	void InitTransform();

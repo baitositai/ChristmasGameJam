@@ -1,3 +1,5 @@
+#include "../Manager/Common/SceneManager.h"
+#include "../Manager/Common/ScoreManager.h"
 #include "../Utility/Utility3D.h"
 #include "../Utility/UtilityCommon.h"
 #include "../Player/Player.h"
@@ -8,7 +10,10 @@ FallObjectBase::FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos):
 	goalPos_(_goalPos),
 	type_(FALL_OBJ_TYPE::LEFT_OBJ),
 	state_(STATE::NONE),
-	playerActState_(Player::ACTION_STATE::NONE)
+	playerActState_(Player::ACTION_STATE::NONE),
+	scoreMng_(ScoreManager::GetInstance()),
+	jumpCnt_(0.0f),
+	jumpPow_(0.0f)
 {
 }
 
@@ -22,7 +27,7 @@ void FallObjectBase::Init()
 
 	//デバッグの球の半径分上に動かす
 	//transform_.pos.y += RADIUS;
-	transform_.pos.y -= RADIUS;
+	//transform_.pos.y -= RADIUS;
 
 	AddState();
 	state_ = STATE::NONE;
@@ -42,7 +47,13 @@ void FallObjectBase::Draw()
 void FallObjectBase::HitPlayerAttack(const Player::ACTION_STATE _actState)
 {
 	playerActState_ = _actState;
+	AddScore();
 	ChangeState(STATE::JUMP);
+}
+
+void FallObjectBase::HitPooh(void)
+{
+	ChangeState(STATE::DEATH);
 }
 
 void FallObjectBase::ChangeState(const STATE& _state)
@@ -61,9 +72,10 @@ void FallObjectBase::UpdateMove()
 {
 	VECTOR vec = VNorm(VSub(goalPos_, startPos_));
 	transform_.pos = VAdd(transform_.pos, VScale(vec, MOVE_SPD));
-	if (transform_.pos.z < MOVE_LIMIT_Z)
+	if (transform_.pos.z < -RADIUS)
 	{
 		//画面外の座標に居たら
+		scoreMng_.Miss();		//見逃しでミス
 		ChangeState(STATE::DEATH);
 	}
 }
@@ -73,8 +85,8 @@ void FallObjectBase::UpdateJump()
 	velocity_ -= GRAVITY;
 	jumpPow_ = velocity_;
 
-
 	VECTOR vec = {};
+	//プレイヤーから受け取った攻撃情報で飛ばす方向を決める「
 	if (playerActState_ == Player::ACTION_STATE::LEFT)
 	{
 		vec = transform_.GetLeft();
@@ -84,10 +96,16 @@ void FallObjectBase::UpdateJump()
 		vec = transform_.GetRight();
 	}
 
-
 	//モデルをプレイヤーの攻撃方向に飛ばす
 	transform_.pos = VAdd(transform_.pos, VScale(vec, JUMP_SIDE_SPD));
 	transform_.pos.y += jumpPow_;
+
+	//一定時間経ったら削除
+	if (jumpCnt_ > JUMP_ERASE_TIME)
+	{
+		ChangeState(STATE::DEATH);
+	}
+	jumpCnt_ += scnMng_.GetDeltaTime();
 
 }
 

@@ -1,9 +1,19 @@
 #pragma once
+#include <unordered_map>
+#include <functional>
 #include "../ActorBase.h"
 
 class KeyBlade : public ActorBase
 {
 public:
+
+	enum class STATE
+	{
+		NONE,	// なし
+		FOLLOW,	// 追従
+		THROW,	// 投げ
+		BACK,	// 戻る
+	};
 
 	/// <summary>
 	/// コンストラクタ
@@ -31,11 +41,28 @@ public:
 	void Draw() override;
 
 	/// <summary>
+	/// 投げ処理
+	/// </summary>
+	void Throw();
+
+	/// <summary>
 	/// 追従対象とフレーム位置の指定
 	/// </summary>
 	/// <param name="targetTransform">追従対象のトランスフォーム</param>
 	/// <param name="frameNo">フレーム番号</param>
 	void SetTargetAndFrameNo(Transform* targetTransform, const int frameNo);
+
+	/// <summary>
+	/// 攻撃対象のトランスフォームを取得
+	/// </summary>
+	/// <param name="targetAttackObject">攻撃対象のトランスフォーム</param>
+	void SetTargetAttackObject(const Transform* targetAttackObject);
+
+	/// <summary>
+	/// 状態を返す
+	/// </summary>
+	/// <returns>状態</returns>
+	const STATE GetState() const;
 
 private:
 
@@ -57,8 +84,17 @@ private:
 	//カプセルコライダーの高さ
 	static constexpr float CAPSULE_COL_HEIGHT = (MAX_VERTEX_POS.y - MIN_VERTEX_POS.y) * WEAPON_SCL;
 
-	//武器の追従対象
-	Transform* targetTransform_;
+	// 投げ時間
+	static constexpr float THROW_TIME = 1.0f;
+
+	// 戻り時間
+	static constexpr float BACK_TIME = 1.0f;
+
+	//武器の所有者対象
+	Transform* ownerTransform_;
+
+	// 武器の攻撃オブジェクト対象
+	const Transform* attackObjectTransform_;
 
 	//追従するフレームの番号
 	int followFrameNo_;
@@ -71,4 +107,34 @@ private:
 
 	//ダメージフラグ
 	bool isDamage_;
+
+	// 投げステップ
+	float throwStep_;
+
+	// 開始位置
+	VECTOR throwStartPos_;
+	VECTOR throwGoalPos_;
+	VECTOR backStartPos_;
+
+	// 状態
+	STATE state_;
+
+	// 状態遷移管理マップ
+	std::unordered_map<STATE, std::function<void()>> stateChangesMap_;
+
+	// 更新処理
+	std::function<void()> update_;
+
+	// 状態遷移処理
+	void ChangeState(const STATE state);
+	void ChangeStateNone();
+	void ChangeStateFollow();
+	void ChangeStateThrow();
+	void ChangeStateBack();
+
+	// 状態別更新処理
+	void UpdateNone() {};
+	void UpdateFollow();
+	void UpdateThrow();
+	void UpdateBack();
 };

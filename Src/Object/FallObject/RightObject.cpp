@@ -1,4 +1,5 @@
 #include "../Utility/UtilityCommon.h"
+#include "../Manager/Common/ScoreManager.h"
 #include "RightObject.h"
 
 RightObject::RightObject(const VECTOR _startPos, const VECTOR _goalPos):
@@ -19,4 +20,16 @@ void RightObject::Init()
 void RightObject::Draw()
 {
 	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, true);
+}
+
+void RightObject::AddScore(void)
+{
+	if (playerActState_ == Player::ACTION_STATE::RIGHT)
+	{
+		scoreMng_.AddScore();
+	}
+	else
+	{
+		scoreMng_.Miss();
+	}
 }
