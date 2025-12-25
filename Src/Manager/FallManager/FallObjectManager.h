@@ -77,7 +77,7 @@ private:
 
 
 	//スタート座標
-	static constexpr VECTOR START_POS= { 0.0f ,300.0f,300.0f };
+	static constexpr VECTOR START_POS= { 0.0f ,250.0f,300.0f };
 
 	/// <summary>
 	/// オブジェクトを決める
