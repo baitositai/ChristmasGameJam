@@ -95,17 +95,17 @@ void Player::Draw()
 	keyBlade_->Draw();
 
 	// カプセルの描画
-	capsule_->Draw();
+	//capsule_->Draw();
 
-	// 当たり判定の描画
-	if (state_ == STATE::ACTION)
-	{
-		// 色
-		int color = actionState_ == ACTION_STATE::RIGHT ? UtilityCommon::RED : UtilityCommon::BLUE;
+	//// 当たり判定の描画
+	//if (state_ == STATE::ACTION)
+	//{
+	//	// 色
+	//	int color = actionState_ == ACTION_STATE::RIGHT ? UtilityCommon::RED : UtilityCommon::BLUE;
 
-		// 判定の描画
-		DrawSphere3D(attackPos_, ATTACK_RADIUS, 30, color, color, true);
-	}
+	//	// 判定の描画
+	//	DrawSphere3D(attackPos_, ATTACK_RADIUS, 30, color, color, true);
+	//}
 }
 
 void Player::Stan()

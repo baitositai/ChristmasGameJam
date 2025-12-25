@@ -474,3 +474,18 @@ float UtilityCommon::NormalizeMinMax(const float value, const float min, const f
     if (normalized > 1.0) return 1.0;
     return normalized;
 }
+
+Vector2 UtilityCommon::SinShake(const Vector2& pos, const float value1, const float value2)
+{
+    Vector2 shakePos = pos;
+    const float frequency = value1;	// 揺らす周波数（Hz）1.0
+    const float amplitude = value2;	// 揺らす振幅（ピクセル）20.0
+
+    // 現在の時間（秒）を取得
+    float time = GetNowCount() / 1000.0;
+
+    //Y座標を計算
+    shakePos.y = shakePos.y + amplitude * sin(2 * DX_PI_F * frequency * time);
+
+    return shakePos;
+}

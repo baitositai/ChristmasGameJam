@@ -161,4 +161,7 @@ public:
 	/// <param name="max">Å‘å’l</param>
 	/// <returns>0.0f~1.0f‚Ì’l</returns>
 	static float NormalizeMinMax(const float value, const float min, const float max);
+
+	//ã‰º‚É—h‚ç‚·
+	static Vector2 SinShake(const Vector2& pos, const float value1, const float value2);
 };

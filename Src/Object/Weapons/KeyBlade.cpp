@@ -57,7 +57,7 @@ void KeyBlade::Draw()
 {
 	MV1DrawModel(transform_.modelId);
 
-	DrawSphere3D(transform_.pos, RADIUS, 30, UtilityCommon::RED, UtilityCommon::RED, false);
+	//DrawSphere3D(transform_.pos, RADIUS, 30, UtilityCommon::RED, UtilityCommon::RED, false);
 }
 
 void KeyBlade::Throw()

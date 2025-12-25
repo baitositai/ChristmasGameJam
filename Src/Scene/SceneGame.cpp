@@ -15,6 +15,9 @@
 #include "../Object/Pooh/Pooh.h"
 #include "../Object/Weapons/KeyBlade.h"
 #include "../Object/Common/Capsule.h"
+#include "../Core/Game/UiDir.h"
+#include "../Core/Game/UiLeft.h"
+#include "../Core/Game/UiRight.h"
 #include "ScenePause.h"
 #include "SceneGame.h"
 
@@ -62,6 +65,16 @@ void SceneGame::Init()
 
 	isStartEndDirec_ = false;
 
+	// UIê›íË
+	uiList_.push_back(std::make_unique<UiDir>());
+	uiList_.push_back(std::make_unique<UiRight>());
+	uiList_.push_back(std::make_unique<UiLeft>());
+
+	for (auto& ui : uiList_)
+	{
+		ui->Init();
+	}
+
 	// BGMÇÃçƒê∂
 	//sndMng_.PlayBgm(SoundType::BGM::GAME);
 }
@@ -105,6 +118,11 @@ void SceneGame::NormalUpdate()
 
 	Collision();
 
+	for (auto& ui : uiList_)
+	{
+		ui->Update();
+	}
+
 #ifdef _DEBUG	
 
 	DebugUpdate();
@@ -138,8 +156,14 @@ void SceneGame::NormalDraw()
 
 	pooh_->Draw();
 
-	if (!isFinishStartDirec_) {
+	if (!isFinishStartDirec_) 
+	{
 		DrawStartDirec();
+	}
+
+	for (auto& ui : uiList_)
+	{
+		ui->Draw();
 	}
 }
 

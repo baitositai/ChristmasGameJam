@@ -6,6 +6,7 @@
 class ScenePause;
 class Player;
 class Pooh;
+class UiBase;
 
 class SceneGame : public SceneBase
 {
@@ -50,6 +51,9 @@ private:
 
 	//ゲーム終了の演出を開始したか
 	bool isStartEndDirec_;
+
+	// UI配列
+	std::vector<std::unique_ptr<UiBase>> uiList_;
 
 	//ステージ画像
 	Image stageImg_;
