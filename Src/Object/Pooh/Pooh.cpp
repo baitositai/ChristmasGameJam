@@ -1,6 +1,7 @@
 #include"../../Utility/Utility3D.h"
 #include"../../Manager/Common/Camera.h"
 #include"../../Manager/Common/SceneManager.h"
+#include"../../Manager/Common/ResourceManager.h"
 #include "Pooh.h"
 
 namespace {
@@ -42,22 +43,26 @@ Pooh::~Pooh()
 
 void Pooh::Init()
 {
-	transform_.SetModel(-1); //ƒ‚ƒfƒ‹‚È‚µ
+	transform_.SetModel(resMng_.GetHandle("pooh")); //ƒ‚ƒfƒ‹‚È‚µ
 	transform_.pos = INIT_POS;
 	transform_.scl = INIT_SCL;
 	transform_.rot = INIT_ROT;
 	transform_.quaRot = Quaternion::Euler(VECTOR{ INIT_ROT.x * DX_PI_F / 180.0f, INIT_ROT.y * DX_PI_F / 180.0f, INIT_ROT.z * DX_PI_F / 180.0f });
 
 	ChangeState(STATE::STAND_UP);
+	transform_.Update();
 }
 
 void Pooh::Update()
 {
 	(this->*updateFunc_)();
+	transform_.Update();
 }
 
 void Pooh::Draw()
 {
+	// ƒ‚ƒfƒ‹‚Ì•`‰æ
+	MV1DrawModel(transform_.modelId);
 	DrawSphere3D(transform_.pos, RADIUS, 16, YELLOW, YELLOW, false);
 }
 
