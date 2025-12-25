@@ -21,6 +21,8 @@ namespace {
 	const VECTOR INIT_ROT = { 0.0f,0.0f,0.0f };	//初期回転
 	const VECTOR INIT_DEG = { 0.0f,45.0f,0.0f };	//初期回転(度)
 
+	const int SIT_TIME_MIN = 5 * 60;			//座り時間(最低限)
+	const int SIT_TIME_MAX = 8 * 60;			//座り時間(最大)
 	const int STAY_TIME = 80;				//立っている時間
 	const float MOVE_SPEED = 1.0f;			//移動速度(散歩)
 	const float HIT_SPEED = 5.0f;			//移動速度(吹っ飛び)
@@ -54,6 +56,8 @@ Pooh::Pooh()
 	, speed_(0.0f)
 	, charaRotY_(Quaternion())
 	, goalQuaRot_(Quaternion())
+	, sitCounter_(0)
+	, sitlimit_(0)
 {
 }
 
@@ -73,7 +77,7 @@ void Pooh::Init()
 
 	InitAnimation();
 
-	ChangeState(STATE::STAND_UP);
+	ChangeState(STATE::SIT);
 }
 
 void Pooh::Update()
@@ -136,6 +140,11 @@ void Pooh::InitAnimation()
 void Pooh::UpdateSit()
 {
 	//何もしない
+	sitCounter_++;
+	//一定時間座ったら歩き始め鵜r
+	if (sitCounter_ > sitlimit_) {
+		StartWalk();
+	}
 }
 
 void Pooh::UpdateStandUp()
@@ -188,6 +197,7 @@ void Pooh::ChangeState(const STATE _next)
 	useGoalNum_ = -1;
 	goalQuaRot_ = Quaternion();
 	charaRotY_ = Quaternion();
+	sitCounter_ = 0;
 
 	//更新状態の切り替え
 	switch (_next)
@@ -198,6 +208,8 @@ void Pooh::ChangeState(const STATE _next)
 
 		VECTOR toCamera = VSub(transform_.pos, mainCamera.GetPos());
 		SetGoalRot(atan2f(toCamera.x, toCamera.z));
+
+		sitlimit_ = GetRandMinMax(SIT_TIME_MIN, SIT_TIME_MAX);
 
 		break;
 	case STATE::STAND_UP:

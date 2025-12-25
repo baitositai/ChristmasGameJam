@@ -41,6 +41,8 @@ private:
 	Update_f updateFunc_; //状態更新関数ポインタ
 
 	//各種更新で必要な変数
+	int sitCounter_;						//座り時間
+	int sitlimit_;							//座り時間(上限)
 	int stayTimer_;							//滞在タイマー
 	VECTOR moveDir_;						//移動方向
 	VECTOR shuffleGoalPositions_[GOAL_POS_NUM]; //目的地シャッフル用配列
