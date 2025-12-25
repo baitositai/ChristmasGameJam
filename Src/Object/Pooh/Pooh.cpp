@@ -38,6 +38,7 @@ namespace {
 	const float GOAL_TOLERANCE = 10.0f; //目的地到達許容範囲
 	const VECTOR AFTER_HIT_POS = { 200.0f,50.0f,-100.0f };	//吹っ飛び後の位置
 	const float TIME_ROT = 1.0f;					//回転完了までの時間
+	const float HIT_GOAL_POS_DIFF_Y = 30.0f;		//衝突後の目標位置の調整
 }
 
 Pooh::Pooh()
@@ -297,7 +298,9 @@ void Pooh::SetGoalPositionsForHit()
 	useGoalPositions_.clear();
 
 	useGoalNum_ = 1;
-	useGoalPositions_.push_back(mainCamera.GetPos());
+	VECTOR hitGoalPos = mainCamera.GetPos();
+	hitGoalPos.y += HIT_GOAL_POS_DIFF_Y; //高さは変えない
+	useGoalPositions_.push_back(hitGoalPos);
 }
 
 int Pooh::GetRandMinMax(int _min, int _max)
