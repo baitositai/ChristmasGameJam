@@ -23,5 +23,7 @@ const std::map<std::string, SoundType::SE> SoundType::KEY_SE_MAP =
 	{"seCountThree",SoundType::SE::COUNT_THREE},
 	{"seCountTwo",SoundType::SE::COUNT_TWO},
 	{"seCountOne",SoundType::SE::COUNT_ONE},
-	{"seCountStart",SoundType::SE::COUNT_START}
+	{"seCountStart",SoundType::SE::COUNT_START},
+	{"seClear",SoundType::SE::CLEAR},
+	{"seFailed",SoundType::SE::FAILED}
 };

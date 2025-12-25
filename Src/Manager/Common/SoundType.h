@@ -40,6 +40,8 @@ public:
 		COUNT_TWO,		//カウント2
 		COUNT_ONE,		//カウント1
 		COUNT_START,	//カウントスタート
+		FAILED,			//ゲーム失敗
+		CLEAR,			//ゲームクリア
 		MAX
 	};
 
