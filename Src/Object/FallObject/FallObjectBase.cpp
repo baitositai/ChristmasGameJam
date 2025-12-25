@@ -14,7 +14,8 @@ FallObjectBase::FallObjectBase(const VECTOR _startPos, const VECTOR _goalPos):
 	scoreMng_(ScoreManager::GetInstance()),
 	jumpCnt_(0.0f),
 	jumpPow_(0.0f),
-	moveDeg_(0.0f)
+	moveDeg_(0.0f),
+	throwVec_({})
 {
 }
 
@@ -74,7 +75,7 @@ void FallObjectBase::UpdateMove()
 {
 	VECTOR vec = VNorm(VSub(goalPos_, startPos_));
 	transform_.pos = VAdd(transform_.pos, VScale(vec, MOVE_SPD));
-	moveDeg_ += 30.0f;
+	moveDeg_ += MOVE_ROT_SPD;
 	transform_.quaRot=Quaternion::AngleAxis(UtilityCommon::Deg2RadF(moveDeg_), Utility3D::AXIS_X);
 
 	if (transform_.pos.z < -RADIUS)
@@ -90,16 +91,8 @@ void FallObjectBase::UpdateJump()
 	velocity_ -= GRAVITY;
 	jumpPow_ = velocity_;
 
-	VECTOR vec = {};
-	//プレイヤーから受け取った攻撃情報で飛ばす方向を決める「
-	if (playerActState_ == Player::ACTION_STATE::LEFT)
-	{
-		vec = transform_.GetLeft();
-	}
-	else if (playerActState_ == Player::ACTION_STATE::RIGHT)
-	{
-		vec = transform_.GetRight();
-	}
+	//ジャンプ方向を決める
+	VECTOR vec = DesideJumpVec();
 
 	//モデルをプレイヤーの攻撃方向に飛ばす
 	transform_.pos = VAdd(transform_.pos, VScale(vec, JUMP_SIDE_SPD));
@@ -149,4 +142,25 @@ void FallObjectBase::AddState()
 		{STATE::JUMP,[this]() {ChangeJump(); }},
 		{STATE::DEATH,[this]() {ChangeDeath(); }},
 	};
+}
+
+const VECTOR FallObjectBase::DesideJumpVec()
+{
+	switch (playerActState_)
+	{
+	case Player::ACTION_STATE::NONE:
+		return Utility3D::VECTOR_ZERO;		//ここは通らない
+		break;
+	case Player::ACTION_STATE::RIGHT:
+		return transform_.GetRight();
+		break;
+	case Player::ACTION_STATE::LEFT:
+		return transform_.GetLeft();
+		break;
+	case Player::ACTION_STATE::THROW:
+		return throwVec_;
+		break;
+	default:
+		break;
+	}
 }

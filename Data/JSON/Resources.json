@@ -94,6 +94,27 @@
       "type": "sound"
     },
     {
+      "key": "seHitObject",
+      "path": "Data/Sound/SE/SeHitObject.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seHitSuccess",
+      "path": "Data/Sound/SE/SeHitSuccess.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
+      "key": "seHitMiss",
+      "path": "Data/Sound/SE/SeHitMiss.mp3",
+      "sceneId": 2,
+      "soundType": "se",
+      "type": "sound"
+    },
+    {
       "key": "titleLogo",
       "path": "Data/Image/TitleLogo.png",
       "sceneId": 1,

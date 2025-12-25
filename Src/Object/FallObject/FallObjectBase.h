@@ -100,6 +100,9 @@ protected:
 	//移動中の画面外Z座標
 	static constexpr float MOVE_LIMIT_Z = -200.0f;
 
+	//回転速度
+	static constexpr float MOVE_ROT_SPD = -5.0f;
+
 	//ジャンプ中配列削除するまでの時間
 	static constexpr float JUMP_ERASE_TIME = 2.0f;
 
@@ -135,6 +138,9 @@ protected:
 	//ジャンプカウンタ(一定時間経ったら配列から削除)
 	float jumpCnt_;
 
+	//武器投げで飛ばす方向
+	VECTOR throwVec_;
+
 	/// <summary>
 	/// 状態遷移
 	/// </summary>
@@ -158,5 +164,8 @@ private:
 	/// 状態の登録
 	/// </summary>
 	void AddState();
+
+	//ジャンプ方向を決める
+	const VECTOR DesideJumpVec();
 };
 

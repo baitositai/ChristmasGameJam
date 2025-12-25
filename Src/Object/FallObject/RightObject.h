@@ -31,5 +31,7 @@ public:
     /// <param name=""></param>
     void AddScore()override;
 private:
+    //ƒ[ƒJƒ‹XÀ•W
+    static constexpr float LOCAL_POS_X = 25.0f;
 };
 
