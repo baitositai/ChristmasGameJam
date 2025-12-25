@@ -236,6 +236,24 @@
       "sceneId": 2,
       "type": "model",
       "path": "Data/Model/Player/Animation/FallingDown.mv1"
+    },
+    {
+      "key": "uiRight",
+      "sceneId": 2,
+      "type": "texture",
+      "path": "Data/Image/UiRight.png"
+    },
+    {
+      "key": "uiLeft",
+      "sceneId": 2,
+      "type": "texture",
+      "path": "Data/Image/UiLeft.png"
+    },
+    {
+      "key": "uiDir",
+      "sceneId": 2,
+      "type": "texture",
+      "path": "Data/Image/UiDir.png"
     }
   ]
 }

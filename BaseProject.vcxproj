@@ -86,6 +86,10 @@
     <ClCompile Include="Src\Utility\UtilityLoad.cpp" />
     <ClCompile Include="Src\Core\Common\Timer.cpp" />
     <ClCompile Include="Src\Common\Image.cpp" />
+    <ClCompile Include="Src\Core\Game\UiBase.cpp" />
+    <ClCompile Include="Src\Core\Game\UiDir.cpp" />
+    <ClCompile Include="Src\Core\Game\UiLeft.cpp" />
+    <ClCompile Include="Src\Core\Game\UiRight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Object\Common\ControllerAnimation.h" />
@@ -202,6 +206,10 @@
     <ClInclude Include="Src\Utility\UtilityLoad.h" />
     <ClInclude Include="Src\Core\Common\Timer.h" />
     <ClInclude Include="Src\Common\Image.h" />
+    <ClInclude Include="Src\Core\Game\UiBase.h" />
+    <ClInclude Include="Src\Core\Game\UiDir.h" />
+    <ClInclude Include="Src\Core\Game\UiLeft.h" />
+    <ClInclude Include="Src\Core\Game\UiRight.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
