@@ -28,7 +28,7 @@ void LeftObject::Draw()
 {
 	if (state_ == STATE::NONE)return;
 	MV1DrawModel(transform_.modelId);
-	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::BLUE, UtilityCommon::BLUE, false);
+	//DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::BLUE, UtilityCommon::BLUE, false);
 }
 
 void LeftObject::AddScore()

@@ -64,13 +64,12 @@ void FallObjectManager::Draw()
 #endif // _DEBUG
 }
 
-#ifdef _DEBUG
 
 const std::list<std::unique_ptr<FallObjectBase>>& FallObjectManager::GetFallObjectLists() const
 {
 	return fallObjs_;
 }
-
+#ifdef _DEBUG
 void FallObjectManager::DrawDebug()
 {
 	//ƒŒ[ƒ“‚Ì•`‰æ

@@ -34,7 +34,7 @@ void RightObject::Draw()
 {
 	if (state_ == STATE::NONE)return;
 	MV1DrawModel(transform_.modelId);
-	DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, false);
+	//DrawSphere3D(transform_.pos, RADIUS, 10, UtilityCommon::RED, UtilityCommon::RED, false);
 }
 
 void RightObject::AddScore(void)
