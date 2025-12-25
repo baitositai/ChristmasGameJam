@@ -2,6 +2,7 @@
 #include"../../Manager/Common/Camera.h"
 #include"../../Manager/Common/SceneManager.h"
 #include"../../Manager/Common/ResourceManager.h"
+#include"../../Manager/Common/SoundManager.h"
 #include"AnimationController.h"
 #include "Pooh.h"
 
@@ -224,6 +225,7 @@ void Pooh::ChangeState(const STATE _next)
 		SetGoalPositionsForHit();
 		SetMoveDir();
 		animCtrl_->Play(AnimationController::ANIM_NAME::HIT_FLY, ANIM_SPEED);
+		sndMng_.PlaySe(SoundType::SE::HIT_POOH);
 		break;
 	default:
 		break;

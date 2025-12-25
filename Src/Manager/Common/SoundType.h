@@ -34,6 +34,7 @@ public:
 		ATTACK,			// 攻撃
 		CATCH,			// キャッチ
 		BLADE_ROTA,		// 武器の回転	
+		HIT_POOH,		//プー吹っ飛び
 		MAX
 	};
 
